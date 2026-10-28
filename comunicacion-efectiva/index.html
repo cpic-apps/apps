@@ -1,0 +1,1373 @@
+<!DOCTYPE html>
+<html lang="es-AR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Comunicación Efectiva · Autoaprendizaje · CPIC</title>
+<style>
+:root{
+  --navy:#1f3864; --accent:#2e74b5; --accent2:#4f9de0; --light:#edf3fa;
+  --ink:#1e2430; --muted:#5f6b7c; --line:#dbe3ee; --bg:#f6f8fb;
+  --ok:#1d7a4c; --okbg:#e6f5ee; --warn:#9a5b00; --warnbg:#fdf3e2; --bad:#a32c2c; --badbg:#fbeaea;
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+ background:var(--bg);color:var(--ink);line-height:1.6;-webkit-font-smoothing:antialiased}
+a{color:var(--accent)}
+
+/* logo CPIC */
+.cpiclogo{background-image:url("data:image/png;base64,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");background-repeat:no-repeat;background-position:center;background-size:contain}
+.logobox{background:#fff;border-radius:10px;padding:12px 14px;margin-bottom:16px}
+.logo-lg{width:100%;height:78px}
+.modhead{display:flex;align-items:flex-start;justify-content:space-between;gap:18px;margin-bottom:2px}
+.logo-sm{width:138px;height:62px;flex:0 0 auto;opacity:.92;margin-top:-4px}
+@media(max-width:900px){.logo-sm{width:104px;height:47px}}
+@media print{.logo-sm{width:150px;height:67px;opacity:1}}
+
+
+/* layout */
+.wrap{display:flex;min-height:100vh}
+aside{width:280px;flex:0 0 280px;background:var(--navy);color:#fff;position:sticky;top:0;height:100vh;overflow-y:auto;padding:22px 0}
+aside .brand{padding:0 22px 18px;border-bottom:1px solid rgba(255,255,255,.15)}
+aside .brand .eyebrow{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:#9dc3e8}
+aside .brand h1{font-size:20px;margin:6px 0 2px;font-weight:700}
+aside .brand p{font-size:12px;color:#b9cde4;margin:0}
+nav{padding:14px 12px}
+nav button{display:block;width:100%;text-align:left;background:none;border:0;color:#d7e5f5;padding:10px 12px;border-radius:8px;
+ font-size:14px;cursor:pointer;font-family:inherit;line-height:1.35;margin-bottom:2px}
+nav button:hover{background:rgba(255,255,255,.09);color:#fff}
+nav button.active{background:var(--accent);color:#fff;font-weight:600}
+nav button .n{display:inline-block;width:22px;color:#8fb6dd;font-variant-numeric:tabular-nums}
+nav button.active .n{color:#d5e8fb}
+nav button .done{float:right;color:#7fe0a8}
+.progwrap{padding:14px 22px;border-top:1px solid rgba(255,255,255,.15);margin-top:10px}
+.progwrap .lbl{font-size:11px;color:#b9cde4;display:flex;justify-content:space-between;margin-bottom:6px}
+.bar{height:6px;background:rgba(255,255,255,.18);border-radius:99px;overflow:hidden}
+.bar i{display:block;height:100%;background:#7fe0a8;width:0;transition:width .35s ease}
+.tools{padding:12px 22px}
+.tools button{width:100%;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);color:#e7f0fa;
+ padding:8px;border-radius:8px;font-size:12.5px;cursor:pointer;margin-bottom:8px;font-family:inherit}
+.tools button:hover{background:rgba(255,255,255,.2)}
+
+main{flex:1;min-width:0;padding:38px 46px 90px;max-width:920px}
+.mod{display:none}
+.mod.on{display:block;animation:fade .25s ease}
+@keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+
+.eyebrow2{font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);font-weight:700}
+h2{font-size:31px;line-height:1.2;margin:6px 0 4px;color:var(--navy);letter-spacing:-.01em}
+.sub{color:var(--muted);font-size:16px;margin:0 0 26px;font-style:italic}
+h3{font-size:20px;color:var(--navy);margin:34px 0 10px;padding-bottom:7px;border-bottom:2px solid var(--light)}
+h4{font-size:15.5px;color:var(--accent);margin:22px 0 6px}
+p{margin:0 0 13px}
+ul,ol{margin:0 0 14px;padding-left:22px}
+li{margin-bottom:6px}
+strong{color:var(--navy)}
+.card{background:#fff;border:1px solid var(--line);border-radius:12px;padding:20px 22px;margin:16px 0;box-shadow:0 1px 3px rgba(20,40,70,.05)}
+.callout{background:var(--light);border-left:4px solid var(--accent);border-radius:0 10px 10px 0;padding:16px 20px;margin:18px 0}
+.callout .t{font-weight:700;color:var(--navy);margin-bottom:6px}
+.myth{background:var(--badbg);border-left:4px solid var(--bad)}
+.myth .t{color:var(--bad)}
+.tip{background:var(--okbg);border-left:4px solid var(--ok)}
+.tip .t{color:var(--ok)}
+table{width:100%;border-collapse:collapse;margin:14px 0 20px;font-size:14px;background:#fff;border-radius:10px;overflow:hidden;
+ box-shadow:0 1px 3px rgba(20,40,70,.06)}
+th{background:var(--navy);color:#fff;text-align:left;padding:10px 13px;font-size:13px;font-weight:600}
+td{padding:10px 13px;border-top:1px solid var(--line);vertical-align:top}
+tr:nth-child(even) td{background:#fafcfe}
+code{background:#eef2f7;padding:1px 5px;border-radius:4px;font-size:13px}
+
+/* interactive */
+.ex{background:#fff;border:1px solid var(--line);border-left:4px solid var(--accent2);border-radius:0 12px 12px 0;padding:20px 22px;margin:22px 0}
+.ex .tag{display:inline-block;font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;background:var(--accent2);color:#fff;
+ padding:3px 9px;border-radius:99px;font-weight:700;margin-bottom:9px}
+.opts{display:flex;flex-direction:column;gap:8px;margin:12px 0}
+.opt{border:1.5px solid var(--line);background:#fff;border-radius:9px;padding:11px 14px;cursor:pointer;font-size:14.5px;
+ text-align:left;font-family:inherit;color:var(--ink);line-height:1.45;transition:.15s}
+.opt:hover{border-color:var(--accent2);background:#f7fbff}
+.opt.right{border-color:var(--ok);background:var(--okbg)}
+.opt.wrong{border-color:var(--bad);background:var(--badbg)}
+.opt.reveal{border-color:var(--ok);background:var(--okbg)}
+.fb{display:none;margin-top:10px;padding:12px 14px;border-radius:9px;font-size:14px}
+.fb.show{display:block}
+.fb.good{background:var(--okbg);color:#12603a;border:1px solid #b6e2cb}
+.fb.bad{background:var(--warnbg);color:#7a4900;border:1px solid #f0d9ae}
+textarea,input[type=text]{width:100%;border:1.5px solid var(--line);border-radius:9px;padding:10px 12px;font-family:inherit;
+ font-size:14.5px;resize:vertical;color:var(--ink);background:#fdfefe}
+textarea:focus,input:focus{outline:0;border-color:var(--accent2)}
+label.fl{display:block;font-size:13px;font-weight:600;color:var(--navy);margin:12px 0 5px}
+label.fl span{font-weight:400;color:var(--muted)}
+.btn{background:var(--accent);color:#fff;border:0;border-radius:8px;padding:9px 18px;font-size:14px;font-weight:600;
+ cursor:pointer;font-family:inherit;margin-top:10px}
+.btn:hover{background:var(--navy)}
+.btn.ghost{background:#fff;color:var(--accent);border:1.5px solid var(--accent)}
+.btn.ghost:hover{background:var(--light)}
+.out{display:none;margin-top:14px;background:var(--light);border-radius:10px;padding:14px 16px;font-size:14.5px;white-space:pre-wrap}
+.out.show{display:block}
+.chk{display:flex;align-items:flex-start;gap:9px;padding:7px 0;font-size:14.5px;cursor:pointer}
+.chk input{margin-top:4px;width:16px;height:16px;accent-color:var(--accent);flex:0 0 auto}
+.chk.done span{color:var(--muted);text-decoration:line-through}
+.scale{display:flex;gap:6px;align-items:center;margin:4px 0 10px}
+.scale button{width:34px;height:34px;border:1.5px solid var(--line);background:#fff;border-radius:8px;cursor:pointer;font-family:inherit;font-size:14px}
+.scale button.sel{background:var(--accent);color:#fff;border-color:var(--accent)}
+.scale .q{flex:1;font-size:14px}
+.pillrow{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0}
+.pill{border:1.5px solid var(--line);background:#fff;border-radius:99px;padding:6px 14px;font-size:13.5px;cursor:pointer;font-family:inherit}
+.pill.sel{background:var(--accent);color:#fff;border-color:var(--accent)}
+.score{font-size:34px;font-weight:800;color:var(--navy)}
+.diagbar{height:8px;background:var(--light);border-radius:99px;overflow:hidden;margin:8px 0 12px}
+.diagbar i{display:block;height:100%;border-radius:99px;transition:width .35s ease}
+.diagbar i.bad{background:var(--bad)}
+.diagbar i.warn{background:var(--warn)}
+.diagbar i.ok{background:var(--ok)}
+.cattag{display:inline-block;font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;font-weight:700;padding:3px 9px;border-radius:99px;margin-left:8px;vertical-align:middle}
+.cattag.bad{background:var(--badbg);color:var(--bad)}
+.cattag.warn{background:var(--warnbg);color:var(--warn)}
+.cattag.ok{background:var(--okbg);color:var(--ok)}
+.diagcard{background:#fff;border:1px solid var(--line);border-radius:12px;padding:18px 20px;margin:14px 0;box-shadow:0 1px 3px rgba(20,40,70,.05)}
+.diagcard h4{margin:0 0 2px;display:flex;align-items:center;flex-wrap:wrap;gap:2px}
+.diagcard .catscore{font-size:13px;color:var(--muted);font-weight:400}
+.diagcard ul{margin:8px 0 4px;padding-left:20px}
+.diagcard li{margin-bottom:5px;font-size:14px}
+.diaghead{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:baseline;gap:6px 10px}
+.diagsub{margin:34px 0 6px}
+.navbtns{display:flex;justify-content:space-between;gap:12px;margin-top:44px;padding-top:22px;border-top:1px solid var(--line)}
+.mark{display:flex;align-items:center;gap:10px;background:var(--okbg);border:1px solid #b6e2cb;border-radius:10px;padding:12px 16px;margin-top:26px;font-size:14.5px}
+.mark input{width:18px;height:18px;accent-color:var(--ok)}
+.small{font-size:13px;color:var(--muted)}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media(max-width:900px){
+  .wrap{flex-direction:column}
+  aside{width:100%;flex:none;height:auto;position:relative;padding:16px 0}
+  main{padding:24px 20px 70px}
+  .grid2{grid-template-columns:1fr}
+  h2{font-size:25px}
+}
+@media print{aside{display:none}main{max-width:none;padding:0}.mod{display:block!important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<aside>
+  <div class="brand">
+    <div class="logobox"><div class="cpiclogo logo-lg"></div></div>
+    <div class="eyebrow">Capacitación interna</div>
+    <h1>Comunicación Efectiva</h1>
+    <p>Módulo de autoaprendizaje</p>
+  </div>
+  <nav id="nav"></nav>
+  <div class="progwrap">
+    <div class="lbl"><span>Progreso</span><span id="ptxt">0 / 6</span></div>
+    <div class="bar"><i id="pbar"></i></div>
+  </div>
+  <div class="tools">
+    <button onclick="exportar()">⬇ Descargar mis respuestas</button>
+    <button onclick="reiniciar()">↺ Reiniciar progreso</button>
+  </div>
+</aside>
+
+<main id="main">
+
+<!-- ============ 0 ============ -->
+<section class="mod on" id="m0">
+  <div class="modhead"><div class="eyebrow2">Introducción</div><div class="cpiclogo logo-sm"></div></div>
+  <h2>Cómo usar este módulo</h2>
+  <p class="sub">Comunicación verbal y no verbal, escucha activa y presentaciones claras y persuasivas.</p>
+
+  <p>Este material es de <strong>autoaprendizaje</strong>: se recorre a ritmo propio, en una o varias sesiones. Cada módulo combina contenido breve con ejercicios que se responden acá mismo. Todo lo que escribas queda guardado en este navegador y podés descargarlo al final en un archivo de texto.</p>
+
+  <div class="callout">
+    <div class="t">Traé un caso real</div>
+    <p style="margin:0">El material funciona sobre trabajo propio, no sobre ejemplos. Antes de empezar, elegí una situación concreta: un informe que tenés que escribir, una conversación que estás postergando, una presentación que se viene.</p>
+  </div>
+
+  <div class="ex">
+    <div class="tag">Punto de partida</div>
+    <label class="fl">Mi situación de trabajo para toda la capacitación</label>
+    <textarea rows="2" data-save="caso" placeholder="Ej.: presentar al directorio la solicitud de ampliación de plazo de la obra Sarmiento."></textarea>
+    <label class="fl">¿Qué quiero lograr? <span>(una acción del otro, no un tema)</span></label>
+    <textarea rows="2" data-save="objetivo" placeholder="Ej.: que aprueben la ampliación de 45 días antes del 15 de agosto."></textarea>
+  </div>
+
+  <h3>Autodiagnóstico inicial</h3>
+  <p>Puntuá cada afirmación de 1 (nunca) a 5 (siempre). Sé honesto: el valor está en la comparación a los 30 días, no en el número de hoy. Las 16 afirmaciones están agrupadas en los cuatro ejes de esta capacitación; al terminar vas a ver un diagnóstico por eje con los puntos concretos que te conviene desarrollar primero.</p>
+  <div class="card" id="diag"></div>
+  <div id="diagres"></div>
+
+  <h3>El problema que resuelve esta capacitación</h3>
+  <p>En el ejercicio profesional de la ingeniería y en la conducción de equipos, la mayor parte del trabajo no se pierde por errores de cálculo: se pierde en la transmisión. Un informe impecable que el comitente no entiende no protege a nadie. Una observación bien fundada que se comunica como reproche genera resistencia en lugar de corrección.</p>
+  <p>Comunicar bien no es "ser simpático". Es una competencia técnica: <strong>lograr que el otro entienda lo que necesita entender y pueda actuar en consecuencia</strong>.</p>
+
+  <div class="callout myth">
+    <div class="t">La maldición del conocimiento</div>
+    <p style="margin:0 0 8px">Es el sesgo central de todo el programa: una vez que sabés algo, te resulta casi imposible imaginar cómo era no saberlo. El experto sistemáticamente sobreestima cuánto entiende su audiencia.</p>
+    <p style="margin:0"><strong>Antídoto:</strong> no "simplificar" el contenido, sino traducirlo. Partir de la pregunta que el otro tiene en la cabeza, no del orden en que uno resolvió el problema.</p>
+  </div>
+
+  <h3>Las tres capas de todo mensaje</h3>
+  <table>
+    <tr><th>Capa</th><th>Qué transmite</th><th>Dónde se juega</th></tr>
+    <tr><td><strong>Contenido</strong></td><td>Los datos, el argumento, la información técnica.</td><td>Palabras, estructura, evidencia.</td></tr>
+    <tr><td><strong>Relación</strong></td><td>Qué pienso de vos y qué lugar te doy en esta conversación.</td><td>Tono, elección de palabras, no verbal, quién habla y cuánto.</td></tr>
+    <tr><td><strong>Intención</strong></td><td>Para qué te digo esto y qué espero que hagas.</td><td>Explicitación del pedido, cierre, llamada a la acción.</td></tr>
+  </table>
+  <p>La mayoría de los conflictos que <em>parecen</em> técnicos son conflictos de la capa de relación o de intención no explicitada. Quien se pone a la defensiva rara vez discute el dato: discute el lugar que siente que le asignaron.</p>
+
+  <div class="mark"><input type="checkbox" data-done="m0"><label>Marcar esta sección como completada</label></div>
+  <div class="navbtns"><span></span><button class="btn" onclick="go(1)">Módulo 1 · Comunicación verbal →</button></div>
+</section>
+
+<!-- ============ 1 ============ -->
+<section class="mod" id="m1">
+  <div class="modhead"><div class="eyebrow2">Módulo 1</div><div class="cpiclogo logo-sm"></div></div>
+  <h2>Comunicación verbal</h2>
+  <p class="sub">Qué digo, en qué orden y con qué grado de firmeza.</p>
+
+  <h3>1.1 Claridad</h3>
+  <p>La claridad no es estilo: es carga cognitiva. Cada sigla sin definir y cada oración de cuatro subordinadas obliga al receptor a gastar atención en decodificar, atención que deja de estar disponible para evaluar el fondo.</p>
+  <ul>
+    <li><strong>Una idea por oración.</strong> Si al leer en voz alta necesitás respirar dos veces, cortá.</li>
+    <li><strong>Voz activa y sujeto explícito.</strong> "Se detectaron fisuras" no dice quién detectó ni quién debe actuar.</li>
+    <li><strong>Nominalizaciones fuera.</strong> "Realizar la verificación del cumplimiento" → "verificar que se cumpla".</li>
+    <li><strong>Cifras con referencia.</strong> "Un asentamiento de 12 mm" informa poco; "12 mm, cuatro veces el umbral del pliego" decide.</li>
+  </ul>
+
+  <div class="ex" data-q="q1a">
+    <div class="tag">Ejercicio</div>
+    <p><strong>¿Cuál de estas versiones comunica mejor?</strong></p>
+    <div class="opts">
+      <button class="opt" data-c="0">Se procedió a la realización de una inspección de la cual surgió la detección de fisuras en tabiques del sector B, motivo por el cual se estima conveniente la adopción de medidas.</button>
+      <button class="opt" data-c="1">El equipo de inspección detectó fisuras en tres tabiques del sector B. Solicitamos al contratista suspender el hormigonado hasta el 5/8.</button>
+      <button class="opt" data-c="0">Fisuras sector B. Ver adjunto. Urgente.</button>
+    </div>
+    <div class="fb"></div>
+  </div>
+
+  <h3>1.2 Empezar por la conclusión</h3>
+  <p>La formación técnica entrena un orden narrativo: antecedentes → método → datos → conclusión. Es correcto para un expediente y contraproducente para una reunión o un correo, porque obliga a quien escucha a sostener información sin saber para qué la necesita.</p>
+  <table>
+    <tr><th>Orden técnico (para el expediente)</th><th>Orden comunicacional (para decidir)</th></tr>
+    <tr><td>1. Antecedentes<br>2. Normativa aplicable<br>3. Relevamiento y ensayos<br>4. Análisis<br>5. Conclusión y recomendación</td>
+        <td>1. <strong>Recomendación y pedido concreto</strong><br>2. Las 2 o 3 razones que la sostienen<br>3. Riesgo de no actuar / plazo<br>4. Anexo: relevamiento, ensayos, normativa</td></tr>
+  </table>
+  <p>Es el principio <strong>BLUF</strong> (<em>Bottom Line Up Front</em>): la conclusión primero, el sustento después, disponible para quien lo requiera.</p>
+
+  <h4>El armazón SCQA <span class="small" style="font-weight:400">(Situación, Complicación, Pregunta, Respuesta)</span></h4>
+  <p>Para abrir un informe, una propuesta o una presentación:</p>
+  <ul>
+    <li><strong>S — Situación:</strong> el hecho estable que todos aceptan.</li>
+    <li><strong>C — Complicación:</strong> lo que rompe esa estabilidad.</li>
+    <li><strong>Q — Pregunta:</strong> la que nace en la cabeza del otro.</li>
+    <li><strong>A — Respuesta:</strong> tu tesis, que es el resto del documento.</li>
+  </ul>
+  <p>La virtud del esquema: la pregunta la formula el emisor, pero <em>nace</em> en el receptor. Cuando eso ocurre, la audiencia deja de resistir y empieza a esperar la respuesta.</p>
+
+  <div class="ex">
+    <div class="tag">Plantilla</div>
+    <p><strong>Armá el SCQA de tu caso.</strong></p>
+    <label class="fl">S — Situación <span>(el hecho que nadie discute)</span></label>
+    <textarea rows="2" data-save="scqa_s"></textarea>
+    <label class="fl">C — Complicación <span>(qué cambió o qué salió mal)</span></label>
+    <textarea rows="2" data-save="scqa_c"></textarea>
+    <label class="fl">Q — Pregunta <span>(la que se hace el otro)</span></label>
+    <textarea rows="2" data-save="scqa_q"></textarea>
+    <label class="fl">A — Respuesta <span>(tu tesis en una oración)</span></label>
+    <textarea rows="2" data-save="scqa_a"></textarea>
+    <button class="btn ghost" onclick="armarSCQA()">Ver mi párrafo de apertura</button>
+    <div class="out" id="scqaOut"></div>
+  </div>
+
+  <h3>1.3 Asertividad</h3>
+  <p>Asertividad es defender el propio interés <strong>sin invadir</strong> el del otro. No es un rasgo de personalidad: es una conducta situacional que se entrena.</p>
+  <table>
+    <tr><th>Estilo</th><th>Supuesto de fondo</th><th>Cómo suena</th><th>Costo</th></tr>
+    <tr><td><strong>Pasivo</strong></td><td>Tu interés vale más que el mío.</td><td>"No, está bien, ya lo resuelvo yo."</td><td>Sobrecarga y resentimiento acumulado.</td></tr>
+    <tr><td><strong>Agresivo</strong></td><td>Mi interés vale más que el tuyo.</td><td>"Esto está mal hecho, otra vez."</td><td>Cumplimiento por temor, cero información hacia arriba.</td></tr>
+    <tr><td><strong>Pasivo-agresivo</strong></td><td>No puedo decirlo de frente.</td><td>Ironía, silencio, "como quieras".</td><td>Erosiona la confianza sin dejar rastro.</td></tr>
+    <tr><td><strong>Asertivo</strong></td><td>Ambos intereses son legítimos.</td><td>"Necesito el informe el jueves para poder revisarlo. ¿Es viable?"</td><td>Requiere preparación y tolerar incomodidad.</td></tr>
+  </table>
+
+  <div class="ex" data-q="q1b">
+    <div class="tag">Ejercicio</div>
+    <p><strong>Un colaborador entregó tarde por tercera vez. ¿Qué respuesta es asertiva?</strong></p>
+    <div class="opts">
+      <button class="opt" data-c="0">"Bueno, no importa, lo termino yo esta noche."</button>
+      <button class="opt" data-c="0">"Es la tercera vez. Evidentemente esto no te interesa."</button>
+      <button class="opt" data-c="1">"El informe llegó el viernes a la tarde y no llegué a revisarlo antes del lunes. Necesito recibirlo los jueves al mediodía. ¿Qué te lo está impidiendo?"</button>
+      <button class="opt" data-c="0">"Ya está, no hace falta que lo mandes. Me arreglo."</button>
+    </div>
+    <div class="fb"></div>
+  </div>
+
+  <h4>Modelo SBI <span class="small" style="font-weight:400">(Situación, Comportamiento, Impacto)</span> para dar devoluciones</h4>
+  <p>Desarrollado por el Center for Creative Leadership, obliga a separar el dato de la interpretación:</p>
+  <table>
+    <tr><th>Paso</th><th>Qué incluir</th><th>Qué evitar</th></tr>
+    <tr><td><strong>S</strong> — Situación</td><td>Cuándo y dónde, con precisión.</td><td>"Siempre", "nunca", "últimamente".</td></tr>
+    <tr><td><strong>B</strong> — Comportamiento</td><td>Conducta observable, filmable.</td><td>Rasgos: "sos desorganizado".</td></tr>
+    <tr><td><strong>I</strong> — Impacto</td><td>Efecto concreto sobre vos, el equipo o el trabajo.</td><td>Atribuir intenciones.</td></tr>
+    <tr><td><strong>I</strong> — Intención</td><td>Preguntar qué se proponía. Abre el diálogo.</td><td>Suponerlo.</td></tr>
+  </table>
+
+  <div class="ex">
+    <div class="tag">Constructor SBI</div>
+    <p><strong>Escribí esa conversación que estás postergando, antes de tenerla.</strong></p>
+    <label class="fl">Situación <span>— ¿cuándo y dónde exactamente?</span></label>
+    <input type="text" data-save="sbi_s" placeholder="En la reunión de coordinación del martes...">
+    <label class="fl">Comportamiento <span>— ¿qué habría registrado una cámara?</span></label>
+    <input type="text" data-save="sbi_b" placeholder="...interrumpiste a la proyectista tres veces antes de que terminara.">
+    <label class="fl">Impacto <span>— ¿qué efecto concreto tuvo?</span></label>
+    <input type="text" data-save="sbi_i" placeholder="...no llegamos a escuchar la observación de fundaciones y decidimos con información incompleta.">
+    <label class="fl">Pedido <span>— ¿qué necesitás de ahora en más?</span></label>
+    <input type="text" data-save="sbi_p" placeholder="Te pido que dejes terminar la exposición y anotes las observaciones para el final.">
+    <button class="btn" onclick="armarSBI()">Generar la conversación</button>
+    <div class="out" id="sbiOut"></div>
+  </div>
+
+  <div class="callout tip">
+    <div class="t">Prueba de control antes de decirlo</div>
+    <ul style="margin:0">
+      <li>¿Hay algún adjetivo sobre la persona? Sacalo.</li>
+      <li>¿Estoy atribuyendo una intención que no puedo comprobar? Sacala y preguntala.</li>
+      <li>¿La otra persona podría discutir el hecho que describí? Si sí, no es un hecho: es una interpretación.</li>
+    </ul>
+  </div>
+
+  <h3>1.4 Checklist: antes de enviar un correo importante</h3>
+  <div class="card" id="ck1"></div>
+
+  <div class="mark"><input type="checkbox" data-done="m1"><label>Marcar el módulo 1 como completado</label></div>
+  <div class="navbtns"><button class="btn ghost" onclick="go(0)">← Introducción</button><button class="btn" onclick="go(2)">Módulo 2 · No verbal →</button></div>
+</section>
+
+<!-- ============ 2 ============ -->
+<section class="mod" id="m2">
+  <div class="modhead"><div class="eyebrow2">Módulo 2</div><div class="cpiclogo logo-sm"></div></div>
+  <h2>Comunicación no verbal</h2>
+  <p class="sub">Qué dice la evidencia, y qué no dice, sobre el llamado lenguaje corporal.</p>
+
+  <div class="ex" data-q="q2a">
+    <div class="tag">Antes de leer</div>
+    <p><strong>"El 93 % de la comunicación es no verbal."</strong></p>
+    <div class="opts">
+      <button class="opt" data-c="0">Verdadero: está demostrado desde los años 70.</button>
+      <button class="opt" data-c="1">Falso: es una mala lectura de un estudio muy acotado.</button>
+      <button class="opt" data-c="0">Verdadero, pero solo en presentaciones.</button>
+    </div>
+    <div class="fb"></div>
+  </div>
+
+  <h3>2.1 El mito 7-38-55</h3>
+  <p>Es casi inevitable encontrar en cursos de comunicación la fórmula <strong>7 % palabras – 38 % tono – 55 % cuerpo</strong>. Proviene de dos experimentos de Albert Mehrabian publicados en 1967 y difundidos en su libro <em>Silent Messages</em> (1971).</p>
+  <p>Aquellos estudios midieron algo muy acotado: cómo interpretan las personas una <strong>actitud o un sentimiento</strong> cuando el canal verbal y el no verbal se <strong>contradicen</strong>, en laboratorio, con palabras aisladas, muestras pequeñas de mujeres, sin conversación real y observando únicamente la expresión facial. El propio Mehrabian aclaró que sus ecuaciones "no son aplicables salvo que el comunicador esté hablando de sus sentimientos o actitudes".</p>
+
+  <div class="callout myth">
+    <div class="t">Por qué conviene desmontarlo</div>
+    <p style="margin:0 0 8px">Si el 93 % fuera cierto, un informe escrito no comunicaría casi nada y una clase de hormigón armado por radio sería inútil. Ambas cosas son evidentemente falsas.</p>
+    <p style="margin:0">El mito produce dos daños: hace descuidar la preparación del contenido ("lo importante es la actitud") y alimenta la creencia de que se puede <em>leer</em> a alguien —detectar mentiras, intenciones— por gestos aislados.</p>
+  </div>
+  <div class="callout tip">
+    <div class="t">La formulación defendible</div>
+    <p style="margin:0">Cuando el mensaje verbal y el no verbal <strong>se contradicen</strong>, el receptor tiende a creerle al no verbal. Lo que hay que trabajar es la <strong>congruencia</strong>, no un porcentaje.</p>
+  </div>
+
+  <h3>2.2 Los canales y su uso deliberado</h3>
+  <table>
+    <tr><th>Canal</th><th>Componentes</th><th>Uso profesional</th></tr>
+    <tr><td><strong>Kinésica</strong></td><td>Postura, gestos, expresión facial.</td><td>Gestos que acompañen la estructura del discurso; postura estable con peso repartido.</td></tr>
+    <tr><td><strong>Paralenguaje</strong></td><td>Volumen, ritmo, tono, pausas, muletillas.</td><td>La pausa después de una idea clave es la herramienta de énfasis más potente y la menos usada.</td></tr>
+    <tr><td><strong>Proxémica</strong></td><td>Distancia, ubicación en la sala.</td><td>Ubicarse del mismo lado de la mesa para revisar un plano cambia la dinámica de la conversación.</td></tr>
+    <tr><td><strong>Contacto visual</strong></td><td>Duración, distribución.</td><td>En grupo: 3–5 segundos por persona, una idea completa por persona. Barrer la sala transmite inseguridad.</td></tr>
+    <tr><td><strong>Cronémica</strong></td><td>Puntualidad, tiempo de habla.</td><td>Cuánto tiempo ocupa cada uno en una reunión es un dato de poder observable y corregible.</td></tr>
+  </table>
+
+  <h3>2.3 Congruencia: el criterio operativo</h3>
+  <p>La consigna no es "hacer los gestos correctos" sino <strong>eliminar la incongruencia</strong>. Los desajustes más frecuentes:</p>
+  <ul>
+    <li>Anunciar una mala noticia con sonrisa de incomodidad: se lee como falta de seriedad.</li>
+    <li>Pedir opiniones mirando el teléfono: se lee como que la pregunta era retórica.</li>
+    <li>Sostener una posición firme con entonación ascendente al final: se lee como que es negociable.</li>
+    <li>Ocupar menos espacio físico del que corresponde al rol: hablar desde la puerta, no sentarse a la mesa.</li>
+  </ul>
+
+  <div class="ex" data-q="q2b">
+    <div class="tag">Ejercicio</div>
+    <p><strong>Un colega cruza los brazos durante tu explicación. ¿Qué corresponde concluir?</strong></p>
+    <div class="opts">
+      <button class="opt" data-c="0">Está cerrado a lo que digo: hay que cambiar de enfoque.</button>
+      <button class="opt" data-c="0">Está ocultando algo.</button>
+      <button class="opt" data-c="1">Nada por sí solo. Un gesto aislado no significa nada fuera del conjunto de señales, la línea de base de esa persona y el contexto (puede tener frío o estar cómodo así).</button>
+    </div>
+    <div class="fb"></div>
+  </div>
+
+  <h3>2.4 Cuatro advertencias necesarias</h3>
+  <ul>
+    <li><strong>No hay diccionario de gestos.</strong> Solo tienen valor los <em>conjuntos</em> de señales, leídos contra la línea de base habitual de la persona y su contexto.</li>
+    <li><strong>No se detectan mentiras por el cuerpo.</strong> La precisión de los observadores humanos, incluso entrenados, apenas supera el azar.</li>
+    <li><strong>Hay variación cultural e individual.</strong> Personas neurodivergentes pueden presentar patrones de mirada o gesto que no significan lo que un observador supone.</li>
+    <li><strong>Cuidado con las modas.</strong> Las "poses de poder" no superaron las réplicas independientes en sus efectos fisiológicos. Lo que sí sostiene la evidencia es más modesto: postura erguida y respiración diafragmática mejoran la proyección de la voz y la sensación de control.</li>
+  </ul>
+
+  <div class="ex">
+    <div class="tag">Práctica</div>
+    <p><strong>Video de dos minutos.</strong> Grabate con el teléfono explicando un tema propio. Mirá el video tres veces y anotá.</p>
+    <label class="fl">1ª pasada, sin audio <span>— postura, manos, mirada, expresión</span></label>
+    <textarea rows="2" data-save="video1"></textarea>
+    <label class="fl">2ª pasada, solo audio <span>— ritmo, pausas, muletillas, entonación final</span></label>
+    <textarea rows="2" data-save="video2"></textarea>
+    <label class="fl">3ª pasada, completo <span>— ¿lo verbal y lo no verbal dicen lo mismo?</span></label>
+    <textarea rows="2" data-save="video3"></textarea>
+    <label class="fl">Dos ajustes concretos que voy a practicar</label>
+    <textarea rows="2" data-save="video4"></textarea>
+  </div>
+
+  <h3>2.5 Checklist: videollamada</h3>
+  <div class="card" id="ck2"></div>
+
+  <div class="mark"><input type="checkbox" data-done="m2"><label>Marcar el módulo 2 como completado</label></div>
+  <div class="navbtns"><button class="btn ghost" onclick="go(1)">← Módulo 1</button><button class="btn" onclick="go(3)">Módulo 3 · Escucha activa →</button></div>
+</section>
+
+<!-- ============ 3 ============ -->
+<section class="mod" id="m3">
+  <div class="modhead"><div class="eyebrow2">Módulo 3</div><div class="cpiclogo logo-sm"></div></div>
+  <h2>Escucha activa</h2>
+  <p class="sub">La competencia con mejor relación entre esfuerzo de aprendizaje e impacto sobre resultados de equipo.</p>
+
+  <h3>3.1 Qué es (y qué no es)</h3>
+  <p>El concepto fue formulado por Carl Rogers y Richard Farson en 1957. Escuchar activamente es atender de forma completa y sin juicio, con la intención de comprender el marco de referencia del otro, y <strong>devolverle evidencia verificable de esa comprensión</strong>.</p>
+  <p>La segunda parte es la que se olvida. Escuchar en silencio no es escucha activa: es silencio. La escucha se vuelve activa cuando el otro <strong>puede comprobar</strong> que fue comprendido.</p>
+
+  <h3>3.2 Qué muestra la investigación</h3>
+  <ul>
+    <li>Un conjunto de meta-análisis coordinados por Kluger y colegas, sobre datos de más de <strong>400.000 participantes</strong>, encontró que menos del 6 % de los efectos de la escucha percibida sobre resultados laborales fueron negativos.</li>
+    <li>La escucha de alta calidad —atención plena, comprensión e intención no evaluativa— se asocia con mayor bienestar, seguridad psicológica, compromiso afectivo y disposición a cooperar.</li>
+    <li>En situaciones de desacuerdo, sentirse escuchado <strong>reduce la polarización</strong> de la actitud del hablante. Escuchar bien no debilita tu posición: la vuelve audible.</li>
+  </ul>
+  <div class="callout">
+    <div class="t">Traducción al rol de jefatura</div>
+    <p style="margin:0">La calidad de la información que le llega a un jefe es función directa de cómo trató la información anterior. Un equipo que fue interrumpido, corregido o juzgado dos veces al informar un problema deja de informar problemas. No por deslealtad: por eficiencia.</p>
+  </div>
+
+  <h3>3.3 Los cuatro niveles</h3>
+  <table>
+    <tr><th>Nivel</th><th>Qué está haciendo quien escucha</th><th>Señal visible</th></tr>
+    <tr><td>1. Ausente</td><td>Está en otra cosa: teléfono, mail, la próxima reunión.</td><td>Responde "ajá" fuera de tiempo.</td></tr>
+    <tr><td>2. Selectiva</td><td>Espera el dato que le interesa y descarta el resto.</td><td>Interrumpe apenas aparece "su" tema.</td></tr>
+    <tr><td>3. Preparando respuesta</td><td>Escucha, pero mientras arma su réplica.</td><td>Empieza a hablar antes de que el otro termine.</td></tr>
+    <tr><td>4. <strong>Activa / empática</strong></td><td>Busca comprender el marco del otro antes de evaluar.</td><td>Parafrasea y pregunta antes de opinar.</td></tr>
+  </table>
+
+  <h3>3.4 Las cuatro técnicas nucleares</h3>
+  <table>
+    <tr><th>Técnica</th><th>Qué hace</th><th>Fórmula para copiar</th></tr>
+    <tr><td><strong>Parafraseo</strong></td><td>Devuelve el contenido con palabras propias.</td><td>"Si te entiendo bien, el problema no es el plazo sino la falta de definición del comitente."</td></tr>
+    <tr><td><strong>Reflejo</strong></td><td>Nombra la emoción o preocupación de fondo.</td><td>"Te noto preocupado por cómo va a caer esto mañana."</td></tr>
+    <tr><td><strong>Clarificación</strong></td><td>Pide el dato faltante sin juzgar.</td><td>"¿A qué te referís con que el pliego es ambiguo? ¿Qué artículo?"</td></tr>
+    <tr><td><strong>Resumen</strong></td><td>Cierra bloques y ordena acuerdos.</td><td>"Entonces quedamos en tres cosas: A, B y C. ¿Falta algo?"</td></tr>
+  </table>
+  <p>Se agregan dos conductas de bajo costo y alto rendimiento: el <strong>silencio de tres segundos</strong> después de que el otro termina —que suele producir la información más valiosa de la conversación— y la <strong>pregunta de profundización</strong> ("contame más sobre eso") antes de cualquier opinión.</p>
+
+  <div class="ex" data-q="q3a">
+    <div class="tag">Ejercicio</div>
+    <p>Un colaborador dice: <em>"Con este cronograma no llegamos, es imposible."</em> <strong>¿Cuál es la mejor primera respuesta?</strong></p>
+    <div class="opts">
+      <button class="opt" data-c="0">"Siempre decís lo mismo y después llegamos."</button>
+      <button class="opt" data-c="0">"Bueno, veamos: podemos sumar dos personas al equipo."</button>
+      <button class="opt" data-c="1">"¿Qué te hace pensar que no llegamos? Contame qué parte del cronograma no cierra."</button>
+      <button class="opt" data-c="0">"Es lo que hay. Hacé lo que puedas."</button>
+    </div>
+    <div class="fb"></div>
+  </div>
+
+  <div class="ex" data-q="q3b">
+    <div class="tag">Ejercicio</div>
+    <p><strong>¿Qué técnica es esta?</strong> <em>"Entonces quedamos en que vos revisás los planos, yo hablo con el comitente y el jueves definimos. ¿Falta algo?"</em></p>
+    <div class="opts">
+      <button class="opt" data-c="0">Parafraseo</button>
+      <button class="opt" data-c="0">Reflejo</button>
+      <button class="opt" data-c="1">Resumen</button>
+      <button class="opt" data-c="0">Clarificación</button>
+    </div>
+    <div class="fb"></div>
+  </div>
+
+  <h3>3.5 Barreras</h3>
+  <table>
+    <tr><th>Barrera</th><th>Cómo se manifiesta</th><th>Contramedida</th></tr>
+    <tr><td>Escucha autobiográfica</td><td>"A mí me pasó lo mismo en la obra de..." y la conversación se muda.</td><td>Ninguna anécdota propia hasta haber parafraseado.</td></tr>
+    <tr><td>Respuesta preparada</td><td>Se arma la réplica mientras el otro habla.</td><td>Anotar la objeción en papel y volver a escuchar.</td></tr>
+    <tr><td>Solución prematura</td><td>Se propone la solución antes de entender el problema.</td><td>"¿Querés que te ayude a resolverlo o querés que te escuche?"</td></tr>
+    <tr><td>Distracción digital</td><td>Pantalla abierta durante la conversación.</td><td>Pantalla cerrada. Es la señal de escucha más económica y eficaz.</td></tr>
+    <tr><td>Asimetría de poder</td><td>El subordinado dice lo que cree que el jefe quiere oír.</td><td>El jefe habla último y pregunta primero.</td></tr>
+  </table>
+
+  <div class="ex">
+    <div class="tag">Registro</div>
+    <p><strong>Elegí una conversación de trabajo de esta semana y completá el registro inmediatamente después.</strong></p>
+    <label class="fl">¿Qué porcentaje del tiempo hablé yo? ¿Cuántas veces interrumpí?</label>
+    <textarea rows="2" data-save="esc1"></textarea>
+    <label class="fl">¿Parafraseé antes de opinar? ¿Qué dije exactamente?</label>
+    <textarea rows="2" data-save="esc2"></textarea>
+    <label class="fl">¿Qué información apareció que no esperaba?</label>
+    <textarea rows="2" data-save="esc3"></textarea>
+    <label class="fl">Si repitiera la conversación, ¿qué haría distinto?</label>
+    <textarea rows="2" data-save="esc4"></textarea>
+  </div>
+
+  <h3>3.6 Checklist: antes de una conversación importante</h3>
+  <div class="card" id="ck3"></div>
+
+  <div class="mark"><input type="checkbox" data-done="m3"><label>Marcar el módulo 3 como completado</label></div>
+  <div class="navbtns"><button class="btn ghost" onclick="go(2)">← Módulo 2</button><button class="btn" onclick="go(4)">Módulo 4 · Presentaciones →</button></div>
+</section>
+
+<!-- ============ 4 ============ -->
+<section class="mod" id="m4">
+  <div class="modhead"><div class="eyebrow2">Módulo 4</div><div class="cpiclogo logo-sm"></div></div>
+  <h2>Presentaciones claras y persuasivas</h2>
+  <p class="sub">Diseñar para que se entienda, exponer para que se decida.</p>
+
+  <h3>4.1 Antes de abrir el software</h3>
+  <p>El error más caro en presentaciones profesionales es empezar por las diapositivas. La secuencia correcta invierte ese orden.</p>
+  <ol>
+    <li><strong>Definir el objetivo como conducta.</strong> No "informar sobre el estado de la obra", sino "que el directorio apruebe la ampliación de 45 días". Si el objetivo no se puede escribir como una acción del otro, no hay objetivo.</li>
+    <li><strong>Perfilar la audiencia.</strong> Qué sabe, qué le preocupa, qué decide, qué objeción va a poner primero.</li>
+    <li><strong>Escribir el mensaje central en una sola oración.</strong> Si no entra en una oración, todavía no está pensado.</li>
+    <li><strong>Elegir tres bloques de sustento.</strong> Tres es el máximo que una audiencia retiene sin apoyo. Todo lo demás es anexo.</li>
+    <li><strong>Recién ahora:</strong> diseñar el soporte visual.</li>
+  </ol>
+
+  <div class="ex">
+    <div class="tag">Constructor</div>
+    <p><strong>Diseñá tu presentación de 10 minutos.</strong> Completá y generá el guion.</p>
+    <label class="fl">1. ¿Qué quiero que la audiencia HAGA al terminar? <span>(una acción)</span></label>
+    <input type="text" data-save="pr_obj" placeholder="Que aprueben la ampliación de plazo antes del 15/8.">
+    <label class="fl">2. ¿Quiénes son? ¿Qué les preocupa?</label>
+    <input type="text" data-save="pr_aud" placeholder="Directorio. Les preocupa el costo y la exposición institucional.">
+    <label class="fl">3. ¿Cuál es la primera objeción que van a poner?</label>
+    <input type="text" data-save="pr_obj2" placeholder="Que la demora es responsabilidad de la inspección.">
+    <label class="fl">4. MENSAJE CENTRAL <span>(una sola oración)</span></label>
+    <input type="text" data-save="pr_msj" placeholder="La ampliación de 45 días es la opción de menor costo y menor riesgo.">
+    <div class="grid2">
+      <div><label class="fl">5. Bloque 1</label><input type="text" data-save="pr_b1"></div>
+      <div><label class="fl">6. Bloque 2</label><input type="text" data-save="pr_b2"></div>
+    </div>
+    <div class="grid2">
+      <div><label class="fl">7. Bloque 3</label><input type="text" data-save="pr_b3"></div>
+      <div><label class="fl">8. Apertura <span>(gana atención en 60 s)</span></label><input type="text" data-save="pr_ap"></div>
+    </div>
+    <label class="fl">9. Cierre: pedido concreto, responsable y plazo</label>
+    <input type="text" data-save="pr_cierre" placeholder="Necesitamos la aprobación antes del 15; la firma la Dirección de Obras.">
+    <button class="btn" onclick="armarGuion()">Generar guion de 10 minutos</button>
+    <div class="out" id="guionOut"></div>
+  </div>
+
+  <h3>4.2 Estructura de la exposición</h3>
+  <table>
+    <tr><th>Tramo</th><th>Tiempo</th><th>Función</th></tr>
+    <tr><td>Apertura</td><td>1 min</td><td>Ganar atención y establecer relevancia: dato contundente, pregunta, costo del problema.</td></tr>
+    <tr><td>Encuadre</td><td>1 min</td><td>Mensaje central + los tres bloques anunciados.</td></tr>
+    <tr><td>Cuerpo</td><td>6 min</td><td>Tres bloques de ~2 min, cada uno con una afirmación y su evidencia.</td></tr>
+    <tr><td>Cierre</td><td>1 min</td><td>Recuperar el mensaje + llamada a la acción con plazo y responsable.</td></tr>
+    <tr><td>Preguntas</td><td>aparte</td><td>Anticipar las cinco más probables y ensayarlas.</td></tr>
+  </table>
+
+  <h4>Ethos, logos y pathos</h4>
+  <p>La mayoría de las exposiciones técnicas son fuertes en <em>logos</em> y pobres en las otras dos, y fracasan por eso.</p>
+  <table>
+    <tr><th>Recurso</th><th>Qué construye</th><th>Cómo se trabaja en ámbito técnico</th></tr>
+    <tr><td><strong>Ethos</strong></td><td>Credibilidad de quien habla.</td><td>Explicitar método y fuentes; reconocer límites; presentar la objeción propia antes que el otro la traiga.</td></tr>
+    <tr><td><strong>Logos</strong></td><td>Solidez del argumento.</td><td>Datos con referencia, comparación de alternativas con criterios explícitos.</td></tr>
+    <tr><td><strong>Pathos</strong></td><td>Conexión con lo que le importa al otro.</td><td>No es emotividad: es traducir el dato al interés del interlocutor (riesgo, plazo, costo, responsabilidad).</td></tr>
+  </table>
+  <div class="callout tip">
+    <div class="t">Reconocer la objeción primero</div>
+    <p style="margin:0">Anticipar la principal debilidad de la propuesta y enunciarla uno mismo ("el punto flojo de esta alternativa es el costo inicial, y por eso...") aumenta la credibilidad. Si el otro la descubre solo, pierde confianza en todo lo demás que dijiste.</p>
+  </div>
+
+  <h3>4.3 Diseño de diapositivas</h3>
+  <p>No es una cuestión estética sino de <strong>carga cognitiva</strong>. La audiencia tiene un solo canal verbal disponible: si la diapositiva está llena de texto, no puede leerla y escucharte al mismo tiempo. Es el efecto de redundancia, uno de los principios del aprendizaje multimedia de Richard Mayer.</p>
+
+  <h4>El enfoque afirmación–evidencia</h4>
+  <p>Michael Alley y su equipo (Penn State) propusieron un formato alternativo al de la plantilla por defecto: cada diapositiva lleva una <strong>afirmación completa</strong> como título —una oración que enuncia la conclusión— sostenida por <strong>evidencia visual</strong> en lugar de texto. En un estudio con 110 estudiantes de ingeniería, el grupo expuesto a este formato mostró mejor comprensión, menos concepciones erróneas, menor carga cognitiva percibida y mejor recuerdo diferido.</p>
+  <table>
+    <tr><th>Diapositiva por defecto</th><th>Afirmación–evidencia</th></tr>
+    <tr>
+      <td><strong>Resultados de ensayos</strong><br>• Se realizaron 12 probetas<br>• Resistencia media 24,3 MPa<br>• Desvío 2,1 MPa<br>• Dos valores bajo el mínimo</td>
+      <td><strong>La resistencia media cumple, pero la dispersión indica un problema de dosificación</strong><br><em>[Gráfico de las 12 probetas contra el valor de proyecto]</em></td>
+    </tr>
+  </table>
+
+  <div class="ex" data-q="q4a">
+    <div class="tag">Ejercicio</div>
+    <p><strong>¿Cuál es un buen título de diapositiva?</strong></p>
+    <div class="opts">
+      <button class="opt" data-c="0">"Asentamiento vs. tiempo"</button>
+      <button class="opt" data-c="1">"El asentamiento se estabiliza a partir de la semana 6"</button>
+      <button class="opt" data-c="0">"Análisis de resultados"</button>
+      <button class="opt" data-c="0">"Conclusiones y próximos pasos"</button>
+    </div>
+    <div class="fb"></div>
+  </div>
+
+  <h4>Reglas prácticas</h4>
+  <ul>
+    <li>Una idea por diapositiva. Si hay dos, son dos diapositivas.</li>
+    <li>Nunca leer la diapositiva: si el texto se lee solo, sobra el expositor; si el expositor es necesario, sobra el texto.</li>
+    <li>Tipografía mínima 24 pt. Si no entra, hay demasiado contenido.</li>
+    <li>Un gráfico, una conclusión, resaltada visualmente. Fuera grillas, leyendas redundantes y decoración.</li>
+    <li>Planos y tablas extensas: impresos o en anexo, no proyectados.</li>
+    <li>Diapositiva final: no "Gracias", sino el mensaje central y el pedido. Es la imagen que queda en pantalla durante todas las preguntas.</li>
+  </ul>
+
+  <h3>4.4 Preguntas y objeciones: método ERC <span class="small" style="font-weight:400">(Escuchar, Reconocer, Contestar)</span></h3>
+  <ol>
+    <li><strong>Escuchar completo</strong> sin interrumpir, aunque la pregunta parezca hostil.</li>
+    <li><strong>Reconocer y reformular:</strong> "La pregunta es si el plazo de 45 días es realista". Gana tiempo, confirma comprensión y desactiva la carga emocional.</li>
+    <li><strong>Contestar acotado y conectar</strong> de vuelta con el mensaje central.</li>
+  </ol>
+  <ul>
+    <li><strong>Si no sabés:</strong> decilo, comprometete a averiguarlo con fecha y anotalo delante de todos. Inventar es el único error irreparable en credibilidad técnica.</li>
+    <li><strong>Pregunta hostil:</strong> respondé al contenido, nunca al tono. Bajá el volumen y el ritmo.</li>
+    <li><strong>Fuera de alcance:</strong> "Es importante y excede el objetivo de hoy; lo tratamos aparte" — y hacerlo efectivamente.</li>
+  </ul>
+
+  <div class="ex">
+    <div class="tag">Anticipación</div>
+    <p><strong>Escribí las tres preguntas más probables —incluidas las incómodas— y su respuesta en 30 segundos.</strong></p>
+    <label class="fl">Pregunta 1 / respuesta</label><textarea rows="2" data-save="pq1"></textarea>
+    <label class="fl">Pregunta 2 / respuesta</label><textarea rows="2" data-save="pq2"></textarea>
+    <label class="fl">Pregunta 3 / respuesta</label><textarea rows="2" data-save="pq3"></textarea>
+  </div>
+
+  <h3>4.5 Ansiedad al exponer</h3>
+  <p>El nerviosismo previo es una respuesta fisiológica de activación, no un defecto de carácter. El error habitual es intentar suprimirlo: "calmate" exige pasar de activación alta a baja, un cambio difícil bajo estrés.</p>
+  <p>La investigación de Alison Wood Brooks (2014, <em>Journal of Experimental Psychology: General</em>) muestra una alternativa más eficaz: <strong>reinterpretar la ansiedad como entusiasmo</strong>. Ambos estados comparten el mismo perfil de activación y difieren solo en la valencia, de modo que el cambio requerido es cognitivo y no fisiológico. Quienes se decían "estoy entusiasmado" antes de hablar en público fueron evaluados como más persuasivos, competentes y seguros que quienes intentaban calmarse.</p>
+  <div class="callout tip">
+    <div class="t">Protocolo de los 10 minutos previos</div>
+    <ul style="margin:0">
+      <li>Decir en voz alta "estoy entusiasmado".</li>
+      <li>Respiración 4–6 (inhalar 4 s, exhalar 6 s) durante dos minutos.</li>
+      <li>Llegar temprano, probar el equipo, pararse donde vas a exponer.</li>
+      <li>Repasar de memoria solo la primera oración. El pico de ansiedad dura entre 30 y 60 segundos.</li>
+      <li>Desplazar el foco: no "¿cómo me estoy viendo?" sino "¿esto le sirve a quien escucha?".</li>
+    </ul>
+  </div>
+
+  <h3>4.6 Checklist: el día de la presentación</h3>
+  <div class="card" id="ck4"></div>
+
+  <div class="mark"><input type="checkbox" data-done="m4"><label>Marcar el módulo 4 como completado</label></div>
+  <div class="navbtns"><button class="btn ghost" onclick="go(3)">← Módulo 3</button><button class="btn" onclick="go(5)">Cierre y evaluación →</button></div>
+</section>
+
+<!-- ============ 5 ============ -->
+<section class="mod" id="m5">
+  <div class="modhead"><div class="eyebrow2">Cierre</div><div class="cpiclogo logo-sm"></div></div>
+  <h2>Evaluación y plan de 30 días</h2>
+  <p class="sub">La capacitación no produce cambio; la práctica deliberada sí.</p>
+
+  <h3>Evaluación final</h3>
+  <p>Diez preguntas sobre todo el programa. Respondé sin volver atrás.</p>
+  <div id="quiz"></div>
+  <button class="btn" onclick="corregir()">Corregir evaluación</button>
+  <div class="out" id="quizOut"></div>
+
+  <h3>Plan personal de 30 días</h3>
+  <p>Elegí <strong>una conducta observable por eje</strong>. No más de cuatro en total. Una conducta es observable si otra persona podría confirmar si la hiciste o no.</p>
+  <div class="ex">
+    <label class="fl">Verbal / escrita</label>
+    <input type="text" data-save="plan1" placeholder="Todos mis correos van a empezar por el pedido, en la primera línea.">
+    <label class="fl">No verbal</label>
+    <input type="text" data-save="plan2" placeholder="Voy a hacer una pausa de dos segundos después de cada idea clave al exponer.">
+    <label class="fl">Escucha activa</label>
+    <input type="text" data-save="plan3" placeholder="En cada 1:1 voy a parafrasear antes de opinar y hablar menos del 30 % del tiempo.">
+    <label class="fl">Presentaciones</label>
+    <input type="text" data-save="plan4" placeholder="Mis diapositivas van a llevar título en oración completa y la última va a tener el pedido.">
+    <label class="fl">Mi par de seguimiento y fecha de revisión</label>
+    <input type="text" data-save="plan5" placeholder="Nombre — revisión el __/__/____">
+  </div>
+  <p class="small">Compartir el compromiso con otra persona multiplica la probabilidad de sostenerlo. La revisión a los 30 días es la parte que produce el cambio real: sin ella, la mayor parte de lo trabajado no se transfiere al puesto.</p>
+
+  <h3>Rúbrica de autoevaluación de una presentación</h3>
+  <table>
+    <tr><th>Criterio</th><th>Insuficiente</th><th>Adecuado</th><th>Destacado</th></tr>
+    <tr><td>Mensaje central</td><td>No se identifica.</td><td>Se identifica al final.</td><td>Se enuncia al inicio, se sostiene y se recupera al cierre.</td></tr>
+    <tr><td>Estructura</td><td>Datos sin orden aparente.</td><td>Inicio, desarrollo y cierre reconocibles.</td><td>Estructura anunciada, señalizada y cumplida.</td></tr>
+    <tr><td>Adaptación</td><td>Jerga sin traducir.</td><td>Lenguaje accesible.</td><td>Reorganizado según lo que el otro necesita decidir.</td></tr>
+    <tr><td>Evidencia visual</td><td>Se leen las diapositivas.</td><td>Apoyo pertinente con exceso de texto.</td><td>Afirmación–evidencia, un mensaje por diapositiva.</td></tr>
+    <tr><td>No verbal y voz</td><td>Mirada al piso, voz plana.</td><td>Contacto visual irregular.</td><td>Mirada distribuida, pausas deliberadas, congruencia.</td></tr>
+    <tr><td>Cierre</td><td>Termina sin pedido.</td><td>Conclusión general.</td><td>Pedido concreto con responsable y plazo.</td></tr>
+    <tr><td>Preguntas</td><td>Se defiende o improvisa.</td><td>Responde correctamente.</td><td>Reformula, responde acotado y reconecta.</td></tr>
+  </table>
+
+  <h3>Fuentes</h3>
+  <ul class="small">
+    <li>Rogers, C. &amp; Farson, R. (1957). <em>Active Listening</em>. Industrial Relations Center, University of Chicago.</li>
+    <li>Mehrabian, A. (1971). <em>Silent Messages</em>. Wadsworth — y Amsel, T. (2019), "An Urban Legend Called: The 7/38/55 Ratio Rule", <em>European Polygraph</em> 13(2).</li>
+    <li>Kluger, A. N. et al. (2024). Meta-análisis sobre escucha percibida y resultados organizacionales (n &gt; 400.000).</li>
+    <li>Itzchakov, G. et al. (2023–2026). Investigación sobre <em>high-quality listening</em>: bienestar, seguridad psicológica y despolarización. <em>Applied Psychology</em>; <em>Social and Personality Psychology Compass</em>.</li>
+    <li>Garner, J. &amp; Alley, M. "How the Design of Presentation Slides Affects Audience Comprehension: A Case for the Assertion-Evidence Approach". Penn State.</li>
+    <li>Mayer, R. E. (2009). <em>Multimedia Learning</em>, 2ª ed. Cambridge University Press.</li>
+    <li>Brooks, A. W. (2014). "Get Excited: Reappraising Pre-Performance Anxiety as Excitement". <em>JEP: General</em> (<em>Journal of Experimental Psychology: General</em>) 143(3).</li>
+    <li>Center for Creative Leadership. Modelo SBI / SBII (Situación-Comportamiento-Impacto / +Intención) de retroalimentación.</li>
+    <li>Minto, B. (1987). <em>The Pyramid Principle</em>. Esquema SCQA (Situación-Complicación-Pregunta-Respuesta).</li>
+  </ul>
+
+  <div class="mark"><input type="checkbox" data-done="m5"><label>Marcar el cierre como completado</label></div>
+  <div class="navbtns"><button class="btn ghost" onclick="go(4)">← Módulo 4</button><button class="btn" onclick="exportar()">⬇ Descargar todas mis respuestas</button></div>
+</section>
+
+</main>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script>
+/* ---------- almacenamiento tolerante ---------- */
+var MEM={};
+var LS=(function(){try{localStorage.setItem('__t','1');localStorage.removeItem('__t');return localStorage}catch(e){return null}})();
+var PFX='ce2_'; /* versionado: evita que respuestas guardadas de una versión anterior del cuestionario (con otras preguntas en las mismas claves) aparezcan precargadas */
+function S(k,v){MEM[k]=v; if(LS){try{LS.setItem(PFX+k,v)}catch(e){}}}
+function G(k){ if(k in MEM) return MEM[k]; if(LS){try{var v=LS.getItem(PFX+k); if(v!==null){MEM[k]=v;return v}}catch(e){}} return null }
+
+/* ---------- navegación ---------- */
+var MODS=[
+ {id:'m0',t:'Cómo usar este módulo'},
+ {id:'m1',t:'Comunicación verbal'},
+ {id:'m2',t:'Comunicación no verbal'},
+ {id:'m3',t:'Escucha activa'},
+ {id:'m4',t:'Presentaciones'},
+ {id:'m5',t:'Cierre y evaluación'}
+];
+function renderNav(){
+  var h='';
+  MODS.forEach(function(m,i){
+    var done=G('done_'+m.id)==='1';
+    h+='<button data-i="'+i+'"><span class="n">'+i+'</span>'+m.t+(done?'<span class="done">✓</span>':'')+'</button>';
+  });
+  document.getElementById('nav').innerHTML=h;
+  document.querySelectorAll('#nav button').forEach(function(b){b.onclick=function(){go(+b.dataset.i)}});
+  marcarActivo();
+  var d=MODS.filter(function(m){return G('done_'+m.id)==='1'}).length;
+  document.getElementById('ptxt').textContent=d+' / '+MODS.length;
+  document.getElementById('pbar').style.width=(d/MODS.length*100)+'%';
+}
+var CUR=0;
+function marcarActivo(){
+  document.querySelectorAll('#nav button').forEach(function(b){b.classList.toggle('active',+b.dataset.i===CUR)});
+}
+function go(i){
+  CUR=i;
+  document.querySelectorAll('.mod').forEach(function(s){s.classList.remove('on')});
+  document.getElementById(MODS[i].id).classList.add('on');
+  marcarActivo();
+  window.scrollTo({top:0,behavior:'smooth'});
+  S('cur',String(i));
+}
+
+/* ---------- campos de texto ---------- */
+function initCampos(){
+  document.querySelectorAll('[data-save]').forEach(function(el){
+    var k=el.dataset.save, v=G('f_'+k);
+    if(v!==null) el.value=v;
+    el.addEventListener('input',function(){S('f_'+k,el.value)});
+  });
+  document.querySelectorAll('[data-done]').forEach(function(el){
+    var k=el.dataset.done;
+    el.checked=G('done_'+k)==='1';
+    el.addEventListener('change',function(){S('done_'+k,el.checked?'1':'0');renderNav()});
+  });
+}
+
+/* ---------- autodiagnóstico ---------- */
+var DIAG=[
+ {q:'Cuando escribo un correo importante, el pedido está en la primera línea.',cat:'verbal'},
+ {q:'Adapto el nivel técnico de mi explicación a quien me escucha.',cat:'verbal'},
+ {q:'Cuando algo me molesta de un colega, lo digo describiendo el hecho, no juzgando a la persona.',cat:'verbal'},
+ {q:'Puedo sostener una posición firme sin subir el tono ni ceder.',cat:'verbal'},
+ {q:'Sé cómo suena y cómo se ve mi manera de exponer (me grabé alguna vez).',cat:'noverbal'},
+ {q:'Mantengo contacto visual y una postura abierta cuando hablo en una reunión.',cat:'noverbal'},
+ {q:'Soy consciente de mi tono de voz y lo ajusto según la situación y lo que quiero transmitir.',cat:'noverbal'},
+ {q:'Cuando estoy en desacuerdo, controlo mi lenguaje corporal antes de tomar la palabra.',cat:'noverbal'},
+ {q:'En una conversación, dejo unos segundos de silencio antes de responder.',cat:'escucha'},
+ {q:'Parafraseo lo que me dijeron antes de dar mi opinión.',cat:'escucha'},
+ {q:'En mis reuniones 1:1 hablo menos que la otra persona.',cat:'escucha'},
+ {q:'Cuando no sé la respuesta a una pregunta, lo digo y me comprometo a averiguarla.',cat:'escucha'},
+ {q:'Mis presentaciones tienen un mensaje central que puedo decir en una oración.',cat:'presentaciones'},
+ {q:'Mis diapositivas tienen títulos que enuncian una conclusión, no un tema.',cat:'presentaciones'},
+ {q:'Cierro mis presentaciones con un pedido concreto, con responsable y plazo.',cat:'presentaciones'},
+ {q:'Ensayo mis presentaciones y ajusto el tiempo para no excederme.',cat:'presentaciones'}
+];
+var CATORDER=['verbal','noverbal','escucha','presentaciones'];
+var CATS={
+ verbal:{label:'Mensajes claros y directos',mod:1,modName:'Módulo 1 · Comunicación verbal',items:[
+   'Escribí el pedido u objetivo en la primera oración de cada correo o mensaje importante.',
+   'Antes de una conversación difícil, separá por escrito el hecho observable de tu interpretación.',
+   'Ensayá en voz alta cómo sostener una posición firme sin subir el tono, para tu próxima reunión.',
+   'Pedile a alguien ajeno al tema que te diga si tu explicación se entiende sin conocer el contexto previo.'
+ ]},
+ noverbal:{label:'Comunicación no verbal y presencia',mod:2,modName:'Módulo 2 · Comunicación no verbal',items:[
+   'Grabate (audio o video) en tu próxima intervención breve y mirá o escuchá la grabación una vez.',
+   'Practicá mantener contacto visual y postura abierta durante los primeros 30 segundos de una exposición.',
+   'Antes de una reunión tensa, hacé un chequeo consciente de tu postura y tu expresión.',
+   'Prestá atención a tu ritmo y volumen de voz la próxima vez que expongas algo.'
+ ]},
+ escucha:{label:'Escucha activa',mod:3,modName:'Módulo 3 · Escucha activa',items:[
+   'Contá hasta tres en silencio antes de responder en tu próxima conversación importante.',
+   'Parafraseá lo que el otro dijo antes de dar tu opinión: "Si entendí bien, vos decís que...".',
+   'En tu próximo 1:1, proponete hablar menos de la mitad del tiempo.',
+   'Si no sabés algo, decilo explícitamente y comprometé una fecha concreta para responder.'
+ ]},
+ presentaciones:{label:'Presentaciones',mod:4,modName:'Módulo 4 · Presentaciones',items:[
+   'Antes de armar las diapositivas, escribí el mensaje central en una sola oración.',
+   'Convertí los títulos de tus próximas diapositivas en conclusiones, no en temas.',
+   'Terminá tu próxima presentación con un pedido concreto: qué, quién y para cuándo.',
+   'Ensayá tu presentación con cronómetro para ajustar el tiempo real.'
+ ]}
+};
+function renderDiag(){
+  var h='',lastCat=null;
+  DIAG.forEach(function(item,i){
+    if(item.cat!==lastCat){h+='<h4 class="diagsub" style="margin-top:'+(lastCat?'26px':'0')+'">'+CATS[item.cat].label+'</h4>';lastCat=item.cat}
+    h+='<div class="scale"><span class="q">'+(i+1)+'. '+item.q+'</span>';
+    for(var n=1;n<=5;n++){
+      var sel=G('d_'+i)===String(n)?' sel':'';
+      h+='<button class="'+sel.trim()+'" data-d="'+i+'" data-v="'+n+'">'+n+'</button>';
+    }
+    h+='</div>';
+  });
+  document.getElementById('diag').innerHTML=h;
+  document.querySelectorAll('[data-d]').forEach(function(b){
+    b.onclick=function(){
+      S('d_'+b.dataset.d,b.dataset.v);
+      renderDiag(); calcDiag();
+    };
+  });
+  calcDiag();
+}
+function nivelDe(sub){ // sub score sobre 20 (4 preguntas)
+  if(sub<=10) return 'bad';
+  if(sub<=15) return 'warn';
+  return 'ok';
+}
+function calcDiag(){
+  var tot=0,n=0,catTot={},catN={};
+  CATORDER.forEach(function(c){catTot[c]=0;catN[c]=0});
+  DIAG.forEach(function(item,i){
+    var v=G('d_'+i);
+    if(v){tot+=+v;n++;catTot[item.cat]+=+v;catN[item.cat]++}
+  });
+  var o=document.getElementById('diagres');
+  if(n<DIAG.length){
+    o.className='out'+(n>0?' show':'');
+    o.innerHTML=n>0?('Respondidas '+n+' de '+DIAG.length+'.'):'';
+    return;
+  }
+  var h='<h3>Tu diagnóstico por eje</h3>';
+  var peor=null;
+  CATORDER.forEach(function(c){
+    var sub=catTot[c], niv=nivelDe(sub), cat=CATS[c];
+    if(peor===null||sub<catTot[peor]) peor=c;
+    var msg = niv==='bad'
+      ? 'Es tu punto de partida más urgente. Convertir estos hábitos en conductas concretas te va a dar el resultado más visible.'
+      : niv==='warn'
+      ? 'Base razonable con margen claro de mejora. Elegí uno o dos puntos y convertilos en hábito.'
+      : 'Es una fortaleza. El trabajo acá es de refinamiento fino, no de reconstrucción.';
+    var nItems = niv==='bad'?4:(niv==='warn'?2:1);
+    var tagTxt = niv==='bad'?'Prioritario':(niv==='warn'?'A reforzar':'Fortaleza');
+    h+='<div class="diagcard">';
+    h+='<div class="diaghead"><h4>'+cat.label+'<span class="cattag '+niv+'">'+tagTxt+'</span></h4><span class="catscore">'+sub+' / 20</span></div>';
+    h+='<div class="diagbar"><i class="'+niv+'" style="width:'+(sub/20*100)+'%"></i></div>';
+    h+='<p style="margin:0 0 6px">'+msg+'</p>';
+    h+='<p style="margin:0 0 4px"><strong>Para desarrollar:</strong></p><ul>';
+    cat.items.slice(0,nItems).forEach(function(it){h+='<li>'+it+'</li>'});
+    h+='</ul>';
+    h+='<button class="btn ghost" onclick="go('+cat.mod+')" style="margin-top:6px">Ir a '+cat.modName+' →</button>';
+    h+='</div>';
+    S('diagcat_'+c,String(sub));
+  });
+  var msgTot;
+  if(tot<=40) msgTot='Hay mucho margen de mejora y eso es una buena noticia: las conductas de esta capacitación son de las que producen resultados visibles rápido. Empezá por el eje "'+CATS[peor].label+'".';
+  else if(tot<=60) msgTot='Base sólida con puntos flojos identificables. El eje "'+CATS[peor].label+'" es donde conviene poner el foco primero.';
+  else msgTot='Nivel alto en general. El trabajo acá es de refinamiento: usá el eje "'+CATS[peor].label+'" como punto de partida.';
+  h='<div class="out show"><span class="score">'+tot+'</span> / 80<br><br>'+msgTot+'<br><br><em>Repetí este autodiagnóstico dentro de 30 días y compará los cuatro puntajes, no solo el total.</em></div>'+h;
+  o.className=''; /* evita arrastrar la clase "out show" del render parcial y duplicar el recuadro */
+  o.innerHTML=h;
+  S('diagtotal',String(tot));
+}
+
+/* ---------- checklists ---------- */
+var CKS={
+ ck1:['El asunto dice qué se necesita y para cuándo (no "Consulta").',
+      'La primera línea contiene el pedido concreto.',
+      'Un solo tema. Si hay dos, son dos correos.',
+      'Toda sigla técnica está desarrollada en su primer uso.',
+      'Cada cifra tiene una referencia que le da sentido.',
+      'En "Para" están solo quienes deben actuar; en "CC", solo quienes deben saber.',
+      'Está claro quién hace qué y para cuándo.',
+      'Lo leí en voz alta y no me quedé sin aire en ninguna oración.',
+      'Si estoy molesto: lo dejé una hora en borradores y lo releí.'],
+ ck2:['Cámara a la altura de los ojos.',
+      'Encuadre de medio pecho: se ven las manos.',
+      'Luz de frente, ventana nunca detrás.',
+      'Micrófono decente: el audio pesa más que la imagen.',
+      'Miro a la cámara al decir la idea central.',
+      'Pausas más largas que en presencial (la latencia se come los turnos).',
+      'Notificaciones silenciadas y pantalla despejada.'],
+ ck3:['Cerré la notebook y di vuelta el teléfono.',
+      'Definí qué quiero entender, no qué quiero decir.',
+      'No voy a proponer soluciones en los primeros cinco minutos.',
+      'Voy a parafrasear al menos una vez antes de opinar.',
+      'Si es un 1:1: voy a hablar menos del 30 % del tiempo.',
+      'Voy a cerrar con un resumen en voz alta de lo acordado.'],
+ ck4:['Ensayé en voz alta, de pie y con cronómetro.',
+      'Tengo una versión de 5 minutos por si me recortan el tiempo.',
+      'Memoricé la primera y la última oración.',
+      'Llegué temprano, probé el equipo y me paré donde voy a exponer.',
+      'Hice dos minutos de respiración 4–6.',
+      'Me dije en voz alta "estoy entusiasmado" en lugar de intentar calmarme.',
+      'Tengo el archivo en dos soportes y una versión en PDF.']
+};
+function renderCks(){
+  Object.keys(CKS).forEach(function(id){
+    var el=document.getElementById(id); if(!el)return;
+    el.innerHTML=CKS[id].map(function(t,i){
+      var on=G('c_'+id+'_'+i)==='1';
+      return '<label class="chk'+(on?' done':'')+'"><input type="checkbox" data-ck="'+id+'" data-ci="'+i+'"'+(on?' checked':'')+'><span>'+t+'</span></label>';
+    }).join('');
+  });
+  document.querySelectorAll('[data-ck]').forEach(function(b){
+    b.onchange=function(){S('c_'+b.dataset.ck+'_'+b.dataset.ci,b.checked?'1':'0');renderCks()};
+  });
+}
+
+/* ---------- quizzes inline ---------- */
+var FB={
+ q1a:{ok:'Correcta. Sujeto explícito, hecho concreto, pedido con fecha. La primera es voz pasiva y nominalizaciones; la tercera es rápida pero deja al otro sin saber qué debe hacer.',
+      no:'La segunda es la mejor: dice quién detectó qué, y qué se pide, con fecha. La primera esconde al responsable detrás de la voz pasiva; la tercera ahorra palabras pero traslada el trabajo al lector.'},
+ q1b:{ok:'Correcta. Describe el hecho y el impacto sin juzgar a la persona, formula el pedido y abre con una pregunta genuina.',
+      no:'La tercera. Las otras son pasiva ("lo termino yo"), agresiva ("no te interesa") o pasivo-agresiva ("me arreglo"). La asertiva describe hecho + impacto + pedido, y pregunta.'},
+ q2a:{ok:'Correcta. Es una mala lectura de dos experimentos de Mehrabian de 1967 sobre actitudes contradictorias, en laboratorio. El propio autor aclaró que no es generalizable.',
+      no:'Es falso. Proviene de dos experimentos de Mehrabian (1967) sobre actitudes y sentimientos en condiciones de laboratorio, con canales contradictorios. Si fuera cierto, un informe escrito no comunicaría casi nada.'},
+ q2b:{ok:'Correcta. Un gesto aislado no tiene significado propio: solo importan los conjuntos de señales, contra la línea de base de esa persona y en contexto.',
+      no:'La tercera. No existe un diccionario de gestos: brazos cruzados puede ser cierre, frío o simple comodidad. Solo tienen valor los conjuntos de señales leídos en contexto.'},
+ q3a:{ok:'Correcta. Es clarificación: baja del juicio ("es imposible") al dato, sin discutir ni resolver antes de entender.',
+      no:'La tercera. Las otras descalifican, resuelven antes de entender el problema, o cierran la conversación. Clarificar primero es lo que hace aparecer la información que no esperabas.'},
+ q3b:{ok:'Correcta: es un resumen. Cierra el bloque, ordena los acuerdos y verifica que no falte nada.',
+      no:'Es un resumen. El parafraseo devuelve una idea con palabras propias; el resumen cierra bloques enteros y ordena acuerdos.'},
+ q4a:{ok:'Correcta. El título enuncia la conclusión: quien lo lee ya sabe qué mirar en el gráfico. Es el formato afirmación–evidencia.',
+      no:'La segunda. Los demás títulos nombran un tema o una variable, pero no dicen nada: obligan a la audiencia a deducir la conclusión mientras te escucha.'}
+};
+var EXKEYS=['q1a','q1b','q2a','q2b','q3a','q3b','q4a'];
+function initQuiz(){
+  document.querySelectorAll('.ex[data-q]').forEach(function(ex){
+    var key=ex.dataset.q, fb=ex.querySelector('.fb');
+    var opts=ex.querySelectorAll('.opt');
+    var guardado=G('ex_'+key);
+    if(guardado!==null){
+      ex.dataset.done='1';
+      var oi=+guardado, right=opts[oi]&&opts[oi].dataset.c==='1';
+      opts.forEach(function(o,i){
+        if(i===oi)o.classList.add(right?'right':'wrong');
+        if(!right&&o.dataset.c==='1')o.classList.add('reveal');
+      });
+      fb.className='fb show '+(right?'good':'bad');
+      fb.textContent=right?FB[key].ok:FB[key].no;
+    }
+    opts.forEach(function(o,i){
+      o.onclick=function(){
+        if(ex.dataset.done)return;
+        ex.dataset.done='1';
+        var right=o.dataset.c==='1';
+        o.classList.add(right?'right':'wrong');
+        if(!right) opts.forEach(function(x){if(x.dataset.c==='1')x.classList.add('reveal')});
+        fb.className='fb show '+(right?'good':'bad');
+        fb.textContent=right?FB[key].ok:FB[key].no;
+        S('ex_'+key,String(i));
+      };
+    });
+  });
+}
+function leerEjercicios(){
+  var out=[];
+  EXKEYS.forEach(function(key){
+    var ex=document.querySelector('.ex[data-q="'+key+'"]'); if(!ex)return;
+    var pTag=ex.querySelector('p');
+    var pregunta=pTag?pTag.textContent.trim():key;
+    var opts=ex.querySelectorAll('.opt');
+    var correctaIdx=-1;
+    opts.forEach(function(o,i){if(o.dataset.c==='1')correctaIdx=i});
+    var g=G('ex_'+key), elegidaIdx=g!==null?+g:-1;
+    var elegidaTxt=elegidaIdx>=0&&opts[elegidaIdx]?opts[elegidaIdx].textContent.trim():null;
+    var correctaTxt=correctaIdx>=0&&opts[correctaIdx]?opts[correctaIdx].textContent.trim():'';
+    out.push({pregunta:pregunta,elegida:elegidaTxt,correcta:correctaTxt,resultado:elegidaIdx<0?'sin responder':(elegidaIdx===correctaIdx?'Correcto':'Incorrecto')});
+  });
+  return out;
+}
+
+/* ---------- generadores ---------- */
+function construirSCQA(){
+  var s=v('scqa_s'),c=v('scqa_c'),q=v('scqa_q'),a=v('scqa_a');
+  if(!(s&&c&&q&&a))return null;
+  return 'PÁRRAFO DE APERTURA\n\n'+s+' '+c+' La pregunta es: '+q+'\n\n'+a+'\n\n— Usá este párrafo como primer bloque del informe, primer correo o primera diapositiva. El resto del documento es el desarrollo de la última línea.';
+}
+function armarSCQA(){
+  var o=document.getElementById('scqaOut'), txt=construirSCQA();
+  o.className='out show';
+  o.textContent=txt||'Completá los cuatro campos para ver el párrafo armado.';
+}
+function construirSBI(){
+  var s=v('sbi_s'),b=v('sbi_b'),i=v('sbi_i'),p=v('sbi_p');
+  if(!(s&&b&&i))return null;
+  var alerta=[];
+  var txt=(s+' '+b+' '+i).toLowerCase();
+  ['siempre','nunca','jamás','todo el tiempo'].forEach(function(w){if(txt.indexOf(w)>=0)alerta.push('Aparece "'+w+'": sustituilo por la situación puntual.')});
+  ['no te importa','no te interesa','sos un','sos una','desorganizad','irresponsab','no te calienta'].forEach(function(w){if(txt.indexOf(w)>=0)alerta.push('Hay un juicio sobre la persona ("'+w.trim()+'"): describí la conducta observable en su lugar.')});
+  return 'TU CONVERSACIÓN\n\n'+s+' '+b+'\n\nEl impacto fue que '+i+'\n\n'+(p?p+'\n\n':'')+'¿Qué estabas buscando en ese momento?\n\n'+
+   (alerta.length?'⚠ REVISAR ANTES DE DECIRLO\n· '+alerta.join('\n· '):'✓ Sin marcas de juicio ni generalizaciones detectadas. Leelo en voz alta una vez más antes de tenerla.');
+}
+function armarSBI(){
+  var o=document.getElementById('sbiOut'), txt=construirSBI();
+  o.className='out show';
+  o.textContent=txt||'Completá al menos situación, comportamiento e impacto.';
+}
+function construirGuion(){
+  var m=v('pr_msj');
+  if(!m)return null;
+  var L=[];
+  L.push('GUION DE 10 MINUTOS');
+  L.push('');
+  L.push('OBJETIVO (conducta esperada): '+(v('pr_obj')||'—'));
+  L.push('AUDIENCIA: '+(v('pr_aud')||'—'));
+  L.push('OBJECIÓN A ANTICIPAR: '+(v('pr_obj2')||'—'));
+  L.push('');
+  L.push('— 0:00–1:00  APERTURA');
+  L.push('   '+(v('pr_ap')||'[dato contundente, pregunta o costo del problema]'));
+  L.push('');
+  L.push('— 1:00–2:00  ENCUADRE');
+  L.push('   "'+m+'"');
+  L.push('   "Lo voy a sostener en tres puntos: 1) '+(v('pr_b1')||'…')+'; 2) '+(v('pr_b2')||'…')+'; 3) '+(v('pr_b3')||'…')+'."');
+  L.push('');
+  L.push('— 2:00–4:00  BLOQUE 1 · '+(v('pr_b1')||'—'));
+  L.push('   Afirmación + evidencia visual. Una diapositiva.');
+  L.push('');
+  L.push('— 4:00–6:00  BLOQUE 2 · '+(v('pr_b2')||'—'));
+  L.push('   Acá conviene reconocer la objeción: "'+(v('pr_obj2')||'…')+'", y responderla.');
+  L.push('');
+  L.push('— 6:00–8:00  BLOQUE 3 · '+(v('pr_b3')||'—'));
+  L.push('');
+  L.push('— 8:00–9:00  CIERRE');
+  L.push('   Repetir textual: "'+m+'"');
+  L.push('   Pedido: '+(v('pr_cierre')||'[qué, quién, cuándo]'));
+  L.push('');
+  L.push('— 9:00–10:00  MARGEN');
+  L.push('');
+  L.push('RECORDATORIOS');
+  L.push('· 120–150 palabras por minuto: 10 min ≈ 1.300 palabras.');
+  L.push('· Memorizar la primera y la última oración.');
+  L.push('· Última diapositiva: el mensaje central y el pedido. No "Gracias".');
+  L.push('· Preparar una versión de 5 minutos por si recortan el tiempo.');
+  return L.join('\n');
+}
+function armarGuion(){
+  var o=document.getElementById('guionOut'), txt=construirGuion();
+  o.className='out show';
+  o.textContent=txt||'Al menos escribí el mensaje central: es la columna vertebral del guion.';
+}
+function v(k){var e=document.querySelector('[data-save="'+k+'"]');return e?e.value.trim():''}
+
+/* ---------- evaluación final ---------- */
+var QF=[
+ {q:'El orden BLUF en un correo profesional significa…',o:['Empezar por los antecedentes y cerrar con la conclusión.','Poner la conclusión y el pedido en la primera línea.','Escribir lo más corto posible.'],c:1},
+ {q:'En el esquema SCQA, la "Q" es…',o:['Una pregunta retórica para captar atención.','La pregunta que naturalmente surge en la cabeza del receptor tras la complicación.','El cuestionario final.'],c:1},
+ {q:'La fórmula 7-38-55 de Mehrabian…',o:['Demuestra que el 93 % de la comunicación es no verbal.','Surge de experimentos acotados sobre actitudes contradictorias y no es generalizable.','Solo se aplica a la comunicación escrita.'],c:1},
+ {q:'La conclusión defendible sobre lo no verbal es que…',o:['Los gestos tienen significados fijos que conviene memorizar.','Cuando lo verbal y lo no verbal se contradicen, el receptor le cree al no verbal.','El cuerpo permite detectar mentiras con entrenamiento.'],c:1},
+ {q:'En el modelo SBI, la "B" exige…',o:['Describir una conducta observable, filmable.','Explicar por qué la persona actuó así.','Calificar el desempeño general.'],c:0},
+ {q:'La escucha activa se distingue del silencio atento porque…',o:['Requiere tomar notas.','Devuelve al otro evidencia verificable de que fue comprendido.','Implica hacer muchas preguntas.'],c:1},
+ {q:'"Si te entiendo bien, lo que decís es que…" es un ejemplo de…',o:['Reflejo.','Parafraseo.','Resumen.'],c:1},
+ {q:'Un buen título de diapositiva, según el enfoque afirmación–evidencia…',o:['Nombra el tema o la variable.','Enuncia la conclusión en una oración completa.','Es lo más corto posible.'],c:1},
+ {q:'Ante una pregunta cuya respuesta no sabés, lo correcto es…',o:['Dar una estimación aproximada para no perder autoridad.','Decir que no lo tenés, comprometerte a averiguarlo con fecha y anotarlo.','Derivarla a otro tema.'],c:1},
+ {q:'Frente a la ansiedad previa a exponer, la evidencia respalda…',o:['Intentar calmarse con respiraciones y autoinstrucciones de calma.','Reinterpretar la activación como entusiasmo.','Evitar exponer hasta sentirse seguro.'],c:1}
+];
+function renderQuiz(){
+  document.getElementById('quiz').innerHTML=QF.map(function(x,i){
+    return '<div class="card" data-qi="'+i+'"><p style="margin:0 0 8px"><strong>'+(i+1)+'.</strong> '+x.q+'</p><div class="pillrow">'+
+      x.o.map(function(o,j){return '<button class="pill" data-qq="'+i+'" data-oo="'+j+'">'+o+'</button>'}).join('')+'</div></div>';
+  }).join('');
+  document.querySelectorAll('[data-qq]').forEach(function(b){
+    var sel=G('q_'+b.dataset.qq)===b.dataset.oo;
+    if(sel)b.classList.add('sel');
+    b.onclick=function(){
+      S('q_'+b.dataset.qq,b.dataset.oo);
+      document.querySelectorAll('[data-qq="'+b.dataset.qq+'"]').forEach(function(x){x.classList.remove('sel')});
+      b.classList.add('sel');
+    };
+  });
+}
+function corregir(){
+  var ok=0,fall=[];
+  QF.forEach(function(x,i){
+    var r=G('q_'+i);
+    if(r!==null&&+r===x.c) ok++;
+    else fall.push((i+1)+'. '+x.q+'\n   → '+x.o[x.c]);
+  });
+  var o=document.getElementById('quizOut');
+  o.className='out show';
+  var msg = ok>=9?'Dominio del contenido. El trabajo ahora es de transferencia: pasá al plan de 30 días.'
+          : ok>=7?'Bien. Repasá los puntos fallados antes de cerrar.'
+          : 'Conviene volver sobre los módulos de las preguntas falladas antes de continuar.';
+  o.textContent='PUNTAJE: '+ok+' / '+QF.length+'\n\n'+msg+(fall.length?'\n\nPARA REPASAR:\n'+fall.join('\n'):'');
+  S('quizscore',String(ok));
+}
+
+/* ---------- exportar ---------- */
+var CKLABELS={ck1:'Antes de enviar un correo importante',ck2:'Videollamada',ck3:'Antes de una conversación importante',ck4:'El día de la presentación'};
+function campoSiHay(out,label,key){
+  var val=G('f_'+key);
+  if(val&&val.trim())out.push({tipo:'campo',t:label,v:val.trim()});
+}
+function seccion(out,titulo,fn){
+  out.push({tipo:'sub',t:titulo});
+  var antes=out.length;
+  fn();
+  if(out.length===antes)out.push({tipo:'campo',t:titulo,v:'Todavía no completado.'});
+}
+function datosExport(){
+  var out=[];
+
+  /* --- situación de trabajo --- */
+  seccion(out,'Mi situación de trabajo',function(){
+    campoSiHay(out,'Mi caso de trabajo','caso');
+    campoSiHay(out,'Objetivo','objetivo');
+  });
+
+  /* --- autodiagnóstico completo --- */
+  out.push({tipo:'sub',t:'Autodiagnóstico inicial'});
+  var dt=G('diagtotal');
+  if(dt){
+    out.push({tipo:'campo',t:'Puntaje total',v:dt+' / 80'});
+    CATORDER.forEach(function(c){
+      var cat=CATS[c], sub=G('diagcat_'+c);
+      out.push({tipo:'sub2',t:cat.label+(sub?' — '+sub+' / 20':'')});
+      DIAG.forEach(function(item,i){
+        if(item.cat!==c)return;
+        var val=G('d_'+i);
+        out.push({tipo:'bullet',t:item.q+' → '+(val?val+' / 5':'sin responder')});
+      });
+      if(sub){
+        var niv=nivelDe(+sub), tagTxt=niv==='bad'?'Prioritario':(niv==='warn'?'A reforzar':'Fortaleza');
+        var nItems=niv==='bad'?4:(niv==='warn'?2:1);
+        out.push({tipo:'bullet',t:'Nivel: '+tagTxt});
+        cat.items.slice(0,nItems).forEach(function(it){out.push({tipo:'bullet',t:'Para desarrollar: '+it})});
+      }
+    });
+  }else{
+    out.push({tipo:'campo',t:'Autodiagnóstico',v:'Todavía no completado.'});
+  }
+
+  /* --- herramienta: apertura SCQA --- */
+  seccion(out,'Herramienta: apertura SCQA (Situación, Complicación, Pregunta, Respuesta)',function(){
+    campoSiHay(out,'S — Situación','scqa_s');
+    campoSiHay(out,'C — Complicación','scqa_c');
+    campoSiHay(out,'Q — Pregunta','scqa_q');
+    campoSiHay(out,'A — Respuesta','scqa_a');
+    var scqaTxt=construirSCQA();
+    if(scqaTxt)out.push({tipo:'campo',t:'Párrafo de apertura armado',v:scqaTxt});
+  });
+
+  /* --- herramienta: feedback SBI --- */
+  seccion(out,'Herramienta: feedback SBI (Situación, Comportamiento, Impacto)',function(){
+    campoSiHay(out,'Situación','sbi_s');
+    campoSiHay(out,'Comportamiento','sbi_b');
+    campoSiHay(out,'Impacto','sbi_i');
+    campoSiHay(out,'Pedido','sbi_p');
+    var sbiTxt=construirSBI();
+    if(sbiTxt)out.push({tipo:'campo',t:'Conversación armada',v:sbiTxt});
+  });
+
+  /* --- herramienta: guion de presentación --- */
+  seccion(out,'Herramienta: guion de presentación (10 minutos)',function(){
+    campoSiHay(out,'Objetivo','pr_obj');
+    campoSiHay(out,'Audiencia','pr_aud');
+    campoSiHay(out,'Objeción esperada','pr_obj2');
+    campoSiHay(out,'Mensaje central','pr_msj');
+    campoSiHay(out,'Bloque 1','pr_b1');
+    campoSiHay(out,'Bloque 2','pr_b2');
+    campoSiHay(out,'Bloque 3','pr_b3');
+    campoSiHay(out,'Apertura','pr_ap');
+    campoSiHay(out,'Cierre y pedido','pr_cierre');
+    var guionTxt=construirGuion();
+    if(guionTxt)out.push({tipo:'campo',t:'Guion armado',v:guionTxt});
+    campoSiHay(out,'Pregunta anticipada 1','pq1');
+    campoSiHay(out,'Pregunta anticipada 2','pq2');
+    campoSiHay(out,'Pregunta anticipada 3','pq3');
+  });
+
+  /* --- ejercicios de práctica (opción múltiple intercalados) --- */
+  out.push({tipo:'sub',t:'Ejercicios de práctica'});
+  var ejercicios=leerEjercicios(), huboEjercicios=false;
+  ejercicios.forEach(function(e,i){
+    if(e.resultado==='sin responder')return;
+    huboEjercicios=true;
+    out.push({tipo:'sub2',t:(i+1)+'. '+e.pregunta});
+    out.push({tipo:'bullet',t:'Tu respuesta: '+e.elegida});
+    if(e.resultado==='Incorrecto')out.push({tipo:'bullet',t:'Respuesta correcta: '+e.correcta});
+    out.push({tipo:'bullet',t:'Resultado: '+e.resultado});
+  });
+  if(!huboEjercicios)out.push({tipo:'campo',t:'Ejercicios de práctica',v:'Todavía no resueltos.'});
+
+  /* --- checklists --- */
+  out.push({tipo:'sub',t:'Checklists'});
+  Object.keys(CKS).forEach(function(id){
+    out.push({tipo:'sub2',t:CKLABELS[id]||id});
+    CKS[id].forEach(function(t,i){
+      var on=G('c_'+id+'_'+i)==='1';
+      out.push({tipo:'bullet',t:(on?'[x] ':'[ ] ')+t});
+    });
+  });
+
+  /* --- video y escucha --- */
+  seccion(out,'Video de 2 minutos (autoevaluación)',function(){
+    campoSiHay(out,'Sin audio','video1');
+    campoSiHay(out,'Solo audio','video2');
+    campoSiHay(out,'Completo','video3');
+    campoSiHay(out,'Ajustes','video4');
+  });
+  seccion(out,'Registro de escucha',function(){
+    campoSiHay(out,'Tiempo e interrupciones','esc1');
+    campoSiHay(out,'Parafraseo','esc2');
+    campoSiHay(out,'Info inesperada','esc3');
+    campoSiHay(out,'Qué haría distinto','esc4');
+  });
+
+  /* --- evaluación final --- */
+  out.push({tipo:'sub',t:'Evaluación final'});
+  var qs=G('quizscore');
+  if(qs){
+    out.push({tipo:'campo',t:'Puntaje total',v:qs+' / '+QF.length});
+    QF.forEach(function(x,i){
+      var r=G('q_'+i), respondida=r!==null;
+      var correcta=respondida&&+r===x.c;
+      out.push({tipo:'sub2',t:(i+1)+'. '+x.q});
+      out.push({tipo:'bullet',t:'Tu respuesta: '+(respondida?x.o[+r]:'sin responder')});
+      if(!correcta)out.push({tipo:'bullet',t:'Respuesta correcta: '+x.o[x.c]});
+      out.push({tipo:'bullet',t:'Resultado: '+(respondida?(correcta?'Correcto':'Incorrecto'):'sin responder')});
+    });
+  }else{
+    out.push({tipo:'campo',t:'Evaluación final',v:'Todavía no realizada.'});
+  }
+
+  /* --- plan de 30 días y progreso --- */
+  seccion(out,'Plan de 30 días',function(){
+    campoSiHay(out,'Verbal / escrita','plan1');
+    campoSiHay(out,'No verbal','plan2');
+    campoSiHay(out,'Escucha activa','plan3');
+    campoSiHay(out,'Presentaciones','plan4');
+    campoSiHay(out,'Par de seguimiento','plan5');
+  });
+
+  out.push({tipo:'sub',t:'Progreso'});
+  var done=MODS.filter(function(m){return G('done_'+m.id)==='1'});
+  out.push({tipo:'campo',t:'Módulos completados',v:done.length+' / '+MODS.length});
+  return out;
+}
+function exportarTXT(datos){
+  var L=['COMUNICACIÓN EFECTIVA — CPIC','Registro personal · '+new Date().toLocaleDateString('es-AR'),'='.repeat(60)];
+  datos.forEach(function(d){
+    if(d.tipo==='sub'){L.push('');L.push('— '+d.t+' —')}
+    else if(d.tipo==='sub2'){L.push('  '+d.t)}
+    else if(d.tipo==='bullet'){L.push('    · '+d.t)}
+    else{L.push(d.t+': '+d.v)}
+  });
+  var blob=new Blob([L.join('\n')],{type:'text/plain;charset=utf-8'});
+  var a=document.createElement('a');
+  a.href=URL.createObjectURL(blob);
+  a.download='Comunicacion_Efectiva_mis_respuestas.txt';
+  document.body.appendChild(a);a.click();document.body.removeChild(a);
+}
+function getLogoDataURL(){
+  try{
+    var el=document.querySelector('.cpiclogo');
+    if(!el)return null;
+    var bg=getComputedStyle(el).backgroundImage; // url("data:image/png;base64,....")
+    var m=/url\((["']?)(data:image\/[a-zA-Z+]+;base64,[^"')]+)\1\)/.exec(bg);
+    return m?m[2]:null;
+  }catch(e){return null}
+}
+function exportar(){
+  var datos=datosExport();
+  if(typeof jspdf==='undefined'||!jspdf.jsPDF){
+    /* sin conexión para cargar la librería de PDF: se descarga en texto para no perder la información */
+    exportarTXT(datos);
+    alert('No se pudo cargar el generador de PDF (revisá tu conexión a internet). Se descargó un archivo de texto con tus respuestas en su lugar.');
+    return;
+  }
+  var doc=new jspdf.jsPDF({unit:'pt',format:'a4'});
+  var pageW=doc.internal.pageSize.getWidth(), pageH=doc.internal.pageSize.getHeight();
+  var margin=48, maxW=pageW-margin*2, lh=15, y=margin;
+  function ensure(extra){ if(y+extra>pageH-margin){doc.addPage();y=margin} }
+  function pdfSafe(t){ return String(t).replace(/⚠/g,'[!]').replace(/✓/g,'[OK]'); } /* símbolos fuera de WinAnsi, no soportados por la fuente estándar del PDF */
+  function linea(txt,opts){
+    opts=opts||{};
+    doc.setFont('helvetica',opts.bold?'bold':'normal');
+    doc.setFontSize(opts.size||10.5);
+    if(opts.color)doc.setTextColor(opts.color[0],opts.color[1],opts.color[2]); else doc.setTextColor(30,36,48);
+    var w=(opts.maxW||maxW)-(opts.indent||0);
+    pdfSafe(txt).split('\n').forEach(function(par){
+      if(par===''){ y+=lh*0.5; return; }
+      doc.splitTextToSize(par,w).forEach(function(ln){
+        ensure(lh);
+        doc.text(ln,margin+(opts.indent||0),y);
+        y+=lh;
+      });
+    });
+  }
+  /* --- encabezado con logo --- */
+  var logo=getLogoDataURL(), logoW=0, logoH=0, headerBottom=y;
+  if(logo){
+    try{
+      logoW=108; logoH=logoW*250/560; // proporción real del logo (560×250)
+      doc.addImage(logo,'PNG',pageW-margin-logoW,margin-8,logoW,logoH);
+      headerBottom=margin-8+logoH;
+    }catch(e){logoW=0}
+  }
+  var tituloMaxW=maxW-(logoW?logoW+16:0);
+  linea('Comunicación Efectiva — CPIC',{bold:true,size:17,color:[31,56,100],maxW:tituloMaxW});
+  y+=2;
+  linea('Registro personal · '+new Date().toLocaleDateString('es-AR'),{color:[95,107,124],maxW:tituloMaxW});
+  y=Math.max(y+10,headerBottom+10);
+  doc.setDrawColor(219,227,238); doc.line(margin,y,pageW-margin,y); y+=16;
+  datos.forEach(function(d){
+    if(d.tipo==='sub'){
+      y+=8; ensure(22);
+      linea(d.t,{bold:true,size:12.5,color:[31,56,100]});
+      y+=2;
+    }else if(d.tipo==='sub2'){
+      y+=3; ensure(16);
+      linea(d.t,{bold:true,size:10.5,color:[47,74,110],indent:4});
+    }else if(d.tipo==='bullet'){
+      linea('•  '+d.t,{indent:14});
+    }else{
+      linea(d.t+':',{bold:true});
+      linea(d.v);
+      y+=3;
+    }
+  });
+  doc.save('Comunicacion_Efectiva_mis_respuestas.pdf');
+}
+function reiniciar(){
+  if(!confirm('Se van a borrar todas tus respuestas y tu progreso. ¿Continuar?'))return;
+  MEM={};
+  if(LS){try{Object.keys(LS).filter(function(k){return k.indexOf(PFX)===0}).forEach(function(k){LS.removeItem(k)})}catch(e){}}
+  location.reload();
+}
+
+/* ---------- init ---------- */
+if(LS){try{Object.keys(LS).filter(function(k){return k.indexOf('ce_')===0 && k.indexOf(PFX)!==0}).forEach(function(k){LS.removeItem(k)})}catch(e){}} /* limpia datos de una versión anterior del cuestionario */
+renderNav(); initCampos(); renderDiag(); renderCks(); initQuiz(); renderQuiz();
+var c=G('cur'); if(c!==null) go(+c);
+</script>
+</body>
+</html>
