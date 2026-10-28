@@ -1,0 +1,2588 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Guía interactiva de habilidades de colaboración para talleres presenciales e híbridos.">
+<title>Habilidades de Colaboración: Guía Interactiva</title>
+<style>
+/* =========================================================================
+   1. TOKENS DE DISEÑO
+   Paleta institucional: azules profundos, grises neutros y acento cálido.
+   Modificá estas variables para adaptar la app a otra identidad visual.
+   ========================================================================= */
+:root{
+  --azul-900:#0f2942;
+  --azul-800:#16395c;
+  --azul-700:#1d4d7c;
+  --azul-500:#2f7bb8;
+  --azul-100:#e3eef7;
+  --azul-050:#f3f8fc;
+  --gris-900:#1f2933;
+  --gris-700:#3e4c59;
+  --gris-500:#6b7885;
+  --gris-300:#cbd2d9;
+  --gris-100:#eef1f4;
+  --blanco:#ffffff;
+  --acento:#c96a1f;      /* ámbar corporativo: sólo para rellenos y bordes */
+  --acento-fuerte:#a9561a; /* variante para texto y botones: 5,2:1 sobre blanco (AA) */
+  --acento-oscuro:#8f4a14; /* estado hover de los botones de acento */
+  --acento-claro:#fdf1e4;
+  --verde:#1d6f52;
+  --verde-claro:#e6f4ee;
+  --radio:12px;
+  --sombra:0 2px 4px rgba(15,41,66,.06), 0 8px 24px rgba(15,41,66,.08);
+  --sombra-alta:0 12px 40px rgba(15,41,66,.18);
+  --transicion:.25s cubic-bezier(.4,0,.2,1);
+  --ancho:1120px;
+}
+
+/* =========================================================================
+   2. BASE Y TIPOGRAFÍA
+   ========================================================================= */
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;
+  font-family:"Segoe UI",system-ui,-apple-system,"Helvetica Neue",Arial,sans-serif;
+  font-size:17px;
+  line-height:1.65;
+  color:var(--gris-900);
+  background:var(--azul-050);
+  -webkit-font-smoothing:antialiased;
+}
+h1,h2,h3,h4{line-height:1.25;margin:0 0 .5em;color:var(--azul-900);font-weight:650}
+h1{font-size:clamp(1.7rem,3.4vw,2.5rem)}
+h2{font-size:clamp(1.35rem,2.4vw,1.85rem)}
+h3{font-size:1.2rem}
+p{margin:0 0 1em}
+a{color:var(--azul-700)}
+:focus-visible{outline:3px solid var(--acento);outline-offset:3px;border-radius:4px}
+.contenedor{width:min(100% - 2.5rem,var(--ancho));margin-inline:auto}
+.oculto{display:none !important}
+/* Texto sólo para lectores de pantalla */
+.sr-only{
+  position:absolute;width:1px;height:1px;padding:0;margin:-1px;
+  overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0;
+}
+.saltar{
+  position:absolute;left:-999px;top:0;z-index:100;background:var(--acento);
+  color:#fff;padding:.75rem 1.25rem;border-radius:0 0 var(--radio) 0;
+}
+.saltar:focus{left:0}
+
+/* =========================================================================
+   3. IDENTIDAD INSTITUCIONAL (LOGO CPIC)
+   El logo se embebe como imagen de fondo en base64 para que el archivo
+   funcione sin conexión y sin archivos adjuntos. Para reemplazarlo, cambiá
+   únicamente el contenido de --logo-cpic por otra imagen en base64.
+   ========================================================================= */
+:root{ --logo-cpic:url("data:image/jpeg;base64,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"); }
+
+.logo-cpic{
+  display:block;
+  background-image:var(--logo-cpic);
+  background-repeat:no-repeat;
+  background-position:center;
+  background-size:contain;
+  /* Asegura que el logo también salga al imprimir o guardar como PDF */
+  -webkit-print-color-adjust:exact;
+  print-color-adjust:exact;
+}
+/* Placa blanca: el logo original tiene fondo blanco, por lo que sobre los
+   fondos azules se presenta dentro de una tarjeta clara. */
+.logo-placa{
+  background:var(--blanco);border-radius:10px;padding:.75rem 1rem;
+  box-shadow:0 2px 10px rgba(0,0,0,.18);display:inline-block;
+}
+.logo-cabecera{width:210px;height:94px}
+.logo-nav{width:118px;height:42px;flex:0 0 auto}
+.logo-pie{width:150px;height:66px}
+.nav-fila{display:flex;align-items:center;gap:1.25rem}
+.nav-fila ul{flex:1 1 auto;min-width:0}
+.pie-fila{display:flex;align-items:center;gap:1.5rem;flex-wrap:wrap;justify-content:space-between}
+.cabecera-fila{display:flex;align-items:center;gap:2rem;flex-wrap:wrap-reverse}
+.cabecera-texto{flex:1 1 340px;min-width:0}
+/* Marca de agua institucional en las tarjetas de sección impresas */
+@media (max-width:860px){
+  .logo-nav{display:none}
+  .logo-cabecera{width:170px;height:76px}
+}
+
+/* =========================================================================
+   4. ENCABEZADO Y NAVEGACIÓN
+   ========================================================================= */
+.cabecera{
+  background:linear-gradient(135deg,var(--azul-900) 0%,var(--azul-700) 100%);
+  color:var(--blanco);padding:2.5rem 0 2rem;
+}
+.cabecera h1{color:var(--blanco);margin-bottom:.35em}
+.cabecera .bajada{color:#cfe2f2;max-width:62ch;margin:0;font-size:1.05rem}
+.marca{
+  display:inline-flex;align-items:center;gap:.6rem;font-size:.78rem;
+  letter-spacing:.12em;text-transform:uppercase;color:#9dc4e2;margin-bottom:.9rem;
+}
+.marca::before{content:"";width:34px;height:3px;background:var(--acento);border-radius:2px}
+
+.nav-principal{
+  position:sticky;top:0;z-index:40;background:var(--blanco);
+  border-bottom:1px solid var(--gris-300);box-shadow:0 1px 6px rgba(15,41,66,.05);
+}
+.nav-principal ul{
+  display:flex;gap:.25rem;list-style:none;margin:0;padding:0;
+  overflow-x:auto;scrollbar-width:thin;
+}
+.nav-principal button{
+  border:0;background:none;font:inherit;font-size:.95rem;color:var(--gris-700);
+  padding:1rem .95rem;cursor:pointer;white-space:nowrap;
+  border-bottom:3px solid transparent;transition:var(--transicion);
+}
+.nav-principal button:hover{color:var(--azul-700);background:var(--azul-050)}
+.nav-principal button[aria-selected="true"]{
+  color:var(--azul-800);font-weight:650;border-bottom-color:var(--acento);
+}
+
+/* Botón de descarga, fijo en la barra de menú.
+   Se escribe anidado para ganarle en especificidad a «.nav-principal button». */
+.nav-principal .btn-descargas{
+  flex:0 0 auto;display:inline-flex;align-items:center;gap:.45rem;font:inherit;
+  font-size:.88rem;font-weight:650;color:var(--blanco);background:var(--acento-fuerte);
+  border:0;border-bottom:0;border-radius:8px;padding:.52rem .95rem;cursor:pointer;
+  transition:var(--transicion);white-space:nowrap;
+}
+.nav-principal .btn-descargas:hover{background:var(--acento-oscuro);color:var(--blanco)}
+.nav-principal .btn-descargas svg{width:15px;height:15px;flex:0 0 auto}
+@media (max-width:520px){ .btn-descargas .btn-descargas-texto{display:none} }
+
+/* Centro de descargas (dentro del modal) */
+.descarga-intro{font-size:.92rem;color:var(--gris-700)}
+.descarga-titulo{
+  font-size:.75rem;letter-spacing:.1em;text-transform:uppercase;color:var(--azul-700);
+  margin:1.4rem 0 .6rem;padding-bottom:.35rem;border-bottom:1px solid var(--gris-300);
+}
+.descarga-fila{
+  display:flex;align-items:center;gap:1rem;justify-content:space-between;
+  padding:.8rem .95rem;border:1px solid var(--gris-300);border-radius:8px;margin-bottom:.55rem;
+}
+.descarga-fila h4{margin:0 0 .15em;font-size:.98rem}
+.descarga-fila p{margin:0;font-size:.85rem;color:var(--gris-700)}
+.descarga-fila .btn{padding:.45rem .9rem;font-size:.85rem;flex:0 0 auto}
+.descarga-fila--inactiva{background:var(--gris-100);border-style:dashed}
+.descarga-fila--inactiva h4{color:var(--gris-500)}
+
+/* -------------------------------------------------------------------------
+   Barra de menú lateral (pantallas anchas).
+   Por debajo de 900px vuelve a ser una barra superior con desplazamiento
+   horizontal, que es lo que mejor funciona en celulares y tabletas.
+   ------------------------------------------------------------------------- */
+.nav-rotulo{display:none}
+
+@media screen and (min-width:900px){
+  :root{--ancho-menu:238px}
+  body{padding-left:var(--ancho-menu)}
+
+  .nav-principal{
+    position:fixed;top:0;left:0;bottom:0;width:var(--ancho-menu);
+    border-bottom:0;border-right:1px solid var(--gris-300);
+    box-shadow:2px 0 12px rgba(15,41,66,.06);
+    overflow-y:auto;overscroll-behavior:contain;
+  }
+  .nav-principal .contenedor{
+    width:100%;margin:0;padding:1.5rem 1rem;
+    display:flex;flex-direction:column;min-height:100%;
+  }
+  .nav-fila{flex:1 1 auto;flex-direction:column;align-items:stretch;gap:1.1rem}
+
+  .logo-nav{display:block;width:154px;height:68px;margin:0 auto}
+  /* El botón queda anclado al pie de la columna, con un filete de separación */
+  .nav-principal .btn-descargas{
+    position:relative;width:100%;justify-content:center;margin-top:auto;
+  }
+  .nav-principal .btn-descargas::before{
+    content:"";position:absolute;left:0;right:0;top:-.95rem;height:1px;background:var(--gris-300);
+  }
+  .nav-principal .btn-descargas-texto{display:inline}
+
+  .nav-rotulo{
+    display:block;margin:.4rem 0 -.4rem;padding-top:1.1rem;
+    border-top:1px solid var(--gris-300);
+    font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;
+    color:var(--gris-500);font-weight:700;
+  }
+  .nav-principal ul{flex-direction:column;gap:.15rem;overflow:visible}
+  .nav-principal li{width:100%}
+  .nav-principal button[role="tab"]{
+    width:100%;text-align:left;padding:.6rem .8rem;border-radius:8px;
+    border-bottom:0;border-left:3px solid transparent;
+  }
+  .nav-principal button[role="tab"][aria-selected="true"]{
+    background:var(--azul-050);border-left-color:var(--acento);
+  }
+  /* El logo vive en el menú: no hace falta repetirlo en la portada */
+  .cabecera .logo-placa{display:none}
+  .cabecera-texto{flex:1 1 100%}
+  .cabecera .bajada{max-width:70ch}
+}
+
+/* =========================================================================
+   4. SECCIONES Y TARJETAS
+   ========================================================================= */
+main{padding:2.5rem 0 4rem}
+.seccion{animation:aparecer .4s ease both}
+@keyframes aparecer{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){
+  *{animation:none !important;transition:none !important}
+  html{scroll-behavior:auto}
+}
+.intro-seccion{max-width:70ch;margin-bottom:2rem;color:var(--gris-700)}
+
+.tarjeta{
+  background:var(--blanco);border:1px solid var(--gris-300);border-radius:var(--radio);
+  box-shadow:var(--sombra);padding:1.75rem;margin-bottom:1.25rem;
+}
+.rejilla{display:grid;gap:1.25rem;grid-template-columns:repeat(auto-fit,minmax(280px,1fr))}
+
+/* Tarjetas de módulo (portada de la sección Módulos) */
+.modulo-tarjeta{
+  text-align:left;width:100%;font:inherit;cursor:pointer;
+  background:var(--blanco);border:1px solid var(--gris-300);border-left:5px solid var(--azul-500);
+  border-radius:var(--radio);padding:1.5rem;box-shadow:var(--sombra);
+  transition:transform var(--transicion),box-shadow var(--transicion),border-color var(--transicion);
+}
+.modulo-tarjeta:hover{transform:translateY(-4px);box-shadow:var(--sombra-alta);border-left-color:var(--acento)}
+.modulo-tarjeta h3{margin-bottom:.35em}
+.modulo-tarjeta p{margin:0;color:var(--gris-700);font-size:.95rem}
+.numero{
+  display:inline-grid;place-items:center;width:34px;height:34px;border-radius:50%;
+  background:var(--azul-100);color:var(--azul-800);font-weight:700;font-size:.95rem;margin-bottom:.75rem;
+}
+
+/* Detalle de módulo */
+.bloque{border-radius:var(--radio);padding:1.25rem 1.4rem;margin-bottom:1.1rem}
+.bloque h4{
+  font-size:.78rem;letter-spacing:.1em;text-transform:uppercase;
+  margin-bottom:.5rem;color:var(--azul-700);
+}
+.bloque p:last-child{margin-bottom:0}
+.bloque--definicion{background:var(--azul-050);border-left:4px solid var(--azul-500)}
+.bloque--ejemplo{background:var(--gris-100);border-left:4px solid var(--gris-500)}
+.bloque--ejemplo h4{color:var(--gris-700)}
+.bloque--reflexion{background:var(--acento-claro);border-left:4px solid var(--acento)}
+.bloque--reflexion h4{color:var(--acento-fuerte)}
+.bloque--practica{background:var(--verde-claro);border-left:4px solid var(--verde)}
+.bloque--practica h4{color:var(--verde)}
+.bloque--practica ul{margin:0;padding-left:1.2rem}
+.bloque--practica li{margin-bottom:.35rem}
+
+.notas{
+  width:100%;min-height:110px;font:inherit;padding:.85rem;border-radius:8px;
+  border:1px solid var(--gris-300);resize:vertical;background:var(--blanco);
+}
+.pie-modulo{display:flex;flex-wrap:wrap;gap:.75rem;justify-content:space-between;margin-top:1.5rem}
+
+/* =========================================================================
+   5. BOTONES
+   ========================================================================= */
+.btn{
+  display:inline-flex;align-items:center;gap:.5rem;font:inherit;font-weight:600;
+  padding:.75rem 1.4rem;border-radius:8px;border:1px solid transparent;cursor:pointer;
+  transition:var(--transicion);text-decoration:none;
+}
+.btn--primario{background:var(--azul-700);color:var(--blanco)}
+.btn--primario:hover{background:var(--azul-800);transform:translateY(-1px)}
+.btn--acento{background:var(--acento-fuerte);color:var(--blanco)}
+.btn--acento:hover{background:var(--acento-oscuro);transform:translateY(-1px)}
+.btn--secundario{background:var(--blanco);color:var(--azul-700);border-color:var(--azul-500)}
+.btn--secundario:hover{background:var(--azul-050)}
+.btn:disabled{opacity:.5;cursor:not-allowed;transform:none}
+
+/* =========================================================================
+   6. AUTOEVALUACIÓN
+   ========================================================================= */
+.progreso{
+  position:sticky;top:var(--alto-nav,61px);z-index:20;background:var(--azul-050);
+  padding:.75rem 0 1rem;margin-bottom:1rem;
+}
+.progreso-barra{height:8px;background:var(--gris-300);border-radius:99px;overflow:hidden}
+.progreso-relleno{height:100%;width:0;background:var(--acento);border-radius:99px;transition:width .35s ease}
+.progreso-texto{font-size:.85rem;color:var(--gris-700);margin:.4rem 0 0}
+
+.pregunta{border:1px solid var(--gris-300);border-radius:var(--radio);background:var(--blanco);
+  padding:1.35rem 1.5rem;margin-bottom:1rem;box-shadow:var(--sombra)}
+.pregunta legend{font-weight:600;color:var(--azul-900);padding:0;margin-bottom:.9rem}
+.pregunta fieldset{border:0;margin:0;padding:0}
+.pregunta.sin-responder{border-color:var(--acento);background:#fffaf4}
+.escala{display:grid;gap:.5rem;grid-template-columns:repeat(5,1fr)}
+@media (max-width:600px){.escala{grid-template-columns:1fr}}
+.opcion{position:relative}
+.opcion input{position:absolute;opacity:0;width:100%;height:100%;margin:0;cursor:pointer}
+.opcion span{
+  display:block;text-align:center;font-size:.88rem;line-height:1.35;padding:.7rem .4rem;
+  border:1.5px solid var(--gris-300);border-radius:8px;background:var(--blanco);
+  color:var(--gris-700);transition:var(--transicion);min-height:100%;
+}
+.opcion input:hover + span{border-color:var(--azul-500);background:var(--azul-050)}
+.opcion input:focus-visible + span{outline:3px solid var(--acento);outline-offset:2px}
+.opcion input:checked + span{
+  background:var(--azul-700);border-color:var(--azul-700);color:var(--blanco);font-weight:600;
+}
+@media (max-width:600px){.opcion span{text-align:left}}
+
+/* Resultados */
+.puntaje{
+  display:grid;place-items:center;width:150px;height:150px;border-radius:50%;
+  background:conic-gradient(var(--acento) var(--pct,0%),var(--gris-100) 0);margin:0 auto 1.25rem;
+}
+.puntaje-interior{
+  width:118px;height:118px;border-radius:50%;background:var(--blanco);
+  display:grid;place-items:center;text-align:center;line-height:1.15;
+}
+.puntaje-interior strong{font-size:2rem;color:var(--azul-800);display:block}
+.puntaje-interior small{font-size:.75rem;color:var(--gris-500);text-transform:uppercase;letter-spacing:.08em}
+.perfil{text-align:center;max-width:65ch;margin:0 auto 2rem}
+.perfil .etiqueta{
+  display:inline-block;background:var(--azul-100);color:var(--azul-800);font-weight:650;
+  padding:.35rem 1rem;border-radius:99px;font-size:.9rem;margin-bottom:.75rem;
+}
+.barra-fila{margin-bottom:1.1rem}
+.barra-cab{display:flex;justify-content:space-between;gap:1rem;font-size:.95rem;margin-bottom:.35rem}
+.barra-cab strong{color:var(--azul-800);font-weight:600}
+.barra-cab span{color:var(--gris-500);font-variant-numeric:tabular-nums;white-space:nowrap}
+.barra-pista{height:12px;background:var(--gris-100);border-radius:99px;overflow:hidden}
+.barra-valor{height:100%;width:0;border-radius:99px;background:var(--azul-500);transition:width .8s ease}
+.barra-valor.alto{background:var(--verde)}
+.barra-valor.medio{background:var(--azul-500)}
+.barra-valor.foco{background:var(--acento)}
+.recomendacion{
+  background:var(--azul-050);border-left:4px solid var(--azul-500);
+  border-radius:8px;padding:1rem 1.2rem;margin-bottom:.85rem;
+}
+.recomendacion h4{margin-bottom:.3em;font-size:1.02rem}
+.recomendacion p{margin:0;font-size:.95rem;color:var(--gris-700)}
+.aviso{
+  background:var(--acento-claro);border:1px solid #f0d3b0;color:#8a4a12;
+  border-radius:8px;padding:.85rem 1.1rem;margin-bottom:1rem;font-size:.95rem;
+}
+
+/* =========================================================================
+   6-BIS. MÓDULO 0 · DIAGNÓSTICO DE LA FORMA DE TRABAJO
+   ========================================================================= */
+.dx-encabezado{
+  background:var(--azul-800);color:#dbe9f5;border-radius:var(--radio);
+  padding:1.5rem 1.75rem;margin-bottom:1.75rem;box-shadow:var(--sombra);
+}
+.dx-encabezado h2{color:var(--blanco);margin-bottom:.4em}
+.dx-encabezado p{margin:0;max-width:70ch;font-size:.98rem}
+.dx-encabezado .dx-sello{
+  display:inline-block;background:var(--acento-fuerte);color:var(--blanco);font-weight:700;
+  font-size:.75rem;letter-spacing:.12em;text-transform:uppercase;
+  padding:.3rem .85rem;border-radius:99px;margin-bottom:.75rem;
+}
+.etiqueta-dim{
+  display:block;font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--gris-500);font-weight:700;margin-bottom:.35rem;
+}
+.opciones-lista{display:grid;gap:.5rem}
+.opcion-larga{position:relative}
+.opcion-larga input{position:absolute;opacity:0;width:100%;height:100%;margin:0;cursor:pointer}
+.opcion-larga span{
+  display:block;padding:.75rem 1rem;border:1.5px solid var(--gris-300);border-radius:8px;
+  background:var(--blanco);color:var(--gris-700);font-size:.95rem;line-height:1.45;
+  transition:var(--transicion);
+}
+.opcion-larga input:hover + span{border-color:var(--azul-500);background:var(--azul-050)}
+.opcion-larga input:focus-visible + span{outline:3px solid var(--acento);outline-offset:2px}
+.opcion-larga input:checked + span{
+  background:var(--azul-700);border-color:var(--azul-700);color:var(--blanco);font-weight:600;
+}
+/* Itinerario recomendado */
+.ruta{list-style:none;margin:0;padding:0}
+.ruta-item{
+  display:flex;gap:1rem;align-items:flex-start;background:var(--blanco);
+  border:1px solid var(--gris-300);border-left:5px solid var(--azul-500);
+  border-radius:var(--radio);padding:1.15rem 1.3rem;margin-bottom:.85rem;
+}
+.ruta-item.prioridad{border-left-color:var(--acento);background:var(--acento-claro)}
+.ruta-orden{
+  flex:0 0 auto;display:grid;place-items:center;width:34px;height:34px;border-radius:50%;
+  background:var(--azul-100);color:var(--azul-800);font-weight:700;font-size:.95rem;
+}
+.ruta-item.prioridad .ruta-orden{background:var(--acento-fuerte);color:var(--blanco)}
+.ruta-cuerpo{flex:1;min-width:0}
+.ruta-cuerpo h4{margin-bottom:.2em;font-size:1.05rem}
+.ruta-cuerpo p{margin:0;font-size:.95rem;color:var(--gris-700)}
+.ruta-cuerpo .btn{margin-top:.8rem;padding:.5rem 1rem;font-size:.9rem}
+.ruta-medida{
+  font-size:.8rem;color:var(--gris-500);font-variant-numeric:tabular-nums;
+  text-transform:uppercase;letter-spacing:.06em;
+}
+/* Items a desarrollar (checklist) */
+.items-lista{list-style:none;margin:0;padding:0}
+.item-chk{
+  display:flex;gap:.8rem;align-items:flex-start;padding:.75rem .95rem;
+  border:1px solid var(--gris-300);border-radius:8px;background:var(--blanco);
+  margin-bottom:.55rem;cursor:pointer;font-size:.95rem;line-height:1.5;
+  transition:var(--transicion);
+}
+.item-chk:hover{border-color:var(--azul-500);background:var(--azul-050)}
+.item-chk input{
+  margin-top:.28rem;width:1.05rem;height:1.05rem;accent-color:var(--verde);
+  flex:0 0 auto;cursor:pointer;
+}
+.item-chk input:checked ~ .item-texto{color:var(--gris-500)}
+.item-chk .item-mod{
+  display:block;font-size:.7rem;letter-spacing:.09em;text-transform:uppercase;
+  color:var(--gris-500);font-weight:700;margin-bottom:.15rem;
+}
+.item-chk:has(input:checked){background:var(--verde-claro);border-color:var(--verde)}
+.dx-tags{display:flex;flex-wrap:wrap;gap:.5rem;justify-content:center;margin-bottom:1.1rem}
+
+/* =========================================================================
+   7. GENERADOR DE DINÁMICAS
+   ========================================================================= */
+.filtros{display:flex;flex-wrap:wrap;gap:.5rem;align-items:center;margin-bottom:1.5rem}
+.filtros .filtro-etiqueta{font-size:.9rem;color:var(--gris-700);margin-right:.25rem;font-weight:600}
+.chip{
+  font:inherit;font-size:.88rem;padding:.45rem 1rem;border-radius:99px;cursor:pointer;
+  border:1.5px solid var(--gris-300);background:var(--blanco);color:var(--gris-700);transition:var(--transicion);
+}
+.chip[aria-pressed="true"]{background:var(--azul-700);border-color:var(--azul-700);color:var(--blanco);font-weight:600}
+.dinamica{
+  background:var(--blanco);border:1px solid var(--gris-300);border-top:5px solid var(--acento);
+  border-radius:var(--radio);padding:1.75rem;box-shadow:var(--sombra);animation:aparecer .35s ease both;
+}
+.dinamica-meta{display:flex;flex-wrap:wrap;gap:.5rem;margin-bottom:1rem}
+.tag{
+  font-size:.75rem;font-weight:650;letter-spacing:.04em;text-transform:uppercase;
+  padding:.3rem .75rem;border-radius:99px;background:var(--azul-100);color:var(--azul-800);
+}
+.tag--tiempo{background:var(--gris-100);color:var(--gris-700)}
+.tag--modo{background:var(--acento-claro);color:#8a4a12}
+.dinamica ol{margin:0;padding-left:1.3rem}
+.dinamica ol li{margin-bottom:.5rem}
+.placeholder{
+  text-align:center;color:var(--gris-500);border:2px dashed var(--gris-300);
+  border-radius:var(--radio);padding:2.5rem 1.5rem;background:var(--blanco);
+}
+
+/* =========================================================================
+   8. RECURSOS Y MODAL
+   ========================================================================= */
+.recurso{display:flex;flex-direction:column;height:100%}
+.recurso .icono{font-size:1.6rem;line-height:1;margin-bottom:.6rem}
+.recurso p{flex:1;font-size:.95rem;color:var(--gris-700)}
+dialog{
+  border:0;border-radius:var(--radio);padding:0;max-width:640px;width:min(92vw,640px);
+  box-shadow:var(--sombra-alta);color:var(--gris-900);
+}
+dialog::backdrop{background:rgba(15,41,66,.55)}
+.modal-cab{
+  background:var(--azul-800);color:var(--blanco);padding:1.25rem 1.5rem;
+  display:flex;justify-content:space-between;align-items:flex-start;gap:1rem;
+}
+.modal-cab h2{color:var(--blanco);margin:0;font-size:1.2rem}
+.modal-cerrar{
+  background:none;border:0;color:var(--blanco);font-size:1.6rem;line-height:1;
+  cursor:pointer;padding:0 .25rem;border-radius:4px;
+}
+.modal-cuerpo{padding:1.5rem;max-height:60vh;overflow:auto}
+.modal-cuerpo ul{padding-left:1.2rem}
+.modal-pie{padding:1rem 1.5rem;background:var(--gris-100);display:flex;gap:.75rem;justify-content:flex-end;flex-wrap:wrap}
+
+.pie-pagina{background:var(--azul-900);color:#a9c6de;padding:2rem 0;font-size:.9rem}
+.pie-pagina p{margin:0}
+
+/* =========================================================================
+   9. IMPRESIÓN (permite "Guardar como PDF" desde el navegador)
+   ========================================================================= */
+@media print{
+  .nav-principal,.progreso,.btn,.filtros,.saltar,.notas,
+  #dx-form,#eval-form,.aviso,.dx-encabezado,.btn-descargas{display:none !important}
+  body{background:#fff;font-size:12pt}
+  .seccion{display:block !important;page-break-before:always}
+  .tarjeta,.dinamica{box-shadow:none;border:1px solid #999}
+  .cabecera{background:#fff;color:#000;border-bottom:2px solid #000}
+  .cabecera h1,.cabecera .bajada{color:#000}
+  .logo-placa{box-shadow:none;padding:0}
+  /* El logo institucional encabeza cada página impresa */
+  .seccion::before{
+    content:"";display:block;width:130px;height:58px;margin-bottom:1rem;
+    background-image:var(--logo-cpic);background-repeat:no-repeat;
+    background-position:left center;background-size:contain;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;
+  }
+}
+</style>
+</head>
+<body>
+
+<a class="saltar" href="#contenido">Saltar al contenido principal</a>
+
+<!-- ====================== ENCABEZADO ====================== -->
+<header class="cabecera">
+  <div class="contenedor cabecera-fila">
+    <div class="cabecera-texto">
+      <p class="marca">Programa de desarrollo de equipos</p>
+      <h1>Habilidades de Colaboración: Guía Interactiva</h1>
+      <p class="bajada">Un recurso de acompañamiento para los talleres del equipo: un diagnóstico inicial de tu
+        forma de trabajo, cinco módulos de práctica, una autoevaluación con recomendaciones personalizadas y
+        dinámicas listas para usar en sala o en línea.</p>
+    </div>
+    <div class="logo-placa">
+      <span class="logo-cpic logo-cabecera" role="img"
+            aria-label="Consejo Profesional de Ingeniería Civil, Jurisdicción Nacional, Ciudad Autónoma de Buenos Aires"></span>
+    </div>
+  </div>
+</header>
+
+<!-- ====================== NAVEGACIÓN ====================== -->
+<nav class="nav-principal" aria-label="Secciones de la guía">
+  <div class="contenedor nav-fila">
+    <span class="logo-cpic logo-nav" role="img" aria-label="Consejo Profesional de Ingeniería Civil"></span>
+    <p class="nav-rotulo" aria-hidden="true">Secciones</p>
+    <ul role="tablist">
+      <li role="presentation"><button role="tab" id="tab-inicio"     aria-controls="inicio"     aria-selected="true"  data-seccion="inicio">Inicio</button></li>
+      <li role="presentation"><button role="tab" id="tab-diagnostico" aria-controls="diagnostico" aria-selected="false" data-seccion="diagnostico" aria-label="Módulo 0: diagnóstico de tu forma de trabajo">Módulo 0</button></li>
+      <li role="presentation"><button role="tab" id="tab-modulos"    aria-controls="modulos"    aria-selected="false" data-seccion="modulos">Módulos</button></li>
+      <li role="presentation"><button role="tab" id="tab-evaluacion" aria-controls="evaluacion" aria-selected="false" data-seccion="evaluacion">Autoevaluación</button></li>
+      <li role="presentation"><button role="tab" id="tab-dinamicas"  aria-controls="dinamicas"  aria-selected="false" data-seccion="dinamicas">Dinámicas</button></li>
+      <li role="presentation"><button role="tab" id="tab-recursos"   aria-controls="recursos"   aria-selected="false" data-seccion="recursos">Recursos</button></li>
+    </ul>
+    <button type="button" class="btn-descargas" id="btn-descargas"
+            aria-label="Descargar resultados y herramientas en PDF">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
+           stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M12 3v12"></path><path d="m7 11 5 5 5-5"></path><path d="M4 20h16"></path>
+      </svg>
+      <span class="btn-descargas-texto">Descargar PDF</span>
+    </button>
+  </div>
+</nav>
+
+<main id="contenido" class="contenedor">
+
+  <!-- ====================== INICIO ====================== -->
+  <section class="seccion" id="inicio" role="tabpanel" aria-labelledby="tab-inicio" tabindex="-1">
+    <h2>Bienvenida al espacio de práctica</h2>
+    <p class="intro-seccion">Colaborar bien no es un rasgo de personalidad: es un conjunto de conductas
+      observables que se pueden entrenar. Esta guía acompaña las sesiones del taller y también funciona
+      de manera autónoma, cuando quieras repasar una idea antes de una reunión importante.</p>
+
+    <div class="rejilla">
+      <article class="tarjeta" style="border-left:5px solid var(--acento)">
+        <h3>0. Empezá por el diagnóstico</h3>
+        <p>Diez preguntas sobre cómo trabajás realmente. Devuelve un perfil de tu forma de trabajo, el orden
+          sugerido para recorrer los módulos y una lista de ítems concretos a desarrollar.</p>
+      </article>
+      <article class="tarjeta">
+        <h3>1. Explorá los módulos</h3>
+        <p>Cinco habilidades, cada una con una definición cercana, una situación laboral reconocible y una
+          pregunta para pensar. Podés recorrerlos en cualquier orden.</p>
+      </article>
+      <article class="tarjeta">
+        <h3>2. Autoevaluate</h3>
+        <p>Diez afirmaciones sobre tu forma habitual de trabajar con otras personas. No hay respuestas
+          correctas: el resultado es un mapa de fortalezas y focos de desarrollo.</p>
+      </article>
+      <article class="tarjeta">
+        <h3>3. Practicá en equipo</h3>
+        <p>El generador propone dinámicas breves, con versión presencial y virtual, para llevar lo
+          conversado a una experiencia concreta.</p>
+      </article>
+    </div>
+
+    <div class="tarjeta" style="margin-top:1.25rem">
+      <h3>Acuerdos de convivencia para las sesiones</h3>
+      <ul>
+        <li><strong>Todas las voces suman.</strong> Las miradas diferentes son materia prima, no obstáculos.</li>
+        <li><strong>Hablamos de conductas, no de personas.</strong> Describimos hechos y su efecto.</li>
+        <li><strong>Lo que se comparte, se cuida.</strong> Lo personal no sale de la sala.</li>
+        <li><strong>Participar es una elección.</strong> Cada persona decide cuánto expone.</li>
+      </ul>
+      <div style="display:flex;gap:.75rem;flex-wrap:wrap">
+        <button class="btn btn--acento" data-ir="diagnostico">Comenzar por el Módulo 0 →</button>
+        <button class="btn btn--secundario" data-ir="modulos">Ver todos los módulos</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====================== MÓDULO 0 · DIAGNÓSTICO ====================== -->
+  <section class="seccion oculto" id="diagnostico" role="tabpanel" aria-labelledby="tab-diagnostico" tabindex="-1">
+    <div id="dx-formulario">
+      <div class="dx-encabezado">
+        <span class="dx-sello">Módulo 0 · Punto de partida</span>
+        <h2>Diagnóstico de tu forma de trabajo</h2>
+        <p>Diez preguntas sobre cómo trabajás realmente con otras personas: en qué contexto, qué lugar ocupás
+          y qué hacés cuando aparece una fricción. No mide conocimientos: describe hábitos. Al terminar vas a
+          recibir un perfil de tu forma de trabajo, el orden sugerido para recorrer los módulos y una lista
+          concreta de ítems a desarrollar. Toma unos 4 minutos y todo queda en tu dispositivo.</p>
+      </div>
+
+      <div class="progreso">
+        <div class="progreso-barra" role="progressbar" aria-valuemin="0" aria-valuemax="10" aria-valuenow="0"
+             aria-label="Preguntas respondidas del diagnóstico" id="dx-progreso-barra">
+          <div class="progreso-relleno" id="dx-progreso-relleno"></div>
+        </div>
+        <p class="progreso-texto" id="dx-progreso-texto">0 de 10 respondidas</p>
+      </div>
+
+      <div id="dx-aviso" class="aviso oculto" role="alert"></div>
+      <form id="dx-form" novalidate><!-- Se completa desde JS --></form>
+      <div style="display:flex;gap:.75rem;flex-wrap:wrap;margin-top:1.5rem">
+        <button class="btn btn--acento" id="dx-btn-calcular">Ver mi diagnóstico</button>
+        <button class="btn btn--secundario" id="dx-btn-limpiar" type="button">Limpiar respuestas</button>
+      </div>
+    </div>
+
+    <div id="dx-resultados" class="oculto" tabindex="-1"><!-- Se completa desde JS --></div>
+  </section>
+
+  <!-- ====================== MÓDULOS ====================== -->
+  <section class="seccion oculto" id="modulos" role="tabpanel" aria-labelledby="tab-modulos" tabindex="-1">
+    <div id="modulos-portada">
+      <h2>Módulos de habilidades</h2>
+      <p class="intro-seccion">Elegí un módulo para ver la definición, un ejemplo de situación laboral,
+        una reflexión guiada y prácticas concretas para aplicar esta misma semana. Si todavía no lo hiciste,
+        el Módulo 0 te sugiere en qué orden recorrerlos según tu forma de trabajo.</p>
+      <div class="rejilla" id="modulos-rejilla"><!-- Se completa desde JS --></div>
+    </div>
+    <div id="modulos-detalle" class="oculto" aria-live="polite"><!-- Se completa desde JS --></div>
+  </section>
+
+  <!-- ====================== AUTOEVALUACIÓN ====================== -->
+  <section class="seccion oculto" id="evaluacion" role="tabpanel" aria-labelledby="tab-evaluacion" tabindex="-1">
+    <div id="eval-formulario">
+      <h2>Autoevaluación de colaboración</h2>
+      <p class="intro-seccion">Indicá con qué frecuencia describe tu forma habitual de trabajar cada afirmación.
+        Respondé pensando en cómo actuás realmente, no en cómo te gustaría actuar. Toma unos 5 minutos y
+        los resultados quedan solamente en tu dispositivo.</p>
+
+      <div class="progreso">
+        <div class="progreso-barra" role="progressbar" aria-valuemin="0" aria-valuemax="10" aria-valuenow="0"
+             aria-label="Preguntas respondidas" id="progreso-barra">
+          <div class="progreso-relleno" id="progreso-relleno"></div>
+        </div>
+        <p class="progreso-texto" id="progreso-texto">0 de 10 respondidas</p>
+      </div>
+
+      <div id="eval-aviso" class="aviso oculto" role="alert"></div>
+      <form id="eval-form" novalidate><!-- Se completa desde JS --></form>
+      <div style="display:flex;gap:.75rem;flex-wrap:wrap;margin-top:1.5rem">
+        <button class="btn btn--acento" id="btn-calcular">Ver mis resultados</button>
+        <button class="btn btn--secundario" id="btn-limpiar" type="button">Limpiar respuestas</button>
+      </div>
+    </div>
+
+    <div id="eval-resultados" class="oculto" tabindex="-1"><!-- Se completa desde JS --></div>
+  </section>
+
+  <!-- ====================== DINÁMICAS ====================== -->
+  <section class="seccion oculto" id="dinamicas" role="tabpanel" aria-labelledby="tab-dinamicas" tabindex="-1">
+    <h2>Generador de dinámicas</h2>
+    <p class="intro-seccion">Actividades breves para practicar las habilidades en equipo. Filtrá por modalidad
+      y presioná el botón: cada pulsación propone una dinámica distinta, con objetivo, pasos y cierre.</p>
+
+    <div class="filtros" role="group" aria-label="Filtrar dinámicas por modalidad">
+      <span class="filtro-etiqueta" id="lbl-modalidad">Modalidad:</span>
+      <button class="chip" data-filtro="todas" aria-pressed="true">Todas</button>
+      <button class="chip" data-filtro="Presencial" aria-pressed="false">Presencial</button>
+      <button class="chip" data-filtro="Virtual" aria-pressed="false">Virtual</button>
+      <button class="chip" data-filtro="Híbrida" aria-pressed="false">Híbrida</button>
+    </div>
+
+    <button class="btn btn--acento" id="btn-dinamica">Proponer una dinámica</button>
+    <div id="dinamica-salida" aria-live="polite" style="margin-top:1.5rem">
+      <p class="placeholder">Presioná «Proponer una dinámica» para recibir una actividad lista para facilitar.</p>
+    </div>
+  </section>
+
+  <!-- ====================== RECURSOS ====================== -->
+  <section class="seccion oculto" id="recursos" role="tabpanel" aria-labelledby="tab-recursos" tabindex="-1">
+    <h2>Recursos de apoyo</h2>
+    <p class="intro-seccion">Materiales complementarios para facilitadores y participantes. Los PDF se
+      generan en tu propio navegador, sin conexión ni servicios externos. También podés descargar todo
+      junto desde el botón <strong>Descargar PDF</strong> de la barra superior.</p>
+    <div class="rejilla" id="recursos-rejilla"><!-- Se completa desde JS --></div>
+  </section>
+
+</main>
+
+<footer class="pie-pagina">
+  <div class="contenedor pie-fila">
+    <p>Consejo Profesional de Ingeniería Civil · Guía interactiva de uso interno<br>
+      Material de acompañamiento para talleres de habilidades de colaboración.</p>
+    <div class="logo-placa">
+      <span class="logo-cpic logo-pie" role="img" aria-label="Consejo Profesional de Ingeniería Civil"></span>
+    </div>
+  </div>
+</footer>
+
+<!-- ====================== MODAL REUTILIZABLE ====================== -->
+<dialog id="modal" aria-labelledby="modal-titulo">
+  <div class="modal-cab">
+    <div style="display:flex;align-items:center;gap:.85rem">
+      <span class="logo-placa" style="padding:.25rem .45rem;box-shadow:none">
+        <span class="logo-cpic" style="width:82px;height:36px" role="img" aria-label="Consejo Profesional de Ingeniería Civil"></span>
+      </span>
+      <h2 id="modal-titulo">Título</h2>
+    </div>
+    <button class="modal-cerrar" id="modal-cerrar" aria-label="Cerrar ventana">&times;</button>
+  </div>
+  <div class="modal-cuerpo" id="modal-cuerpo"></div>
+  <div class="modal-pie" id="modal-pie"></div>
+</dialog>
+
+<script>
+"use strict";
+/* =========================================================================
+   A. DATOS: CONTENIDO DE LOS MÓDULOS
+   Para agregar un módulo, sumá un objeto a este array y una pregunta con el
+   mismo "id" en el array PREGUNTAS. Todo lo demás se genera solo.
+   ========================================================================= */
+const MODULOS = [
+  {
+    id:"comunicacion",
+    titulo:"Comunicación asertiva",
+    resumen:"Decir lo que necesitás decir, con claridad y cuidado, sin rodeos ni dureza.",
+    definicion:"La comunicación asertiva es la capacidad de expresar necesidades, límites y opiniones de forma clara y respetuosa, haciéndose cargo del propio punto de vista sin imponerlo. Se apoya en tres movimientos: describir el hecho concreto, nombrar su efecto y proponer un pedido observable. No se trata de hablar más ni más fuerte, sino de que lo importante llegue completo a la otra persona.",
+    ejemplo:"Recibís por tercera vez un informe con datos incompletos, dos horas antes de la reunión con dirección. La reacción automática puede ser corregirlo en silencio (y acumular fastidio) o escribir un mensaje cortante. La versión asertiva suena así: «En los últimos tres envíos llegaron sin la columna de ejecución presupuestaria, y eso me deja poco margen para revisar antes de la reunión. ¿Podemos acordar que llegue el lunes al mediodía con ese dato incluido?». Hecho, efecto, pedido.",
+    reflexion:"Pensá en una conversación que venís postergando. ¿Qué hecho concreto describirías, qué efecto tiene sobre tu trabajo y qué pedido observable harías? Escribilo en una sola frase.",
+    practicas:[
+      "Antes de una conversación difícil, escribí tu mensaje en el formato hecho + efecto + pedido y leelo en voz alta.",
+      "Reemplazá «siempre» y «nunca» por la frecuencia real: «en las últimas tres semanas…».",
+      "Cerrá tus pedidos con una pregunta abierta que habilite la respuesta del otro."
+    ]
+  },
+  {
+    id:"perspectivas",
+    titulo:"Gestión constructiva de perspectivas diversas",
+    resumen:"Convertir las miradas distintas en mejores decisiones, no en tensión acumulada.",
+    definicion:"Es la habilidad de sostener con serenidad situaciones donde conviven puntos de vista diferentes, y usarlas para enriquecer la decisión final. Implica escuchar para comprender antes que para responder, buscar el criterio o la necesidad que hay detrás de cada postura, y separar el aporte de la persona que lo formula. Cuando un equipo hace esto bien, las miradas diversas dejan de sentirse como fricción y empiezan a funcionar como control de calidad del pensamiento colectivo.",
+    ejemplo:"En la definición del cronograma, un área prioriza cumplir la fecha comprometida y otra sostiene que hace falta una revisión adicional. Discutir «fecha vs. revisión» estanca la reunión. Un movimiento constructivo es preguntar qué necesidad protege cada posición: cumplir un compromiso institucional y evitar retrabajo por errores. Con las necesidades sobre la mesa aparece una tercera opción: entrega en fecha con alcance acotado y una revisión programada a los diez días.",
+    reflexion:"Recordá una conversación reciente donde alguien sostuvo una posición muy distinta a la tuya. Si tuvieras que explicar su razonamiento como si fuera propio, ¿qué necesidad legítima estaba cuidando?",
+    practicas:[
+      "Antes de responder, parafraseá: «Si te entendí bien, lo que te preocupa es…» y esperá confirmación.",
+      "En decisiones importantes, pedí explícitamente la mirada que falta: «¿Quién ve un riesgo que no estemos viendo?».",
+      "Distinguí en voz alta entre datos, supuestos y preferencias; buena parte de las diferencias vive en los supuestos."
+    ]
+  },
+  {
+    id:"hibrido",
+    titulo:"Colaboración en entornos híbridos",
+    resumen:"Que estar en la sala o en la pantalla no defina quién participa de verdad.",
+    definicion:"Colaborar en entornos híbridos es diseñar la forma de trabajar para que la distancia no reste presencia. Requiere explicitar lo que en la oficina se resolvía por contexto compartido: dónde vive la información, qué se decide de manera sincrónica y qué asincrónica, en cuánto tiempo se espera una respuesta y cómo se registra lo acordado. La regla práctica es simple: si algo importante ocurre y no queda escrito en un lugar accesible, para la mitad del equipo no ocurrió.",
+    ejemplo:"Una reunión con seis personas en sala y tres conectadas. Las conversaciones laterales en la sala, los gestos y el pizarrón quedan fuera de cámara; quienes están en línea intervienen cada vez menos y terminan enterándose de la decisión por un correo. Un ajuste concreto: una persona oficia de anfitriona de quienes están en remoto, todo el material se comparte en pantalla, cada ronda de opinión empieza por quienes están en línea, y los acuerdos se escriben en el documento durante la reunión, no después.",
+    reflexion:"Si mañana faltaras una semana, ¿tu equipo podría retomar tus temas solo con lo que está escrito y accesible? ¿Qué información vive únicamente en tu cabeza o en tu bandeja de entrada?",
+    practicas:[
+      "Empezá las reuniones híbridas dando la palabra primero a quienes participan en línea.",
+      "Cerrá cada reunión con tres líneas: qué se decidió, quién sigue y para cuándo.",
+      "Acordá tiempos de respuesta por canal para que nadie quede esperando sin saberlo."
+    ]
+  },
+  {
+    id:"emocional",
+    titulo:"Inteligencia emocional aplicada",
+    resumen:"Reconocer lo que pasa —en vos y en el equipo— y elegir cómo responder.",
+    definicion:"Es la capacidad de identificar las propias emociones y las de quienes te rodean, entender qué información traen y usarlas para decidir mejor. Aplicada al trabajo, se traduce en cuatro conductas: notar la señal a tiempo, poner una pausa antes de reaccionar, nombrar lo que ocurre con precisión y ajustar la respuesta al momento. No implica ocultar lo que se siente ni sostener un optimismo permanente; implica que la emoción informe la respuesta en lugar de dirigirla.",
+    ejemplo:"Recibís un comentario público sobre tu trabajo que te resulta injusto. El cuerpo avisa antes que la cabeza: calor, respuesta lista en la punta de la lengua. La práctica aplicada es sostener esa respuesta unos segundos, registrar «esto me irritó porque siento que no se valoró el trabajo del equipo» y elegir el canal: una pregunta breve en la reunión para entender el criterio, y una conversación individual después para revisar la forma. La emoción se usó como dato, no como guion.",
+    reflexion:"¿Cuál es tu primera señal corporal cuando algo te tensiona en el trabajo —tono de voz, mandíbula, velocidad al escribir? Reconocerla temprano es lo que abre la pausa.",
+    practicas:[
+      "Regla de los 90 segundos: ante una reacción intensa, no respondas hasta que baje el primer pico.",
+      "Ampliá tu vocabulario emocional: «frustrado», «sobrecargado» o «preocupado» orientan mucho mejor que «mal».",
+      "Preguntá antes de interpretar: «Te noté con poco margen esta semana, ¿cómo venís?»."
+    ]
+  },
+  {
+    id:"corresponsabilidad",
+    titulo:"Corresponsabilidad en equipo",
+    resumen:"El resultado del equipo también es tuyo, aunque la tarea no lo sea.",
+    definicion:"La corresponsabilidad es el compromiso compartido con el resultado colectivo: cada persona responde por su parte y, además, se hace cargo de que el conjunto funcione. Se sostiene sobre acuerdos explícitos —quién hace qué y para cuándo—, sobre avisos tempranos cuando algo se desvía y sobre una lectura de los errores centrada en el sistema antes que en la persona. Un equipo corresponsable no reparte culpas: revisa el proceso, ajusta y sigue.",
+    ejemplo:"Un trámite se demora y el reclamo llega a dirección. La lectura de menor valor es identificar quién lo dejó pasar. La lectura corresponsable es distinta: el equipo revisa en quince minutos dónde se cortó el circuito, descubre que la derivación dependía de una sola persona sin respaldo, define un reemplazo y un aviso automático a los cinco días. Nadie quedó señalado y el circuito quedó mejor que antes.",
+    reflexion:"Pensá en un compromiso que asumiste esta semana. ¿Alguien más sabe con precisión qué esperás entregar y cuándo? Si la respuesta es no, ahí hay un acuerdo por explicitar.",
+    practicas:[
+      "Cerrá cada asignación con la frase: «entonces yo entrego X el día Y, ¿coincidimos?».",
+      "Avisá los desvíos apenas los detectás, no cuando vence el plazo.",
+      "Después de un tropiezo, preguntá «¿qué del proceso lo hizo posible?» antes que «¿quién falló?»."
+    ]
+  }
+];
+
+/* =========================================================================
+   B. DATOS: CUESTIONARIO
+   Dos preguntas por módulo. "modulo" vincula cada respuesta con su habilidad.
+   Escala Likert 1-5 (1 = casi nunca, 5 = casi siempre).
+   ========================================================================= */
+const ESCALA = ["Casi nunca","Rara vez","A veces","Con frecuencia","Casi siempre"];
+
+const PREGUNTAS = [
+  {modulo:"comunicacion",    texto:"Cuando algo del trabajo de otra persona me afecta, se lo digo de manera directa y cuidada, en lugar de resolverlo por mi cuenta o dejarlo pasar."},
+  {modulo:"comunicacion",    texto:"Al hacer un pedido, describo el hecho concreto y lo que necesito, sin generalizar ni suponer que se sobreentiende."},
+  {modulo:"perspectivas",    texto:"Cuando alguien sostiene una mirada muy distinta a la mía, indago su razonamiento antes de defender la propia."},
+  {modulo:"perspectivas",    texto:"En decisiones importantes busco activamente puntos de vista que puedan contradecir mi propuesta inicial."},
+  {modulo:"hibrido",         texto:"Dejo por escrito, en un lugar accesible al equipo, los acuerdos y decisiones de las conversaciones en las que participo."},
+  {modulo:"hibrido",         texto:"En reuniones mixtas me aseguro de que quienes participan en línea tengan el mismo espacio para intervenir que quienes están en la sala."},
+  {modulo:"emocional",       texto:"Reconozco a tiempo cuándo estoy tensionado o sobrecargado, y eso cambia la forma en que respondo."},
+  {modulo:"emocional",       texto:"Registro las señales emocionales de mis colegas y ajusto el momento o el modo de plantear los temas."},
+  {modulo:"corresponsabilidad", texto:"Aviso de manera temprana cuando algo de lo que asumí se está desviando del plazo o del alcance previsto."},
+  {modulo:"corresponsabilidad", texto:"Ante un resultado que no salió bien, mi primer reflejo es revisar el proceso del equipo antes que buscar responsables."}
+];
+
+/* Recomendaciones por nivel de dominio en cada habilidad */
+const RECOMENDACIONES = {
+  comunicacion:{
+    alto:"Tu comunicación es clara y cuidada. Un siguiente paso: ofrecerte a modelar esta forma de plantear temas en reuniones donde otros aún no se animan.",
+    medio:"Ya tenés la base. Elegí esta semana una conversación postergada y prepará el mensaje con el formato hecho + efecto + pedido antes de tenerla.",
+    foco:"Empezá por lo más simple: antes de un planteo, escribí en una línea el hecho concreto y el pedido observable. Escribirlo primero baja mucho la carga de la conversación."
+  },
+  perspectivas:{
+    alto:"Sabés usar las miradas diversas como insumo. Podés asumir el rol de quien pregunta «¿qué no estamos viendo?» en las decisiones del equipo.",
+    medio:"Sumá un hábito concreto: parafrasear la posición del otro y confirmar antes de responder. Suele revelar acuerdos que estaban ocultos.",
+    foco:"Practicá la pausa: ante una postura distinta, hacé una pregunta genuina antes de argumentar. Buscá la necesidad que hay detrás, no el error."
+  },
+  hibrido:{
+    alto:"Tu forma de trabajar sostiene bien la distancia. Compartí tus criterios de registro y respuesta como estándar del equipo.",
+    medio:"Reforzá el cierre: tres líneas al final de cada reunión con lo decidido, quién sigue y para cuándo. Es el hábito de mayor impacto.",
+    foco:"Elegí un solo cambio para empezar: que todo acuerdo quede escrito en un lugar accesible. La memoria compartida es la base del trabajo híbrido."
+  },
+  emocional:{
+    alto:"Leés bien el clima propio y ajeno. Ese registro es un activo del equipo: nombrar en voz alta lo que percibís puede ayudar a otros a hacerlo.",
+    medio:"Trabajá la precisión: ponerle nombre exacto a lo que sentís («sobrecargado», «preocupado») orienta mucho mejor la respuesta que un «estoy mal».",
+    foco:"Empezá por identificar tu primera señal corporal de tensión. Reconocerla temprano es lo que hace posible la pausa antes de responder."
+  },
+  corresponsabilidad:{
+    alto:"Sostenés el resultado colectivo con acuerdos claros. Podés impulsar revisiones de proceso breves después de los tropiezos del equipo.",
+    medio:"Hacé explícitos los compromisos: cerrar cada asignación con «yo entrego X el día Y» elimina buena parte de los malentendidos.",
+    foco:"Priorizá el aviso temprano: comunicar un desvío apenas se detecta le da al equipo margen para reaccionar y construye confianza."
+  }
+};
+
+/* Perfiles de resultado global (sobre 50 puntos) */
+const PERFILES = [
+  {min:44, etiqueta:"Colaboración consolidada", texto:"Tus respuestas describen prácticas de colaboración maduras y sostenidas. El desafío ya no es incorporarlas, sino volverlas visibles: cuando explicitás cómo trabajás, el equipo entero sube su estándar. Elegí una de las habilidades con menor puntaje y convertila en tu foco del trimestre."},
+  {min:36, etiqueta:"Base sólida en desarrollo", texto:"Tenés una base firme y varias prácticas ya instaladas. El salto de calidad suele venir de la constancia más que de aprender algo nuevo: elegí un solo hábito de tu área de foco y sostenelo cuatro semanas antes de sumar otro."},
+  {min:26, etiqueta:"En camino, con foco claro", texto:"Aparecen fortalezas reconocibles junto con áreas que piden atención deliberada. Es el punto donde el entrenamiento rinde más: pequeños cambios de conducta producen resultados visibles rápido. Empezá por la habilidad con menor puntaje y una sola práctica concreta."},
+  {min:0,  etiqueta:"Punto de partida", texto:"Este resultado no describe tu capacidad, sino tus hábitos actuales en un contexto que probablemente venga exigente. Es un buen lugar para empezar, y lo valioso es que ya tenés el mapa. Elegí una única práctica de tu módulo de foco y sostenela una semana: el resto se construye sobre eso."}
+];
+
+/* =========================================================================
+   C. DATOS: DINÁMICAS DE TALLER
+   ========================================================================= */
+const DINAMICAS = [
+  {titulo:"Hecho, efecto, pedido", modalidad:"Presencial", tiempo:"20 min", grupo:"Parejas", habilidad:"Comunicación asertiva",
+   objetivo:"Practicar el planteo de un tema sensible con estructura y sin desgaste.",
+   pasos:["Cada persona escribe en una tarjeta una situación laboral real que le gustaría plantear.","En parejas, A formula el mensaje en el formato hecho + efecto + pedido (máximo 3 frases).","B devuelve una sola observación: qué escuchó como hecho y qué como interpretación.","Se invierten los roles y se repite el ejercicio."],
+   cierre:"Ronda breve: ¿qué parte del formato costó más y por qué?"},
+
+  {titulo:"El mapa de las tres posiciones", modalidad:"Presencial", tiempo:"30 min", grupo:"Grupos de 4",
+   habilidad:"Gestión constructiva de perspectivas diversas",
+   objetivo:"Entrenar la escucha de miradas distintas antes de decidir.",
+   pasos:["El grupo elige una decisión real pendiente del área.","Cada integrante escribe la posición que defendería y, debajo, la necesidad que protege.","Se leen todas las necesidades en voz alta, sin discutirlas.","El grupo formula una opción nueva que contemple al menos dos necesidades de la lista."],
+   cierre:"¿Qué necesidad apareció que no estaba en la conversación original?"},
+
+  {titulo:"Ronda invertida", modalidad:"Híbrida", tiempo:"15 min", grupo:"Equipo completo",
+   habilidad:"Colaboración en entornos híbridos",
+   objetivo:"Equilibrar la participación entre quienes están en sala y en línea.",
+   pasos:["Se define un tema breve de trabajo real.","La ronda de opiniones empieza siempre por quienes participan en línea.","Una persona en sala oficia de anfitriona remota: chequea audio, comparte pantalla y trae al aire los comentarios del chat.","Los acuerdos se escriben en el documento compartido durante la reunión, no después."],
+   cierre:"Pregunta al grupo remoto: ¿en qué momento sentiste que estabas realmente en la conversación?"},
+
+  {titulo:"Bitácora de una semana", modalidad:"Virtual", tiempo:"25 min", grupo:"Individual + puesta en común",
+   habilidad:"Colaboración en entornos híbridos",
+   objetivo:"Detectar información crítica que vive en una sola cabeza.",
+   pasos:["Cada persona lista los tres temas que hoy dependen exclusivamente de ella.","Marca cuáles están documentados en un lugar accesible al equipo.","En sala compartida, cada quien elige uno para documentar antes del viernes.","Se registra el compromiso en el documento del equipo con fecha."],
+   cierre:"¿Qué tema del listado sería más costoso perder y qué haría falta para que deje de depender de una sola persona?"},
+
+  {titulo:"Termómetro de apertura", modalidad:"Virtual", tiempo:"10 min", grupo:"Equipo completo",
+   habilidad:"Inteligencia emocional aplicada",
+   objetivo:"Instalar un registro rápido del estado del equipo antes de trabajar.",
+   pasos:["Cada persona escribe en el chat un número del 1 al 5 y una palabra que describa cómo llega.","Sin comentar los números, la facilitación lee las palabras en voz alta.","Se pregunta si alguien quiere ampliar; nadie está obligado a hacerlo.","Se ajusta la agenda si el promedio muestra un equipo con poco margen."],
+   cierre:"¿Cambia en algo cómo vas a participar hoy sabiendo cómo llegó el resto?"},
+
+  {titulo:"Noventa segundos", modalidad:"Presencial", tiempo:"20 min", grupo:"Tríos",
+   habilidad:"Inteligencia emocional aplicada",
+   objetivo:"Entrenar la pausa entre el estímulo y la respuesta.",
+   pasos:["Se presenta una situación laboral tensa breve, común al equipo.","Cada persona escribe su respuesta impulsiva (nadie la lee en voz alta).","Después de 90 segundos de silencio, escribe una segunda versión.","En tríos se comparten solo las segundas versiones y se comentan las diferencias."],
+   cierre:"¿Qué se pierde y qué se gana entre la primera y la segunda respuesta?"},
+
+  {titulo:"Contrato de equipo en 15 minutos", modalidad:"Híbrida", tiempo:"25 min", grupo:"Equipo completo",
+   habilidad:"Corresponsabilidad en equipo",
+   objetivo:"Explicitar acuerdos de trabajo que hoy funcionan por supuesto.",
+   pasos:["En un documento compartido se abren tres columnas: qué esperamos, qué avisamos, en cuánto respondemos.","Cada persona completa una fila por columna, en silencio y en simultáneo.","Se leen las coincidencias y se marcan las diferencias sin discutirlas.","El equipo acuerda tres reglas y define quién las revisa en 30 días."],
+   cierre:"¿Cuál de las diferencias detectadas explica algún malentendido reciente?"},
+
+  {titulo:"Revisión sin culpables", modalidad:"Presencial", tiempo:"30 min", grupo:"Equipo completo",
+   habilidad:"Corresponsabilidad en equipo",
+   objetivo:"Analizar un tropiezo reciente desde el proceso y no desde las personas.",
+   pasos:["Se reconstruye en línea de tiempo qué pasó, solo con hechos y sin nombres.","Se identifican los puntos donde el circuito dependía de una sola persona o de un mensaje informal.","El equipo propone un ajuste concreto para cada punto detectado.","Se asigna responsable y fecha de revisión para cada ajuste."],
+   cierre:"¿Qué del proceso hizo esto posible y qué queda distinto a partir de hoy?"},
+
+  {titulo:"Traducción simultánea", modalidad:"Virtual", tiempo:"20 min", grupo:"Parejas en salas",
+   habilidad:"Gestión constructiva de perspectivas diversas",
+   objetivo:"Practicar el parafraseo como herramienta de comprensión.",
+   pasos:["A expone durante dos minutos una postura sobre un tema del área.","B la reformula empezando por «si te entendí bien…», sin agregar opinión.","A confirma o corrige hasta sentirse bien representado.","Se invierten los roles con otro tema."],
+   cierre:"¿Cuántas vueltas hicieron falta para que la otra persona se sintiera bien representada?"},
+
+  {titulo:"El pedido de un renglón", modalidad:"Híbrida", tiempo:"15 min", grupo:"Individual + parejas",
+   habilidad:"Comunicación asertiva",
+   objetivo:"Condensar un planteo extenso en un pedido claro y accionable.",
+   pasos:["Cada persona piensa un pedido pendiente y lo escribe libremente.","Lo reduce a un solo renglón que incluya qué necesita y para cuándo.","Lo comparte con una pareja, que responde si podría cumplirlo sin pedir aclaraciones.","Se ajusta el renglón hasta que la respuesta sea afirmativa."],
+   cierre:"¿Qué información faltaba en la primera versión?"},
+
+  {titulo:"La reunión que no fue", modalidad:"Virtual", tiempo:"20 min", grupo:"Grupos de 3",
+   habilidad:"Colaboración en entornos híbridos",
+   objetivo:"Distinguir qué conversaciones necesitan encuentro sincrónico y cuáles no.",
+   pasos:["Cada grupo lista las reuniones recurrentes del área.","Clasifica cada una en: decidir, alinear, informar o vincular.","Propone convertir en asincrónicas todas las de «informar», definiendo el formato de reemplazo.","Se comparte una propuesta concreta por grupo."],
+   cierre:"¿Cuánto tiempo semanal libera la propuesta y a qué se destinaría?"},
+
+  {titulo:"Un aporte, una pregunta", modalidad:"Presencial", tiempo:"15 min", grupo:"Equipo completo",
+   habilidad:"Gestión constructiva de perspectivas diversas",
+   objetivo:"Equilibrar quienes hablan mucho y quienes hablan poco en las reuniones.",
+   pasos:["Se acuerda que cada intervención incluye un aporte y una pregunta a otra persona.","Quien recibe la pregunta responde y a su vez formula la suya.","La facilitación registra quiénes intervinieron y quiénes aún no.","Se cierra cuando participaron todas las personas al menos una vez."],
+   cierre:"¿Qué aporte apareció hoy que en el formato habitual no habría surgido?"}
+];
+
+/* =========================================================================
+   D. NAVEGACIÓN ENTRE SECCIONES (patrón de pestañas accesible)
+   ========================================================================= */
+const tabs = Array.from(document.querySelectorAll('[role="tab"]'));
+const secciones = Array.from(document.querySelectorAll('.seccion'));
+
+function mostrarSeccion(id, reiniciar){
+  secciones.forEach(s => s.classList.toggle('oculto', s.id !== id));
+  tabs.forEach(t => {
+    const activa = t.dataset.seccion === id;
+    t.setAttribute('aria-selected', String(activa));
+    // Roving tabindex: sólo la pestaña activa entra en el recorrido del tabulador
+    t.setAttribute('tabindex', activa ? '0' : '-1');
+  });
+  // Al entrar desde el menú, la sección de módulos vuelve a su índice
+  if(reiniciar && id === 'modulos' && typeof cerrarModulo === 'function') cerrarModulo();
+  const activa = document.getElementById(id);
+  if(activa){ activa.focus({preventScroll:true}); }
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+
+tabs.forEach((tab, i) => {
+  tab.setAttribute('tabindex', tab.getAttribute('aria-selected') === 'true' ? '0' : '-1');
+  tab.addEventListener('click', () => mostrarSeccion(tab.dataset.seccion, true));
+  // Navegación con teclado según el patrón de pestañas de WAI-ARIA
+  tab.addEventListener('keydown', e => {
+    let destino = null;
+    if(e.key === 'ArrowRight') destino = tabs[(i + 1) % tabs.length];
+    else if(e.key === 'ArrowLeft') destino = tabs[(i - 1 + tabs.length) % tabs.length];
+    else if(e.key === 'Home') destino = tabs[0];
+    else if(e.key === 'End') destino = tabs[tabs.length - 1];
+    if(!destino) return;
+    e.preventDefault();
+    mostrarSeccion(destino.dataset.seccion, true);
+    destino.focus();
+  });
+});
+
+/* Mantiene sincronizada la altura real de la barra de menú con el CSS.
+   Cuando el menú es lateral (queda fijo a la izquierda) no ocupa alto en la
+   parte superior, así que la referencia pasa a ser cero. */
+(function medirNavegacion(){
+  const nav = document.querySelector('.nav-principal');
+  const actualizar = () => {
+    const lateral = getComputedStyle(nav).position === 'fixed';
+    document.documentElement.style.setProperty('--alto-nav',
+      lateral ? '0px' : Math.round(nav.getBoundingClientRect().height) + 'px');
+  };
+  actualizar();
+  if(window.ResizeObserver) new ResizeObserver(actualizar).observe(nav);
+  else window.addEventListener('resize', actualizar);
+})();
+
+// Botones sueltos que llevan a otra sección (data-ir="idSeccion")
+document.addEventListener('click', e => {
+  const btn = e.target.closest('[data-ir]');
+  if(btn) mostrarSeccion(btn.dataset.ir);
+});
+
+/* =========================================================================
+   E. RENDERIZADO DE MÓDULOS
+   ========================================================================= */
+const rejillaModulos = document.getElementById('modulos-rejilla');
+const portadaModulos = document.getElementById('modulos-portada');
+const detalleModulos = document.getElementById('modulos-detalle');
+
+// Tarjeta del Módulo 0: deriva a la sección de diagnóstico
+const cardCero = document.createElement('button');
+cardCero.type = 'button';
+cardCero.className = 'modulo-tarjeta';
+cardCero.style.borderLeftColor = 'var(--acento)';
+cardCero.innerHTML = `
+  <span class="numero" aria-hidden="true" style="background:var(--acento-fuerte);color:#fff">0</span>
+  <h3>Diagnóstico de tu forma de trabajo</h3>
+  <p>Diez preguntas para saber por dónde empezar: perfil, itinerario de módulos e ítems a desarrollar.</p>`;
+cardCero.setAttribute('aria-label', 'Abrir módulo 0: diagnóstico de tu forma de trabajo');
+cardCero.addEventListener('click', () => mostrarSeccion('diagnostico'));
+rejillaModulos.appendChild(cardCero);
+
+MODULOS.forEach((m, i) => {
+  const card = document.createElement('button');
+  card.type = 'button';
+  card.className = 'modulo-tarjeta';
+  card.dataset.modulo = m.id;
+  card.innerHTML = `
+    <span class="numero" aria-hidden="true">${i+1}</span>
+    <h3>${m.titulo}</h3>
+    <p>${m.resumen}</p>`;
+  card.setAttribute('aria-label', `Abrir módulo ${i+1}: ${m.titulo}`);
+  card.addEventListener('click', () => abrirModulo(m.id));
+  rejillaModulos.appendChild(card);
+});
+
+function abrirModulo(id){
+  const i = MODULOS.findIndex(m => m.id === id);
+  const m = MODULOS[i];
+  const anterior = MODULOS[i-1];
+  const siguiente = MODULOS[i+1];
+
+  detalleModulos.innerHTML = `
+    <button class="btn btn--secundario" id="volver-modulos" style="margin-bottom:1.25rem">← Todos los módulos</button>
+    <article class="tarjeta">
+      <p style="color:var(--gris-500);font-size:.85rem;letter-spacing:.08em;text-transform:uppercase;margin-bottom:.35rem">
+        Módulo ${i+1} de ${MODULOS.length}</p>
+      <h2>${m.titulo}</h2>
+
+      <section class="bloque bloque--definicion">
+        <h4>De qué se trata</h4>
+        <p>${m.definicion}</p>
+      </section>
+
+      <section class="bloque bloque--ejemplo">
+        <h4>Una situación reconocible</h4>
+        <p>${m.ejemplo}</p>
+      </section>
+
+      <section class="bloque bloque--reflexion">
+        <h4>Para pensar</h4>
+        <p>${m.reflexion}</p>
+        <label class="sr-only" for="notas-${m.id}">Tus notas sobre ${m.titulo}</label>
+        <textarea class="notas" id="notas-${m.id}" placeholder="Escribí tu respuesta aquí. Se conserva mientras la pestaña esté abierta."></textarea>
+      </section>
+
+      <section class="bloque bloque--practica">
+        <h4>Para probar esta semana</h4>
+        <ul>${m.practicas.map(p => `<li>${p}</li>`).join('')}</ul>
+      </section>
+
+      <nav class="pie-modulo" aria-label="Navegación entre módulos">
+        ${anterior ? `<button class="btn btn--secundario" data-modulo-ir="${anterior.id}">← ${anterior.titulo}</button>` : '<span></span>'}
+        ${siguiente ? `<button class="btn btn--primario" data-modulo-ir="${siguiente.id}">${siguiente.titulo} →</button>`
+                    : '<button class="btn btn--acento" data-ir="evaluacion">Ir a la autoevaluación →</button>'}
+      </nav>
+    </article>`;
+
+  // Restaura la nota escrita previamente en esta sesión
+  const area = detalleModulos.querySelector(`#notas-${m.id}`);
+  area.value = notasSesion[m.id] || '';
+  area.addEventListener('input', () => { notasSesion[m.id] = area.value; });
+
+  detalleModulos.querySelector('#volver-modulos').addEventListener('click', cerrarModulo);
+  detalleModulos.querySelectorAll('[data-modulo-ir]').forEach(b =>
+    b.addEventListener('click', () => abrirModulo(b.dataset.moduloIr)));
+
+  portadaModulos.classList.add('oculto');
+  detalleModulos.classList.remove('oculto');
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+
+function cerrarModulo(){
+  detalleModulos.classList.add('oculto');
+  portadaModulos.classList.remove('oculto');
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+
+// Las notas viven en memoria (sin almacenamiento persistente del navegador)
+const notasSesion = {};
+
+/* =========================================================================
+   E-BIS. MÓDULO 0 · DIAGNÓSTICO DE LA FORMA DE TRABAJO
+   Diez preguntas: dos de contexto (modalidad y rol) y ocho de conducta.
+   Cada opción suma "necesidad de desarrollo" (0 a 2) sobre una o más
+   habilidades. Con eso se arma el perfil, el itinerario de módulos y la
+   lista de ítems concretos a desarrollar.
+   ========================================================================= */
+const DX_PREGUNTAS = [
+  {
+    tipo:"contexto", clave:"modalidad", dimension:"Contexto de trabajo",
+    texto:"¿Cómo trabaja habitualmente tu equipo?",
+    opciones:[
+      {t:"Casi todo presencial: nos vemos la mayor parte de la semana.", valor:"presencial", pesos:{}},
+      {t:"Híbrido: parte de la semana en la oficina y parte a distancia.", valor:"hibrido", pesos:{hibrido:1}},
+      {t:"Mayormente a distancia: coincidimos poco en el mismo espacio.", valor:"remoto", pesos:{hibrido:1}},
+      {t:"Muy variable: cambia según la semana o el proyecto.", valor:"variable", pesos:{hibrido:1}}
+    ]
+  },
+  {
+    tipo:"contexto", clave:"rol", dimension:"Tu lugar en el equipo",
+    texto:"¿Qué lugar ocupás con más frecuencia en el trabajo con otras personas?",
+    opciones:[
+      {t:"Coordino: distribuyo tareas y sigo los plazos del conjunto.", valor:"coordina", pesos:{}},
+      {t:"Ejecuto: respondo por mi parte del trabajo.", valor:"ejecuta", pesos:{corresponsabilidad:1}},
+      {t:"Articulo: hago de puente entre áreas o entre personas.", valor:"articula", pesos:{}},
+      {t:"Aporto criterio técnico: me consultan para decidir o revisar.", valor:"tecnico", pesos:{perspectivas:1}}
+    ]
+  },
+  {
+    tipo:"opcion", dimension:"Conversaciones difíciles",
+    texto:"Cuando algo del trabajo de otra persona te complica, lo más habitual es que:",
+    opciones:[
+      {t:"Lo resuelva por mi cuenta para no generar un problema.", pesos:{comunicacion:2, corresponsabilidad:1}},
+      {t:"Lo deje pasar y lo comente recién si se repite varias veces.", pesos:{comunicacion:2}},
+      {t:"Lo plantee en el momento, aunque a veces salga más áspero de lo que quisiera.", pesos:{emocional:2, comunicacion:1}},
+      {t:"Lo plantee describiendo el hecho concreto y lo que necesito.", pesos:{}}
+    ]
+  },
+  {
+    tipo:"opcion", dimension:"Miradas distintas",
+    texto:"En una reunión aparece una posición muy distinta a la tuya. Tu primer movimiento suele ser:",
+    opciones:[
+      {t:"Argumentar mi postura con los datos que tengo.", pesos:{perspectivas:2}},
+      {t:"Escuchar, aunque mi conclusión ya esté tomada.", pesos:{perspectivas:2}},
+      {t:"Preguntar qué razonamiento hay detrás antes de opinar.", pesos:{}},
+      {t:"Evitar el desacuerdo y seguir la conversación por otro lado.", pesos:{perspectivas:1, comunicacion:2}}
+    ]
+  },
+  {
+    tipo:"opcion", dimension:"Registro de acuerdos",
+    texto:"Al terminar una reunión de trabajo, lo que se acordó:",
+    opciones:[
+      {t:"Queda escrito en un lugar accesible para todo el equipo.", pesos:{}},
+      {t:"Queda en la minuta de alguien, aunque no siempre circula.", pesos:{hibrido:1}},
+      {t:"Cada quien anota lo suyo en su propia libreta o archivo.", pesos:{hibrido:2}},
+      {t:"Se sobreentiende: rara vez lo ponemos por escrito.", pesos:{hibrido:2, corresponsabilidad:1}}
+    ]
+  },
+  {
+    tipo:"opcion", dimension:"Carga de trabajo",
+    texto:"Cuando la semana viene claramente sobrecargada, lo más frecuente es que:",
+    opciones:[
+      {t:"Avise a tiempo y renegocie plazos o alcance.", pesos:{}},
+      {t:"Me lo aguante y acelere el ritmo sin decir nada.", pesos:{emocional:2, corresponsabilidad:1}},
+      {t:"Se me note en el tono o en la manera de responder.", pesos:{emocional:2}},
+      {t:"Postergue lo que puedo y avise recién cuando ya no llego.", pesos:{corresponsabilidad:2}}
+    ]
+  },
+  {
+    tipo:"opcion", dimension:"Compromisos que se desvían",
+    texto:"Cuando algo que asumiste se está desviando del plazo o del alcance previsto:",
+    opciones:[
+      {t:"Aviso apenas lo detecto, aunque todavía no tenga la solución.", pesos:{}},
+      {t:"Aviso una vez que ya resolví o tengo una alternativa.", pesos:{corresponsabilidad:1}},
+      {t:"Aviso cerca del vencimiento, cuando ya es evidente.", pesos:{corresponsabilidad:2}},
+      {t:"Doy por hecho que se va a notar o que otra persona lo va a plantear.", pesos:{corresponsabilidad:2, comunicacion:1}}
+    ]
+  },
+  {
+    tipo:"opcion", dimension:"Lectura del clima",
+    texto:"Si alguien del equipo viene con menos margen del habitual, lo más probable es que:",
+    opciones:[
+      {t:"Lo note y ajuste el momento o el modo de plantear los temas.", pesos:{}},
+      {t:"Lo note, pero siga adelante igual porque los tiempos apremian.", pesos:{emocional:1}},
+      {t:"Me entere cuando la situación ya escaló.", pesos:{emocional:2}},
+      {t:"Prefiera no meterme: cada quien sabrá cómo maneja lo suyo.", pesos:{emocional:2, comunicacion:1}}
+    ]
+  },
+  {
+    tipo:"frecuencia", modulo:"perspectivas", dimension:"Antes de decidir",
+    texto:"Antes de cerrar una decisión importante, busco activamente la mirada de alguien que pueda estar en desacuerdo."
+  },
+  {
+    tipo:"frecuencia", modulo:"hibrido", dimension:"Memoria del equipo",
+    texto:"Dejo por escrito, en un lugar accesible al equipo, lo que se decide en las conversaciones en las que participo."
+  }
+];
+
+/* Perfiles de forma de trabajo, según la habilidad con mayor necesidad */
+const DX_PERFILES = {
+  comunicacion:{
+    etiqueta:"Resolvés en silencio",
+    texto:"Tu forma de trabajo evita el roce: cuando algo no encaja, tendés a absorberlo, corregirlo por tu cuenta o esperar a que la situación se repita. Eso sostiene el clima en el corto plazo y tiene un costo doble: acumulás desgaste y el equipo pierde información que necesitaría para ajustar. Tu mayor palanca no es hablar más, sino plantear antes y con estructura.",
+    senal:"Señal típica: te descubrís rehaciendo trabajo ajeno sin haberlo comentado."
+  },
+  perspectivas:{
+    etiqueta:"Convencés antes de indagar",
+    texto:"Llegás a las conversaciones con la posición armada y la sostenés con argumentos. Es una fortaleza cuando hay que decidir rápido, y se vuelve un límite cuando la mejor solución estaba en la mirada que no llegaste a escuchar. Tu mayor palanca es incorporar una pausa deliberada de indagación antes de argumentar.",
+    senal:"Señal típica: las reuniones terminan con tu propuesta inicial casi intacta."
+  },
+  hibrido:{
+    etiqueta:"Tu memoria de trabajo es oral",
+    texto:"Coordinás sobre la marcha, con conversaciones y mensajes, y buena parte de lo importante vive en tu cabeza o en tu bandeja de entrada. Funciona mientras estás disponible y falla apenas alguien queda fuera de la conversación o vos no estás. Tu mayor palanca es hacer visible lo que hoy circula de manera informal.",
+    senal:"Señal típica: te consultan a vos por cosas que deberían estar escritas."
+  },
+  emocional:{
+    etiqueta:"Sostenés a costa propia",
+    texto:"Tu forma de responder ante la presión es absorber y acelerar. Aguantás bien, cumplís, y el costo aparece después: en el tono, en el cansancio o en una reacción que no representa lo que querías decir. Tu mayor palanca es registrar la señal temprano y usarla como dato para elegir el momento y el modo, en vez de empujar hasta el límite.",
+    senal:"Señal típica: te enterás de tu propia tensión por cómo te salió una respuesta."
+  },
+  corresponsabilidad:{
+    etiqueta:"Respondés por lo tuyo",
+    texto:"Cumplís con tu parte y esperás que cada quien haga lo propio. Es una base de confianza sólida, pero deja los bordes sin dueño: los desvíos se avisan tarde, los acuerdos quedan implícitos y el resultado del conjunto queda librado a que todo salga bien. Tu mayor palanca es explicitar compromisos y adelantar los avisos.",
+    senal:"Señal típica: los problemas se hacen visibles cuando ya vencieron los plazos."
+  }
+};
+
+const DX_PERFIL_ALTO = {
+  etiqueta:"Prácticas ya instaladas",
+  texto:"Tus respuestas describen una forma de trabajo con acuerdos explícitos, planteos directos y registro de lo decidido. En este punto el desarrollo cambia de naturaleza: ya no se trata de incorporar prácticas nuevas, sino de volverlas visibles para que el equipo las adopte. Elegí la habilidad con mayor prioridad de la lista y trabajala en clave de facilitación, no de aprendizaje.",
+  senal:"Señal típica: te piden que expliques cómo organizás tu trabajo."
+};
+
+/* Lectura del contexto declarado en las dos primeras preguntas */
+const DX_CONTEXTO = {
+  modalidad:{
+    presencial:"Trabajás mayormente en presencia, con lo cual buena parte de la coordinación se resuelve por contexto compartido. El riesgo es que lo acordado en el pasillo no llegue nunca a quien no estaba ahí.",
+    hibrido:"Trabajás en modalidad híbrida: la mitad de tus conversaciones ocurre con alguien del otro lado de una pantalla. Ahí lo implícito se paga caro, y la disciplina de registro deja de ser un formalismo.",
+    remoto:"Trabajás mayormente a distancia. Todo lo que en la oficina se resolvía por proximidad —el estado de ánimo, el avance, la duda breve— necesita ahora un canal explícito.",
+    variable:"Tu contexto cambia según la semana o el proyecto. Esa variabilidad exige acuerdos más explícitos que un equipo estable: lo que hoy se sobreentiende, la semana que viene puede no aplicar."
+  },
+  rol:{
+    coordina:"Como coordinás el trabajo de otras personas, tus hábitos se multiplican: lo que vos no explicitás, el equipo lo replica. Cada ítem que incorpores funciona además como estándar.",
+    ejecuta:"Desde tu lugar de ejecución, el mayor aporte al conjunto pasa por los avisos tempranos y por hacer visible tu avance sin que te lo pidan.",
+    articula:"Como articulás entre áreas o personas, sos el punto donde la información se traduce o se pierde. Tus registros y tus preguntas valen doble.",
+    tecnico:"Como te consultan por criterio técnico, tu palabra pesa más de lo que suele parecerte. Abrir el razonamiento y pedir objeciones evita que el equipo confunda autoridad con consenso."
+  }
+};
+
+/* Ítems concretos a desarrollar por habilidad (conductas observables) */
+const DX_ITEMS = {
+  comunicacion:[
+    "Escribir en una línea, antes de la conversación, el hecho concreto y el pedido observable.",
+    "Plantear el próximo tema pendiente dentro de las 48 horas, en lugar de esperar a que se repita.",
+    "Reemplazar «siempre» y «nunca» por la frecuencia real: «en los últimos tres envíos…».",
+    "Cerrar cada planteo con una pregunta abierta que habilite la respuesta del otro."
+  ],
+  perspectivas:[
+    "Antes de argumentar, parafrasear la posición ajena y esperar confirmación.",
+    "Preguntar en cada decisión importante: «¿qué riesgo estamos sin ver?».",
+    "Distinguir en voz alta entre datos, supuestos y preferencias durante la discusión.",
+    "Buscar deliberadamente una opinión que pueda contradecir tu propuesta inicial."
+  ],
+  hibrido:[
+    "Cerrar cada reunión con tres líneas: qué se decidió, quién sigue, para cuándo.",
+    "Mover a un lugar accesible al equipo un tema que hoy depende sólo de vos.",
+    "Empezar las rondas de opinión por quienes participan en línea.",
+    "Acordar con el equipo el tiempo de respuesta esperado por cada canal."
+  ],
+  emocional:[
+    "Identificar tu primera señal corporal de tensión y nombrarla cuando aparezca.",
+    "Aplicar la regla de los 90 segundos antes de responder a un mensaje que te irritó.",
+    "Cambiar «estoy mal» por la palabra precisa: sobrecargado, preocupado, frustrado.",
+    "Preguntar antes de interpretar: «te noté con poco margen, ¿cómo venís?»."
+  ],
+  corresponsabilidad:[
+    "Cerrar cada asignación con la frase «entonces yo entrego X el día Y, ¿coincidimos?».",
+    "Avisar el próximo desvío apenas lo detectes, sin esperar a tener la solución.",
+    "Después de un tropiezo, preguntar «¿qué del proceso lo hizo posible?».",
+    "Revisar una vez por semana si algún compromiso del equipo quedó sin dueño."
+  ]
+};
+
+/* Ítem adicional según el contexto declarado */
+const DX_ITEMS_CONTEXTO = {
+  modalidad:{
+    presencial:"Registrar por escrito lo que se decide en conversaciones informales de pasillo.",
+    hibrido:"Designar en cada reunión mixta a alguien que anfitrione a quienes están en línea.",
+    remoto:"Sumar un espacio breve y regular de estado del equipo que no sea sobre tareas.",
+    variable:"Revisar al inicio de cada proyecto qué acuerdos de trabajo aplican esta vez."
+  },
+  rol:{
+    coordina:"Explicitar ante el equipo el criterio con el que priorizás, no sólo la prioridad.",
+    ejecuta:"Comunicar tu avance antes de que te lo pregunten, con una línea semanal.",
+    articula:"Dejar por escrito lo que traducís entre áreas, para que no dependa de tu memoria.",
+    tecnico:"Explicitar los supuestos de tus recomendaciones y pedir objeciones de manera abierta."
+  }
+};
+
+const DX_ESCALA_INV = ["Casi nunca","Rara vez","A veces","Con frecuencia","Casi siempre"];
+
+/* ---------- Renderizado del formulario ---------- */
+const dxForm      = document.getElementById('dx-form');
+const dxAviso     = document.getElementById('dx-aviso');
+const dxRelleno   = document.getElementById('dx-progreso-relleno');
+const dxTextoProg = document.getElementById('dx-progreso-texto');
+const dxBarraProg = document.getElementById('dx-progreso-barra');
+const dxPanelForm = document.getElementById('dx-formulario');
+const dxPanelRes  = document.getElementById('dx-resultados');
+
+dxBarraProg.setAttribute('aria-valuemax', String(DX_PREGUNTAS.length));
+dxTextoProg.textContent = `0 de ${DX_PREGUNTAS.length} respondidas`;
+
+DX_PREGUNTAS.forEach((q, i) => {
+  const bloque = document.createElement('div');
+  bloque.className = 'pregunta';
+  bloque.id = `dx-pregunta-${i}`;
+
+  const cuerpo = q.tipo === 'frecuencia'
+    ? `<div class="escala">
+         ${DX_ESCALA_INV.map((et, v) => `
+           <label class="opcion">
+             <input type="radio" name="dx${i}" value="${v+1}">
+             <span>${et}</span>
+           </label>`).join('')}
+       </div>`
+    : `<div class="opciones-lista">
+         ${q.opciones.map((o, v) => `
+           <label class="opcion-larga">
+             <input type="radio" name="dx${i}" value="${v}">
+             <span>${o.t}</span>
+           </label>`).join('')}
+       </div>`;
+
+  bloque.innerHTML = `
+    <fieldset>
+      <legend><span class="etiqueta-dim">${q.dimension}</span>${i+1}. ${q.texto}</legend>
+      ${cuerpo}
+    </fieldset>`;
+  dxForm.appendChild(bloque);
+});
+
+dxForm.addEventListener('change', () => {
+  const n = dxRespondidas();
+  dxRelleno.style.width = (n/DX_PREGUNTAS.length*100) + '%';
+  dxTextoProg.textContent = `${n} de ${DX_PREGUNTAS.length} respondidas`;
+  dxBarraProg.setAttribute('aria-valuenow', String(n));
+  if(n === DX_PREGUNTAS.length) dxAviso.classList.add('oculto');
+});
+
+function dxRespondidas(){
+  return DX_PREGUNTAS.filter((_, i) => dxForm.querySelector(`input[name="dx${i}"]:checked`)).length;
+}
+
+document.getElementById('dx-btn-calcular').addEventListener('click', e => {
+  e.preventDefault();
+  const faltantes = [];
+  DX_PREGUNTAS.forEach((_, i) => {
+    const marcada = dxForm.querySelector(`input[name="dx${i}"]:checked`);
+    document.getElementById(`dx-pregunta-${i}`).classList.toggle('sin-responder', !marcada);
+    if(!marcada) faltantes.push(i+1);
+  });
+  if(faltantes.length){
+    dxAviso.textContent = `Faltan respuestas en ${faltantes.length === 1 ? 'la pregunta' : 'las preguntas'} ${faltantes.join(', ')}. Completalas para ver tu diagnóstico.`;
+    dxAviso.classList.remove('oculto');
+    document.getElementById(`dx-pregunta-${faltantes[0]-1}`).scrollIntoView({behavior:'smooth', block:'center'});
+    return;
+  }
+  dxAviso.classList.add('oculto');
+  dxMostrarResultados(dxCalcular());
+});
+
+document.getElementById('dx-btn-limpiar').addEventListener('click', () => {
+  dxForm.reset();
+  dxRelleno.style.width = '0%';
+  dxTextoProg.textContent = `0 de ${DX_PREGUNTAS.length} respondidas`;
+  dxBarraProg.setAttribute('aria-valuenow','0');
+  dxAviso.classList.add('oculto');
+  dxForm.querySelectorAll('.pregunta').forEach(p => p.classList.remove('sin-responder'));
+});
+
+/* ---------- Cálculo: necesidad de desarrollo por habilidad ---------- */
+function dxMaximos(){
+  const max = {};
+  MODULOS.forEach(m => max[m.id] = 0);
+  DX_PREGUNTAS.forEach(q => {
+    if(q.tipo === 'frecuencia'){ max[q.modulo] += 2; return; }
+    MODULOS.forEach(m => {
+      max[m.id] += Math.max(0, ...q.opciones.map(o => (o.pesos && o.pesos[m.id]) || 0));
+    });
+  });
+  return max;
+}
+
+function dxCalcular(){
+  const necesidad = {};
+  MODULOS.forEach(m => necesidad[m.id] = 0);
+  const contexto = {};
+
+  DX_PREGUNTAS.forEach((q, i) => {
+    const val = Number(dxForm.querySelector(`input[name="dx${i}"]:checked`).value);
+    if(q.tipo === 'frecuencia'){
+      necesidad[q.modulo] += (5 - val) / 2;   // 1 = casi nunca → 2 puntos de necesidad
+      return;
+    }
+    const op = q.opciones[val];
+    if(q.clave) contexto[q.clave] = op.valor;
+    Object.entries(op.pesos || {}).forEach(([mod, p]) => { necesidad[mod] += p; });
+  });
+
+  const max = dxMaximos();
+  const pct = {};
+  MODULOS.forEach(m => pct[m.id] = max[m.id] ? Math.round(necesidad[m.id]/max[m.id]*100) : 0);
+  // Texto de lo elegido en cada pregunta, para reproducirlo en el informe
+  const respuestas = DX_PREGUNTAS.map((q, i) => {
+    const val = Number(dxForm.querySelector(`input[name="dx${i}"]:checked`).value);
+    return q.tipo === 'frecuencia' ? DX_ESCALA_INV[val-1] : q.opciones[val].t;
+  });
+  return {necesidad, pct, contexto, respuestas};
+}
+
+function dxNivel(p){                  // p = porcentaje de necesidad
+  if(p >= 55) return 'foco';
+  if(p >= 25) return 'medio';
+  return 'alto';
+}
+const DX_NIVEL_TEXTO = {
+  foco:"Prioridad alta",
+  medio:"Para reforzar",
+  alto:"Fortaleza"
+};
+
+/* ---------- Resultados ---------- */
+/* Indica si el ítem número i del diagnóstico está tildado en pantalla */
+function dxItemMarcado(i){
+  const c = document.querySelector(`[data-dx-item="${i}"]`);
+  return !!(c && c.checked);
+}
+
+function dxMostrarResultados({pct, contexto, respuestas}){
+  const orden = MODULOS.slice().sort((a,b) => pct[b.id] - pct[a.id]);
+  const foco = orden[0];
+  const segundo = orden[1];
+  const fortaleza = orden[orden.length-1];
+  const promedio = Math.round(MODULOS.reduce((s,m) => s + pct[m.id], 0) / MODULOS.length);
+  const perfil = pct[foco.id] < 25 ? DX_PERFIL_ALTO : DX_PERFILES[foco.id];
+
+  // Ítems: los de las dos habilidades prioritarias, más uno por contexto y otro por rol
+  const items = [
+    ...DX_ITEMS[foco.id].slice(0,3).map(t => ({modulo:foco.titulo, texto:t})),
+    ...DX_ITEMS[segundo.id].slice(0,2).map(t => ({modulo:segundo.titulo, texto:t})),
+    {modulo:"Según tu contexto", texto:DX_ITEMS_CONTEXTO.modalidad[contexto.modalidad]},
+    {modulo:"Según tu rol",      texto:DX_ITEMS_CONTEXTO.rol[contexto.rol]}
+  ];
+
+  const dinamica = DINAMICAS.find(d => d.habilidad === foco.titulo);
+
+  // Queda disponible para el informe en PDF
+  ESTADO.diagnostico = {pct, contexto, respuestas, orden, foco, segundo, fortaleza,
+                        promedio, perfil, items, dinamica};
+
+  dxPanelRes.innerHTML = `
+    <h2>Tu diagnóstico de forma de trabajo</h2>
+
+    <div class="perfil">
+      <div class="dx-tags">
+        ${pct[foco.id] < 25
+          ? `<span class="tag">Sin prioridades altas</span>`
+          : `<span class="tag tag--modo">Prioridad: ${foco.titulo}</span>
+             <span class="tag">Punto más firme: ${fortaleza.titulo}</span>`}
+      </div>
+      <span class="etiqueta">${perfil.etiqueta}</span>
+      <p>${perfil.texto}</p>
+      <p style="color:var(--gris-500);font-size:.92rem"><em>${perfil.senal}</em></p>
+    </div>
+
+    <div class="tarjeta">
+      <h3>Cómo se lee tu contexto</h3>
+      <p>${DX_CONTEXTO.modalidad[contexto.modalidad]}</p>
+      <p style="margin-bottom:0">${DX_CONTEXTO.rol[contexto.rol]}</p>
+    </div>
+
+    <div class="tarjeta">
+      <h3>Prioridad de desarrollo por habilidad</h3>
+      <p style="color:var(--gris-700);font-size:.95rem">Las barras no miden cuánto sabés: indican dónde una
+        práctica deliberada rendiría más en las próximas semanas. En ámbar, lo prioritario; en verde, lo que
+        ya sostenés y conviene volver visible para el equipo.</p>
+      ${orden.map(m => `
+        <div class="barra-fila">
+          <div class="barra-cab">
+            <strong>${m.titulo}</strong>
+            <span>${DX_NIVEL_TEXTO[dxNivel(pct[m.id])]} · ${pct[m.id]}%</span>
+          </div>
+          <div class="barra-pista">
+            <div class="barra-valor ${dxNivel(pct[m.id])}" style="width:${Math.max(pct[m.id],3)}%"></div>
+          </div>
+        </div>`).join('')}
+      <p style="margin:1rem 0 0;color:var(--gris-500);font-size:.9rem">
+        Promedio general de necesidad de desarrollo: ${promedio}%.</p>
+    </div>
+
+    <div class="tarjeta">
+      <h3>Tu itinerario sugerido</h3>
+      <p style="color:var(--gris-700);font-size:.95rem">Recorré los módulos en este orden. No hace falta
+        completarlos todos para notar un cambio: el primero es el que más mueve la aguja en tu caso.</p>
+      <ol class="ruta">
+        ${orden.map((m, i) => `
+          <li class="ruta-item${i === 0 ? ' prioridad' : ''}">
+            <span class="ruta-orden" aria-hidden="true">${i+1}</span>
+            <div class="ruta-cuerpo">
+              <h4>${m.titulo}</h4>
+              <p>${m.resumen}</p>
+              <p class="ruta-medida">${DX_NIVEL_TEXTO[dxNivel(pct[m.id])]} · ${pct[m.id]}%</p>
+              <button class="btn ${i === 0 ? 'btn--acento' : 'btn--secundario'}" data-dx-modulo="${m.id}">
+                Abrir el módulo ${MODULOS.findIndex(x => x.id === m.id) + 1} →
+              </button>
+            </div>
+          </li>`).join('')}
+      </ol>
+    </div>
+
+    <div class="tarjeta">
+      <h3>Ítems a desarrollar</h3>
+      <p style="color:var(--gris-700);font-size:.95rem">Siete conductas concretas, elegidas a partir de tus
+        respuestas. Marcá las que vayas incorporando. La recomendación es sostener <strong>una sola</strong>
+        durante cuatro semanas antes de sumar la siguiente.</p>
+      <ul class="items-lista" id="dx-items">
+        ${items.map((it, i) => `
+          <li>
+            <label class="item-chk">
+              <input type="checkbox" data-dx-item="${i}">
+              <span class="item-texto"><span class="item-mod">${it.modulo}</span>${it.texto}</span>
+            </label>
+          </li>`).join('')}
+      </ul>
+      ${dinamica ? `<p style="margin:1.25rem 0 0;color:var(--gris-700);font-size:.95rem">
+        <strong>Para practicarlo en equipo:</strong> la dinámica «${dinamica.titulo}»
+        (${dinamica.modalidad} · ${dinamica.tiempo}) trabaja justamente ${foco.titulo.toLowerCase()}.</p>` : ''}
+    </div>
+
+    <div class="tarjeta" style="border-left:5px solid var(--azul-500)">
+      <h3>Próximo paso</h3>
+      <p style="margin-bottom:1rem">Este diagnóstico describe tu <em>forma de trabajo</em>. Si querés además
+        una medición por habilidad, con puntaje y plan de acción, completá la autoevaluación: son diez
+        afirmaciones y toma cinco minutos.</p>
+      <div style="display:flex;gap:.75rem;flex-wrap:wrap">
+        <button class="btn btn--primario" data-dx-modulo="${foco.id}">Empezar por ${foco.titulo} →</button>
+        <button class="btn btn--secundario" data-ir="evaluacion">Ir a la autoevaluación</button>
+        <button class="btn btn--secundario" id="dx-btn-descargar">Descargar en PDF</button>
+        <button class="btn btn--secundario" id="dx-btn-rehacer">Volver a responder</button>
+      </div>
+    </div>`;
+
+  dxPanelForm.classList.add('oculto');
+  dxPanelRes.classList.remove('oculto');
+  dxPanelRes.focus();
+  window.scrollTo({top:0, behavior:'smooth'});
+
+  dxPanelRes.querySelectorAll('[data-dx-modulo]').forEach(b => {
+    b.addEventListener('click', () => {
+      mostrarSeccion('modulos');
+      abrirModulo(b.dataset.dxModulo);
+    });
+  });
+
+  document.getElementById('dx-btn-rehacer').addEventListener('click', () => {
+    dxPanelRes.classList.add('oculto');
+    dxPanelForm.classList.remove('oculto');
+    document.getElementById('dx-btn-limpiar').click();
+    window.scrollTo({top:0, behavior:'smooth'});
+  });
+
+  document.getElementById('dx-btn-descargar').addEventListener('click', pdfDiagnostico);
+}
+
+/* =========================================================================
+   F. AUTOEVALUACIÓN: formulario, validación y cálculo
+   ========================================================================= */
+const form = document.getElementById('eval-form');
+const aviso = document.getElementById('eval-aviso');
+const relleno = document.getElementById('progreso-relleno');
+const textoProg = document.getElementById('progreso-texto');
+const barraProg = document.getElementById('progreso-barra');
+const panelForm = document.getElementById('eval-formulario');
+const panelRes  = document.getElementById('eval-resultados');
+
+PREGUNTAS.forEach((p, i) => {
+  const fs = document.createElement('div');
+  fs.className = 'pregunta';
+  fs.id = `pregunta-${i}`;
+  fs.innerHTML = `
+    <fieldset>
+      <legend>${i+1}. ${p.texto}</legend>
+      <div class="escala">
+        ${ESCALA.map((et, v) => `
+          <label class="opcion">
+            <input type="radio" name="p${i}" value="${v+1}">
+            <span>${et}</span>
+          </label>`).join('')}
+      </div>
+    </fieldset>`;
+  form.appendChild(fs);
+});
+
+// Actualiza la barra de progreso cada vez que se responde
+form.addEventListener('change', () => {
+  const n = respondidas();
+  relleno.style.width = (n/PREGUNTAS.length*100) + '%';
+  textoProg.textContent = `${n} de ${PREGUNTAS.length} respondidas`;
+  barraProg.setAttribute('aria-valuenow', String(n));
+  if(n === PREGUNTAS.length) aviso.classList.add('oculto');
+});
+
+function respondidas(){
+  return PREGUNTAS.filter((_, i) => form.querySelector(`input[name="p${i}"]:checked`)).length;
+}
+
+document.getElementById('btn-calcular').addEventListener('click', e => {
+  e.preventDefault();
+  const faltantes = [];
+  PREGUNTAS.forEach((_, i) => {
+    const marcada = form.querySelector(`input[name="p${i}"]:checked`);
+    const bloque = document.getElementById(`pregunta-${i}`);
+    bloque.classList.toggle('sin-responder', !marcada);
+    if(!marcada) faltantes.push(i+1);
+  });
+
+  if(faltantes.length){
+    aviso.textContent = `Faltan respuestas en ${faltantes.length === 1 ? 'la pregunta' : 'las preguntas'} ${faltantes.join(', ')}. Completalas para ver tu resultado.`;
+    aviso.classList.remove('oculto');
+    document.getElementById(`pregunta-${faltantes[0]-1}`).scrollIntoView({behavior:'smooth', block:'center'});
+    return;
+  }
+  aviso.classList.add('oculto');
+  mostrarResultados(calcular());
+});
+
+document.getElementById('btn-limpiar').addEventListener('click', () => {
+  form.reset();
+  relleno.style.width = '0%';
+  textoProg.textContent = `0 de ${PREGUNTAS.length} respondidas`;
+  barraProg.setAttribute('aria-valuenow','0');
+  aviso.classList.add('oculto');
+  document.querySelectorAll('.pregunta').forEach(p => p.classList.remove('sin-responder'));
+});
+
+/* Calcula puntaje total y por habilidad (cada habilidad suma máximo 10) */
+function calcular(){
+  const porModulo = {};
+  MODULOS.forEach(m => porModulo[m.id] = 0);
+  let total = 0;
+  const respuestas = [];
+  PREGUNTAS.forEach((p, i) => {
+    const v = Number(form.querySelector(`input[name="p${i}"]:checked`).value);
+    porModulo[p.modulo] += v;
+    respuestas.push(v);
+    total += v;
+  });
+  return {total, porModulo, respuestas};
+}
+
+function nivel(puntos){           // puntos sobre 10
+  if(puntos >= 9) return 'alto';
+  if(puntos >= 6) return 'medio';
+  return 'foco';
+}
+
+function mostrarResultados({total, porModulo, respuestas}){
+  const pct = Math.round(total/50*100);
+  const perfil = PERFILES.find(p => total >= p.min);
+
+  // Ordena habilidades de menor a mayor para priorizar el desarrollo
+  const orden = MODULOS.slice().sort((a,b) => porModulo[a.id] - porModulo[b.id]);
+  const foco = orden[0];
+  const fortaleza = orden[orden.length-1];
+
+  // Queda disponible para el informe en PDF
+  ESTADO.autoevaluacion = {total, porModulo, respuestas, perfil, orden, foco, fortaleza};
+
+  panelRes.innerHTML = `
+    <h2>Tu mapa de colaboración</h2>
+    <div class="perfil">
+      <div class="puntaje" style="--pct:${pct}%" role="img"
+           aria-label="Puntaje total ${total} de 50 puntos">
+        <div class="puntaje-interior"><strong>${total}</strong><small>de 50</small></div>
+      </div>
+      <span class="etiqueta">${perfil.etiqueta}</span>
+      <p>${perfil.texto}</p>
+    </div>
+
+    <div class="tarjeta">
+      <h3>Resultado por habilidad</h3>
+      <p style="color:var(--gris-700);font-size:.95rem">Cada habilidad se puntúa sobre 10. Las barras en ámbar
+        señalan dónde una práctica deliberada rendirá más en el corto plazo.</p>
+      ${MODULOS.map(m => {
+        const v = porModulo[m.id], n = nivel(v);
+        return `
+        <div class="barra-fila">
+          <div class="barra-cab"><strong>${m.titulo}</strong><span>${v} / 10</span></div>
+          <div class="barra-pista">
+            <div class="barra-valor ${n}" style="width:${v*10}%"></div>
+          </div>
+        </div>`;
+      }).join('')}
+    </div>
+
+    <div class="tarjeta">
+      <h3>Recomendaciones para vos</h3>
+      <p style="color:var(--gris-700);font-size:.95rem">
+        <strong>Tu punto más firme:</strong> ${fortaleza.titulo}. &nbsp;
+        <strong>Tu foco sugerido:</strong> ${foco.titulo}.</p>
+      ${orden.map(m => `
+        <div class="recomendacion" style="${m.id===foco.id?'border-left-color:var(--acento);background:var(--acento-claro)':''}">
+          <h4>${m.titulo}</h4>
+          <p>${RECOMENDACIONES[m.id][nivel(porModulo[m.id])]}</p>
+        </div>`).join('')}
+      <p style="margin-top:1.25rem;color:var(--gris-700);font-size:.95rem">
+        Este resultado describe hábitos actuales, no capacidades fijas. Sostener una sola práctica durante
+        cuatro semanas suele mover más el resultado que intentar cambiarlo todo a la vez.</p>
+    </div>
+
+    <div style="display:flex;gap:.75rem;flex-wrap:wrap;margin-top:1.5rem">
+      <button class="btn btn--primario" id="btn-rehacer">Volver a responder</button>
+      <button class="btn btn--secundario" id="btn-plan">Descargar mi plan (PDF)</button>
+      <button class="btn btn--secundario" data-ir="dinamicas">Practicar con una dinámica →</button>
+    </div>`;
+
+  panelForm.classList.add('oculto');
+  panelRes.classList.remove('oculto');
+  panelRes.focus();
+  window.scrollTo({top:0, behavior:'smooth'});
+
+  document.getElementById('btn-rehacer').addEventListener('click', () => {
+    panelRes.classList.add('oculto');
+    panelForm.classList.remove('oculto');
+    document.getElementById('btn-limpiar').click();
+  });
+  document.getElementById('btn-plan').addEventListener('click', pdfAutoevaluacion);
+}
+
+/* =========================================================================
+   G. GENERADOR DE DINÁMICAS
+   ========================================================================= */
+let filtroActual = 'todas';
+let ultimaDinamica = -1;
+const salida = document.getElementById('dinamica-salida');
+
+document.querySelectorAll('.chip').forEach(chip => {
+  chip.addEventListener('click', () => {
+    filtroActual = chip.dataset.filtro;
+    document.querySelectorAll('.chip').forEach(c =>
+      c.setAttribute('aria-pressed', String(c === chip)));
+  });
+});
+
+document.getElementById('btn-dinamica').addEventListener('click', () => {
+  const disponibles = DINAMICAS.filter(d => filtroActual === 'todas' || d.modalidad === filtroActual);
+  if(!disponibles.length){
+    salida.innerHTML = '<p class="placeholder">No hay dinámicas con ese filtro. Probá con otra modalidad.</p>';
+    return;
+  }
+  // Evita repetir la dinámica anterior cuando hay más de una opción
+  let d, intento = 0;
+  do { d = disponibles[Math.floor(Math.random()*disponibles.length)]; intento++; }
+  while(disponibles.length > 1 && DINAMICAS.indexOf(d) === ultimaDinamica && intento < 12);
+  ultimaDinamica = DINAMICAS.indexOf(d);
+
+  salida.innerHTML = `
+    <article class="dinamica">
+      <div class="dinamica-meta">
+        <span class="tag tag--modo">${d.modalidad}</span>
+        <span class="tag tag--tiempo">${d.tiempo}</span>
+        <span class="tag tag--tiempo">${d.grupo}</span>
+        <span class="tag">${d.habilidad}</span>
+      </div>
+      <h3>${d.titulo}</h3>
+      <p><strong>Objetivo:</strong> ${d.objetivo}</p>
+      <h4>Cómo se hace</h4>
+      <ol>${d.pasos.map(p => `<li>${p}</li>`).join('')}</ol>
+      <p style="margin-top:1rem"><strong>Pregunta de cierre:</strong> ${d.cierre}</p>
+    </article>`;
+});
+
+/* =========================================================================
+   H. RECURSOS Y MODAL
+   ========================================================================= */
+const RECURSOS = [
+  {icono:"📄", titulo:"Guía rápida de bolsillo", texto:"Las cinco habilidades con su definición, una situación reconocible y las prácticas sugeridas.", accion:"guia", boton:"Descargar en PDF"},
+  {icono:"🗂️", titulo:"Cuadernillo de dinámicas", texto:"Las doce dinámicas del generador, con objetivo, pasos y pregunta de cierre, listas para facilitar.", accion:"dinamicas", boton:"Descargar en PDF"},
+  {icono:"🖨️", titulo:"Versión imprimible", texto:"Abre el cuadro de impresión del navegador con el contenido completo, para guardar como PDF o imprimir.", accion:"imprimir", boton:"Imprimir o guardar en PDF"},
+  {icono:"🤝", titulo:"Acuerdos de equipo", texto:"Plantilla breve para acordar expectativas, avisos y tiempos de respuesta en modalidad híbrida.", accion:"acuerdos", boton:"Descargar en PDF"}
+];
+
+const rejillaRecursos = document.getElementById('recursos-rejilla');
+RECURSOS.forEach(r => {
+  const art = document.createElement('article');
+  art.className = 'tarjeta recurso';
+  art.innerHTML = `
+    <span class="icono" aria-hidden="true">${r.icono}</span>
+    <h3>${r.titulo}</h3>
+    <p>${r.texto}</p>
+    <button class="btn btn--primario" data-recurso="${r.accion}">${r.boton}</button>`;
+  rejillaRecursos.appendChild(art);
+});
+
+const modal = document.getElementById('modal');
+const modalTitulo = document.getElementById('modal-titulo');
+const modalCuerpo = document.getElementById('modal-cuerpo');
+const modalPie = document.getElementById('modal-pie');
+
+function abrirModal(titulo, html, acciones = []){
+  modalTitulo.textContent = titulo;
+  modalCuerpo.innerHTML = html;
+  modalPie.innerHTML = '';
+  acciones.forEach(a => {
+    const b = document.createElement('button');
+    b.className = 'btn ' + (a.estilo || 'btn--secundario');
+    b.textContent = a.texto;
+    b.addEventListener('click', a.fn);
+    modalPie.appendChild(b);
+  });
+  const cerrar = document.createElement('button');
+  cerrar.className = 'btn btn--primario';
+  cerrar.textContent = 'Cerrar';
+  cerrar.addEventListener('click', () => modal.close());
+  modalPie.appendChild(cerrar);
+  // showModal aporta foco atrapado y cierre con Escape de forma nativa
+  if(typeof modal.showModal === 'function') modal.showModal(); else modal.setAttribute('open','');
+}
+document.getElementById('modal-cerrar').addEventListener('click', () => modal.close());
+
+/* =========================================================================
+   H-BIS. RECURSOS: ahora todo se descarga en PDF
+   ========================================================================= */
+document.addEventListener('click', e => {
+  const btn = e.target.closest('[data-recurso]');
+  if(!btn) return;
+  const accion = btn.dataset.recurso;
+
+  if(accion === 'guia'){
+    abrirModal('Guía rápida de bolsillo',
+      `<p>Reúne las cinco habilidades con su definición, una situación reconocible, las prácticas sugeridas
+       y la pregunta de reflexión de cada módulo.</p>
+       <p>El PDF se arma en tu navegador, sin conexión ni servicios externos, con el diseño institucional
+       del Consejo.</p>`,
+      [{texto:'Descargar PDF', estilo:'btn--acento', fn:() => { modal.close(); pdfGuiaRapida(); }}]);
+  }
+
+  if(accion === 'dinamicas'){
+    abrirModal('Cuadernillo de dinámicas',
+      `<p>Incluye las <strong>${DINAMICAS.length} dinámicas</strong> del generador con objetivo, pasos y
+       pregunta de cierre, listas para facilitar sesiones presenciales, virtuales e híbridas.</p>`,
+      [{texto:'Descargar PDF', estilo:'btn--acento', fn:() => { modal.close(); pdfCuadernillo(); }}]);
+  }
+
+  if(accion === 'imprimir'){
+    abrirModal('Versión imprimible',
+      `<p>Abre el cuadro de impresión del navegador con el contenido de lectura de la guía: los módulos,
+       las dinámicas y los resultados que hayas generado.</p>
+       <ul>
+         <li>Los cuestionarios sin responder, el menú y los botones no se imprimen.</li>
+         <li>Si lo que querés es un archivo, conviene usar <strong>Descargar PDF</strong> en la barra
+             superior: el documento sale paginado y con el formato del informe.</li>
+       </ul>`,
+      [{texto:'Abrir impresión', estilo:'btn--acento', fn:() => { modal.close(); setTimeout(() => window.print(), 250); }}]);
+  }
+
+  if(accion === 'acuerdos'){
+    abrirModal('Plantilla de acuerdos de equipo',
+      `<p>Completala con tu equipo en 20 minutos y revisala a los 30 días.</p>
+       <ol>
+         <li><strong>Qué esperamos de cada rol:</strong> una línea por persona, con el aporte principal.</li>
+         <li><strong>Qué avisamos y cuándo:</strong> qué situaciones se comunican de inmediato y por qué canal.</li>
+         <li><strong>En cuánto respondemos:</strong> tiempo esperado según canal (mensajería, correo, documento compartido).</li>
+         <li><strong>Dónde vive la información:</strong> repositorio único para acuerdos y documentos de trabajo.</li>
+         <li><strong>Cómo revisamos lo que no salió bien:</strong> revisión de proceso, sin buscar responsables individuales.</li>
+       </ol>`,
+      [{texto:'Descargar PDF', estilo:'btn--acento', fn:() => { modal.close(); pdfAcuerdos(); }}]);
+  }
+});
+
+/* =========================================================================
+   I. MOTOR DE PDF
+   Generador propio, sin librerías externas ni conexión: arma el archivo PDF
+   byte a byte en el navegador. Usa las fuentes estándar Helvetica (no hay
+   que incrustar tipografías) y embebe el logo institucional como imagen
+   JPEG, de modo que el PDF conserva la identidad del Consejo.
+   ========================================================================= */
+const MiniPDF = (function(){
+
+  const A4 = {ancho:595.28, alto:841.89};
+  const MARGEN = {izq:56, der:56, sup:62, inf:58};
+
+  /* --- Métricas de Helvetica (unidades de 1/1000 em) --------------------
+     Permiten calcular el corte de línea sin depender del navegador.      */
+  const SIGNOS_REG = {' ':278,'!':278,'"':355,'#':556,'$':556,'%':889,'&':667,"'":191,'(':333,')':333,
+    '*':389,'+':584,',':278,'-':333,'.':278,'/':278,':':278,';':278,'<':584,'=':584,'>':584,'?':556,
+    '@':1015,'[':278,'\\':278,']':278,'^':469,'_':556,'`':333,'{':334,'|':260,'}':334,'~':584,
+    '¡':333,'¿':611,'«':556,'»':556,'—':1000,'–':556,'…':1000,
+    '•':350,'·':278,'º':365,'ª':370,'°':400};
+  const LETRAS_REG = {A:667,B:667,C:722,D:722,E:667,F:611,G:778,H:722,I:278,J:500,K:667,L:556,M:833,
+    N:722,O:778,P:667,Q:778,R:722,S:667,T:611,U:722,V:667,W:944,X:667,Y:667,Z:611,
+    a:556,b:556,c:500,d:556,e:556,f:278,g:556,h:556,i:222,j:222,k:500,l:222,m:833,n:556,o:556,
+    p:556,q:556,r:333,s:500,t:278,u:556,v:500,w:722,x:500,y:500,z:500};
+  const SIGNOS_BOLD = {' ':278,'!':333,'"':474,'#':556,'$':556,'%':889,'&':722,"'":238,'(':333,')':333,
+    '*':389,'+':584,',':278,'-':333,'.':278,'/':278,':':333,';':333,'<':584,'=':584,'>':584,'?':611,
+    '@':975,'[':333,'\\':278,']':333,'^':584,'_':556,'`':333,'{':389,'|':280,'}':389,'~':584,
+    '¡':333,'¿':611,'«':556,'»':556,'—':1000,'–':556,'…':1000,
+    '•':350,'·':278,'º':365,'ª':370,'°':400};
+  const LETRAS_BOLD = {A:722,B:722,C:722,D:722,E:667,F:611,G:778,H:722,I:278,J:556,K:722,L:611,M:833,
+    N:722,O:778,P:667,Q:778,R:722,S:667,T:611,U:722,V:667,W:944,X:667,Y:667,Z:611,
+    a:556,b:611,c:556,d:611,e:556,f:333,g:611,h:611,i:278,j:278,k:556,l:278,m:889,n:611,o:611,
+    p:611,q:611,r:389,s:556,t:333,u:611,v:556,w:778,x:556,y:556,z:500};
+
+  /* Las vocales acentuadas miden lo mismo que su letra base */
+  const SIN_TILDE = {'á':'a','é':'e','í':'i','ó':'o','ú':'u','ü':'u','ñ':'n','Á':'A','É':'E','Í':'I',
+    'Ó':'O','Ú':'U','Ü':'U','Ñ':'N','à':'a','è':'e','ì':'i','ò':'o','ù':'u','ç':'c','Ç':'C'};
+
+  function anchoCaracter(ch, negrita){
+    const letras = negrita ? LETRAS_BOLD : LETRAS_REG;
+    const signos = negrita ? SIGNOS_BOLD : SIGNOS_REG;
+    if(ch >= '0' && ch <= '9') return 556;
+    const base = SIN_TILDE[ch] || ch;
+    if(letras[base] !== undefined) return letras[base];
+    if(signos[ch] !== undefined) return signos[ch];
+    return 556;
+  }
+
+  function anchoTexto(texto, tam, negrita){
+    let total = 0;
+    for(const ch of texto) total += anchoCaracter(ch, negrita);
+    return total * tam / 1000;
+  }
+
+  /* --- Codificación WinAnsi -------------------------------------------- */
+  const ESPECIALES = {'–':0x96,'—':0x97,'‘':0x91,'’':0x92,'“':0x93,
+    '”':0x94,'•':0x95,'…':0x85,'€':0x80,'™':0x99,
+    '‹':0x8b,'›':0x9b};
+  const REEMPLAZOS = [[/→/g,'->'],[/←/g,'<-'],[/[✓✔]/g,''],[/ /g,' ']];
+
+  function normalizar(texto){
+    let t = String(texto == null ? '' : texto);
+    REEMPLAZOS.forEach(([re, rep]) => { t = t.replace(re, rep); });
+    return t;
+  }
+
+  function codificar(texto){
+    let salida = '';
+    for(const ch of normalizar(texto)){
+      let cod = ESPECIALES[ch];
+      if(cod === undefined){
+        const p = ch.codePointAt(0);
+        cod = (p >= 32 && p <= 126) || (p >= 160 && p <= 255) ? p : 63; // 63 = '?'
+      }
+      const c = String.fromCharCode(cod);
+      salida += (c === '(' || c === ')' || c === '\\') ? '\\' + c : c;
+    }
+    return salida;
+  }
+
+  /* --- Color: '#rrggbb' -> 'r g b' en escala 0..1 ----------------------- */
+  function rgb(hex){
+    const n = parseInt(hex.slice(1), 16);
+    return [(n >> 16 & 255)/255, (n >> 8 & 255)/255, (n & 255)/255]
+      .map(v => v.toFixed(3)).join(' ');
+  }
+
+  /* ====================== DOCUMENTO ====================== */
+  function Documento(opciones){
+    this.op = Object.assign({titulo:'Informe', subtitulo:'', seccion:''}, opciones || {});
+    this.paginas = [];
+    this.flujo = null;
+    this.y = 0;
+    this.nuevaPagina(true);
+  }
+
+  Documento.prototype.anchoUtil = function(){
+    return A4.ancho - MARGEN.izq - MARGEN.der;
+  };
+
+  Documento.prototype.escribir = function(s){ this.flujo.push(s); };
+
+  /* Convierte la coordenada vertical (medida desde arriba) a la del PDF */
+  function py(y){ return (A4.alto - y).toFixed(2); }
+
+  Documento.prototype.nuevaPagina = function(primera){
+    this.flujo = [];
+    this.paginas.push(this.flujo);
+    if(primera) this.encabezadoPortada(); else this.encabezadoInterior();
+    this.pie();
+  };
+
+  Documento.prototype.rect = function(x, y, an, al, color){
+    this.escribir(`q ${rgb(color)} rg ${x.toFixed(2)} ${py(y + al)} ${an.toFixed(2)} ${al.toFixed(2)} re f Q`);
+  };
+
+  Documento.prototype.linea = function(x1, y1, x2, y2, color, grosor){
+    this.escribir(`q ${rgb(color)} RG ${(grosor||.6).toFixed(2)} w ${x1.toFixed(2)} ${py(y1)} m ${x2.toFixed(2)} ${py(y2)} l S Q`);
+  };
+
+  /* Dibuja una línea de texto sin control de salto de página */
+  Documento.prototype.linTexto = function(texto, x, y, tam, fuente, color){
+    const f = fuente === 'bold' ? '/F2' : fuente === 'italic' ? '/F3' : '/F1';
+    this.escribir(`BT ${rgb(color)} rg ${f} ${tam} Tf 1 0 0 1 ${x.toFixed(2)} ${py(y).toString()} Tm (${codificar(texto)}) Tj ET`);
+  };
+
+  Documento.prototype.imagen = function(x, y, an, al){
+    this.escribir(`q ${an.toFixed(2)} 0 0 ${al.toFixed(2)} ${x.toFixed(2)} ${py(y + al)} cm /Im1 Do Q`);
+  };
+
+  /* --- Encabezados y pie ------------------------------------------------ */
+  Documento.prototype.encabezadoPortada = function(){
+    const alto = 128;
+    this.rect(0, 0, A4.ancho, alto, '#0f2942');
+    this.rect(0, alto, A4.ancho, 4, '#c96a1f');
+    // Placa blanca con el logo, a la derecha
+    const anLogo = 112, alLogo = 50;
+    this.rect(A4.ancho - MARGEN.der - anLogo - 16, 30, anLogo + 16, alLogo + 16, '#ffffff');
+    this.imagen(A4.ancho - MARGEN.der - anLogo - 8, 38, anLogo, alLogo);
+    this.linTexto('CONSEJO PROFESIONAL DE INGENIERÍA CIVIL', MARGEN.izq, 42, 7.5, 'bold', '#9dc4e2');
+    const anchoTitulo = A4.ancho - MARGEN.izq - MARGEN.der - anLogo - 40;
+    let yy = 66;
+    partirTexto(this.op.titulo, anchoTitulo, 17, true).forEach(l => {
+      this.linTexto(l, MARGEN.izq, yy, 17, 'bold', '#ffffff'); yy += 21;
+    });
+    if(this.op.subtitulo) this.linTexto(this.op.subtitulo, MARGEN.izq, yy + 2, 9.5, 'normal', '#cfe2f2');
+    this.y = alto + 36;
+  };
+
+  Documento.prototype.encabezadoInterior = function(){
+    this.rect(0, 0, A4.ancho, 3, '#0f2942');
+    this.imagen(A4.ancho - MARGEN.der - 58, 20, 58, 26);
+    this.linTexto(this.op.titulo, MARGEN.izq, 36, 9, 'bold', '#16395c');
+    this.linea(MARGEN.izq, 48, A4.ancho - MARGEN.der, 48, '#cbd2d9', .6);
+    this.y = 74;
+  };
+
+  Documento.prototype.pie = function(){
+    const yPie = A4.alto - 34;
+    this.linea(MARGEN.izq, yPie - 10, A4.ancho - MARGEN.der, yPie - 10, '#cbd2d9', .6);
+    this.linTexto('Habilidades de Colaboración · Guía interactiva del CPIC', MARGEN.izq, yPie + 2, 7.5, 'normal', '#6b7885');
+    const etiqueta = 'Página ' + this.paginas.length + ' de {TOTAL}';
+    this.linTexto(etiqueta, A4.ancho - MARGEN.der - anchoTexto(etiqueta, 7.5, false), yPie + 2, 7.5, 'normal', '#6b7885');
+  };
+
+  /* --- Control de flujo vertical --------------------------------------- */
+  Documento.prototype.espacioRestante = function(){
+    return A4.alto - MARGEN.inf - this.y;
+  };
+
+  Documento.prototype.asegurar = function(alto){
+    if(this.espacioRestante() < alto) this.nuevaPagina(false);
+  };
+
+  Documento.prototype.espacio = function(h){ this.y += h; };
+
+  /* --- Bloques de contenido -------------------------------------------- */
+  Documento.prototype.titulo2 = function(texto){
+    this.asegurar(56);
+    this.espacio(10);
+    this.rect(MARGEN.izq, this.y, 26, 3, '#c96a1f');
+    this.y += 13;
+    this.parrafo(texto, {tam:13.5, fuente:'bold', color:'#0f2942', interlinea:17, espacioDespues:8});
+  };
+
+  Documento.prototype.titulo3 = function(texto){
+    this.asegurar(40);
+    this.espacio(6);
+    this.parrafo(texto, {tam:10.5, fuente:'bold', color:'#1d4d7c', interlinea:14, espacioDespues:4});
+  };
+
+  Documento.prototype.parrafo = function(texto, opc){
+    const o = Object.assign({tam:10, fuente:'normal', color:'#1f2933', interlinea:14,
+      espacioDespues:8, sangria:0, ancho:null}, opc || {});
+    const ancho = (o.ancho || this.anchoUtil()) - o.sangria;
+    const lineas = partirTexto(texto, ancho, o.tam, o.fuente === 'bold');
+    lineas.forEach(l => {
+      this.asegurar(o.interlinea + 4);
+      this.linTexto(l, MARGEN.izq + o.sangria, this.y + o.tam, o.tam, o.fuente, o.color);
+      this.y += o.interlinea;
+    });
+    this.y += o.espacioDespues;
+  };
+
+  Documento.prototype.viñeta = function(texto, simbolo, color){
+    const sim = simbolo || '·';
+    const sangria = 16;
+    this.asegurar(18);
+    this.linTexto(sim, MARGEN.izq + 3, this.y + 10, 10, 'bold', color || '#c96a1f');
+    this.parrafo(texto, {sangria:sangria, espacioDespues:3});
+  };
+
+  Documento.prototype.etiquetaValor = function(etiqueta, valor){
+    this.asegurar(20);
+    const anEt = anchoTexto(etiqueta, 9.5, true) + 6;
+    this.linTexto(etiqueta, MARGEN.izq, this.y + 10, 9.5, 'bold', '#16395c');
+    this.parrafo(valor, {sangria:anEt, tam:9.5, interlinea:13, espacioDespues:4});
+  };
+
+  /* Recuadro con borde izquierdo de color y fondo tenue */
+  Documento.prototype.recuadro = function(titulo, cuerpo, colorBorde, colorFondo){
+    const ancho = this.anchoUtil();
+    const anchoTxt = ancho - 28;
+    const lineasTitulo = titulo ? partirTexto(titulo, anchoTxt, 10, true) : [];
+    const lineasCuerpo = [];
+    (Array.isArray(cuerpo) ? cuerpo : [cuerpo]).forEach(t => {
+      partirTexto(t, anchoTxt, 9.5, false).forEach(l => lineasCuerpo.push(l));
+      lineasCuerpo.push(null);           // separación entre párrafos
+    });
+    if(lineasCuerpo[lineasCuerpo.length-1] === null) lineasCuerpo.pop();
+    const alto = 16 + lineasTitulo.length*13 + lineasCuerpo.length*12.5 + 6;
+    this.asegurar(alto + 10);
+    const y0 = this.y;
+    this.rect(MARGEN.izq, y0, ancho, alto, colorFondo || '#f3f8fc');
+    this.rect(MARGEN.izq, y0, 3.5, alto, colorBorde || '#2f7bb8');
+    let yy = y0 + 10;
+    lineasTitulo.forEach(l => { this.linTexto(l, MARGEN.izq + 14, yy + 9, 10, 'bold', '#0f2942'); yy += 13; });
+    if(lineasTitulo.length) yy += 2;
+    lineasCuerpo.forEach(l => {
+      if(l === null){ yy += 6; return; }
+      this.linTexto(l, MARGEN.izq + 14, yy + 9, 9.5, 'normal', '#3e4c59'); yy += 12.5;
+    });
+    this.y = y0 + alto + 10;
+  };
+
+  /* Barra horizontal con etiqueta y porcentaje */
+  Documento.prototype.barra = function(etiqueta, derecha, porcentaje, color){
+    this.asegurar(32);
+    const ancho = this.anchoUtil();
+    this.linTexto(etiqueta, MARGEN.izq, this.y + 9, 9.5, 'bold', '#16395c');
+    this.linTexto(derecha, MARGEN.izq + ancho - anchoTexto(derecha, 8.5, false), this.y + 9, 8.5, 'normal', '#6b7885');
+    const yBarra = this.y + 14;
+    this.rect(MARGEN.izq, yBarra, ancho, 7, '#eef1f4');
+    const relleno = Math.max(ancho * Math.max(0, Math.min(100, porcentaje)) / 100, 2);
+    this.rect(MARGEN.izq, yBarra, relleno, 7, color);
+    this.y += 30;
+  };
+
+  /* Círculo relleno, aproximado con cuatro curvas Bézier */
+  Documento.prototype.circulo = function(cx, cy, r, color){
+    const k = r * 0.5523;
+    const Y = v => Number(py(v));
+    this.escribir(`q ${rgb(color)} rg ${(cx).toFixed(2)} ${Y(cy-r)} m ` +
+      `${(cx+k).toFixed(2)} ${Y(cy-r)} ${(cx+r).toFixed(2)} ${Y(cy-k)} ${(cx+r).toFixed(2)} ${Y(cy)} c ` +
+      `${(cx+r).toFixed(2)} ${Y(cy+k)} ${(cx+k).toFixed(2)} ${Y(cy+r)} ${(cx).toFixed(2)} ${Y(cy+r)} c ` +
+      `${(cx-k).toFixed(2)} ${Y(cy+r)} ${(cx-r).toFixed(2)} ${Y(cy+k)} ${(cx-r).toFixed(2)} ${Y(cy)} c ` +
+      `${(cx-r).toFixed(2)} ${Y(cy-k)} ${(cx-k).toFixed(2)} ${Y(cy-r)} ${(cx).toFixed(2)} ${Y(cy-r)} c f Q`);
+  };
+
+  /* Paso del itinerario: número dentro de un círculo + título y descripción */
+  Documento.prototype.paso = function(numero, titulo, descripcion, destacado){
+    const sangria = 26;
+    const anchoTxt = this.anchoUtil() - sangria;
+    const lTitulo = partirTexto(titulo, anchoTxt, 10.5, true);
+    const lDesc = partirTexto(descripcion, anchoTxt, 9.5, false);
+    const alto = lTitulo.length*13 + lDesc.length*12.5 + 12;
+    this.asegurar(alto + 6);
+    const y0 = this.y;
+    this.circulo(MARGEN.izq + 8, y0 + 9, 8, destacado ? '#a9561a' : '#e3eef7');
+    const n = String(numero);
+    this.linTexto(n, MARGEN.izq + 8 - anchoTexto(n, 9, true)/2, y0 + 12.5, 9, 'bold',
+      destacado ? '#ffffff' : '#16395c');
+    let yy = y0;
+    lTitulo.forEach(l => { this.linTexto(l, MARGEN.izq + sangria, yy + 10, 10.5, 'bold', '#16395c'); yy += 13; });
+    lDesc.forEach(l => { this.linTexto(l, MARGEN.izq + sangria, yy + 9, 9.5, 'normal', '#3e4c59'); yy += 12.5; });
+    this.y = y0 + alto;
+  };
+
+  /* Ítem con casilla de verificación dibujada vectorialmente */
+  Documento.prototype.casilla = function(texto, marcada, sobretitulo){
+    const sangria = 20;
+    const anchoTxt = this.anchoUtil() - sangria;
+    const lineas = partirTexto(texto, anchoTxt, 9.5, false);
+    const alto = (sobretitulo ? 11 : 0) + lineas.length * 12.5 + 8;
+    this.asegurar(alto + 4);
+    const y0 = this.y;
+    // casilla
+    const cx = MARGEN.izq + 1, cy = y0 + (sobretitulo ? 12 : 2);
+    this.escribir(`q ${rgb(marcada ? '#1d6f52' : '#ffffff')} rg ${rgb(marcada ? '#1d6f52' : '#6b7885')} RG .9 w ` +
+      `${cx.toFixed(2)} ${py(cy + 10)} 10 10 re B Q`);
+    if(marcada){
+      this.escribir(`q ${rgb('#ffffff')} RG 1.4 w ${(cx+2.4).toFixed(2)} ${py(cy+5.4)} m ` +
+        `${(cx+4.2).toFixed(2)} ${py(cy+7.4)} l ${(cx+7.8).toFixed(2)} ${py(cy+2.8)} l S Q`);
+    }
+    let yy = y0;
+    if(sobretitulo){
+      this.linTexto(sobretitulo.toUpperCase(), MARGEN.izq + sangria, yy + 8, 7, 'bold', '#6b7885');
+      yy += 11;
+    }
+    lineas.forEach(l => {
+      this.linTexto(l, MARGEN.izq + sangria, yy + 9, 9.5, 'normal', marcada ? '#6b7885' : '#1f2933');
+      yy += 12.5;
+    });
+    this.y = y0 + alto;
+  };
+
+  /* Renglón para completar a mano */
+  Documento.prototype.renglon = function(etiqueta){
+    this.asegurar(26);
+    this.linTexto(etiqueta, MARGEN.izq, this.y + 9, 9.5, 'normal', '#3e4c59');
+    const x = MARGEN.izq + anchoTexto(etiqueta, 9.5, false) + 8;
+    this.linea(x, this.y + 12, A4.ancho - MARGEN.der, this.y + 12, '#cbd2d9', .8);
+    this.y += 24;
+  };
+
+  /* --- Partición de texto en líneas ------------------------------------ */
+  function partirTexto(texto, ancho, tam, negrita){
+    const palabras = normalizar(texto).split(/\s+/).filter(Boolean);
+    const lineas = [];
+    let actual = '';
+    palabras.forEach(pal => {
+      const prueba = actual ? actual + ' ' + pal : pal;
+      if(anchoTexto(prueba, tam, negrita) <= ancho){ actual = prueba; return; }
+      if(actual) lineas.push(actual);
+      // palabra más larga que el renglón: se corta por caracteres
+      if(anchoTexto(pal, tam, negrita) > ancho){
+        let resto = pal, parcial = '';
+        for(const ch of resto){
+          if(anchoTexto(parcial + ch, tam, negrita) > ancho){ lineas.push(parcial); parcial = ch; }
+          else parcial += ch;
+        }
+        actual = parcial;
+      } else actual = pal;
+    });
+    if(actual) lineas.push(actual);
+    return lineas.length ? lineas : [''];
+  }
+
+  /* --- Serialización del archivo PDF ----------------------------------- */
+  Documento.prototype.generar = function(logoBinario){
+    const total = this.paginas.length;
+    const objetos = [];
+    const agregar = s => { objetos.push(s); return objetos.length; };
+
+    const idCatalogo = agregar(null);              // 1
+    const idPaginas  = agregar(null);              // 2
+    const idF1 = agregar('<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica /Encoding /WinAnsiEncoding >>');
+    const idF2 = agregar('<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold /Encoding /WinAnsiEncoding >>');
+    const idF3 = agregar('<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Oblique /Encoding /WinAnsiEncoding >>');
+    const idImg = agregar('<< /Type /XObject /Subtype /Image /Width 440 /Height 197 /ColorSpace /DeviceRGB ' +
+      '/BitsPerComponent 8 /Filter /DCTDecode /Length ' + logoBinario.length + ' >>\nstream\n' + logoBinario + '\nendstream');
+
+    const idsPagina = [];
+    this.paginas.forEach(flujo => {
+      const contenido = flujo.join('\n').replace(/\{TOTAL\}/g, String(total));
+      const idCont = agregar('<< /Length ' + contenido.length + ' >>\nstream\n' + contenido + '\nendstream');
+      const idPag = agregar('<< /Type /Page /Parent ' + idPaginas + ' 0 R /MediaBox [0 0 595.28 841.89] ' +
+        '/Resources << /Font << /F1 ' + idF1 + ' 0 R /F2 ' + idF2 + ' 0 R /F3 ' + idF3 + ' 0 R >> ' +
+        '/XObject << /Im1 ' + idImg + ' 0 R >> >> /Contents ' + idCont + ' 0 R >>');
+      idsPagina.push(idPag);
+    });
+
+    objetos[idCatalogo-1] = '<< /Type /Catalog /Pages ' + idPaginas + ' 0 R >>';
+    objetos[idPaginas-1]  = '<< /Type /Pages /Count ' + idsPagina.length + ' /Kids [' +
+      idsPagina.map(i => i + ' 0 R').join(' ') + '] >>';
+
+    let salida = '%PDF-1.4\n%\xe2\xe3\xcf\xd3\n';
+    const posiciones = [];
+    objetos.forEach((obj, i) => {
+      posiciones.push(salida.length);
+      salida += (i+1) + ' 0 obj\n' + obj + '\nendobj\n';
+    });
+    const inicioXref = salida.length;
+    salida += 'xref\n0 ' + (objetos.length + 1) + '\n0000000000 65535 f \n';
+    posiciones.forEach(p => { salida += String(p).padStart(10, '0') + ' 00000 n \n'; });
+    salida += 'trailer\n<< /Size ' + (objetos.length + 1) + ' /Root ' + idCatalogo + ' 0 R >>\n' +
+              'startxref\n' + inicioXref + '\n%%EOF';
+
+    const bytes = new Uint8Array(salida.length);
+    for(let i = 0; i < salida.length; i++) bytes[i] = salida.charCodeAt(i) & 0xff;
+    return new Blob([bytes], {type:'application/pdf'});
+  };
+
+  return {
+    crear: function(opc){ return new Documento(opc); },
+    A4: A4,
+    MARGEN: MARGEN
+  };
+})();
+
+/* Logo institucional en binario, extraído de la variable CSS --logo-cpic */
+const LOGO_BINARIO = (function(){
+  try{
+    const valor = getComputedStyle(document.documentElement).getPropertyValue('--logo-cpic');
+    const m = valor.match(/base64,([A-Za-z0-9+/=]+)/);
+    return m ? atob(m[1]) : '';
+  }catch(e){ return ''; }
+})();
+
+function descargarPDF(doc, nombre){
+  const blob = doc.generar(LOGO_BINARIO);
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = nombre;
+  document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(() => URL.revokeObjectURL(url), 2000);
+}
+
+function fechaLarga(){
+  return new Date().toLocaleDateString('es-AR', {day:'numeric', month:'long', year:'numeric'});
+}
+
+const COLOR_NIVEL = {alto:'#1d6f52', medio:'#2f7bb8', foco:'#c96a1f'};
+
+/* =========================================================================
+   J. INFORMES EN PDF
+   Cada bloque se arma como una sección reutilizable, de modo que el informe
+   completo se compone con las mismas piezas que los informes individuales.
+   ========================================================================= */
+
+/* Estado de lo que el usuario fue completando durante la sesión */
+const ESTADO = {diagnostico:null, autoevaluacion:null};
+
+/* --- Piezas reutilizables -------------------------------------------- */
+
+function pdfBloqueDiagnostico(doc, d){
+  doc.titulo2('Módulo 0 · Diagnóstico de tu forma de trabajo');
+  doc.recuadro(d.perfil.etiqueta, [d.perfil.texto, d.perfil.senal], '#c96a1f', '#fdf1e4');
+
+  doc.titulo3('Cómo se lee tu contexto');
+  doc.parrafo(DX_CONTEXTO.modalidad[d.contexto.modalidad]);
+  doc.parrafo(DX_CONTEXTO.rol[d.contexto.rol]);
+
+  doc.titulo3('Prioridad de desarrollo por habilidad');
+  doc.parrafo('Los valores no miden conocimiento: indican dónde una práctica deliberada rendiría más en ' +
+    'las próximas semanas.', {tam:9, color:'#6b7885', espacioDespues:10});
+  d.orden.forEach(m => {
+    const n = dxNivel(d.pct[m.id]);
+    doc.barra(m.titulo, DX_NIVEL_TEXTO[n] + ' · ' + d.pct[m.id] + '%', d.pct[m.id], COLOR_NIVEL[n]);
+  });
+  doc.parrafo('Promedio general de necesidad de desarrollo: ' + d.promedio + '%.',
+    {tam:9, color:'#6b7885', espacioDespues:10});
+
+  doc.titulo3('Itinerario sugerido de módulos');
+  d.orden.forEach((m, i) => doc.paso(i+1, m.titulo, m.resumen + '  (' +
+    DX_NIVEL_TEXTO[dxNivel(d.pct[m.id])].toLowerCase() + ' · ' + d.pct[m.id] + '%)', i === 0));
+  doc.espacio(6);
+
+  doc.titulo3('Ítems a desarrollar');
+  doc.parrafo('Sostener un solo ítem durante cuatro semanas rinde más que intentar todos a la vez.',
+    {tam:9, color:'#6b7885', espacioDespues:8});
+  d.items.forEach((it, i) => doc.casilla(it.texto, dxItemMarcado(i), it.modulo));
+  doc.espacio(6);
+
+  if(d.dinamica){
+    doc.recuadro('Para practicarlo en equipo',
+      ['Dinámica sugerida: «' + d.dinamica.titulo + '» (' + d.dinamica.modalidad + ' · ' +
+       d.dinamica.tiempo + ' · ' + d.dinamica.grupo + '). ' + d.dinamica.objetivo],
+      '#1d6f52', '#e6f4ee');
+  }
+
+  doc.titulo3('Tus respuestas');
+  DX_PREGUNTAS.forEach((q, i) => {
+    doc.etiquetaValor((i+1) + '.', q.texto);
+    doc.parrafo('› ' + d.respuestas[i], {sangria:18, tam:9, fuente:'italic', color:'#1d4d7c', espacioDespues:7});
+  });
+}
+
+function pdfBloqueAutoevaluacion(doc, a){
+  doc.titulo2('Autoevaluación de colaboración');
+  doc.recuadro(a.perfil.etiqueta + '  —  ' + a.total + ' de 50 puntos', [a.perfil.texto], '#1d4d7c', '#f3f8fc');
+
+  doc.titulo3('Resultado por habilidad');
+  doc.parrafo('Cada habilidad se puntúa sobre 10. En ámbar, donde una práctica deliberada rinde más en el corto plazo.',
+    {tam:9, color:'#6b7885', espacioDespues:10});
+  MODULOS.forEach(m => {
+    const v = a.porModulo[m.id], n = nivel(v);
+    doc.barra(m.titulo, v + ' / 10', v*10, COLOR_NIVEL[n]);
+  });
+
+  doc.titulo3('Recomendaciones');
+  doc.etiquetaValor('Punto más firme:', a.fortaleza.titulo);
+  doc.etiquetaValor('Foco sugerido:', a.foco.titulo);
+  doc.espacio(4);
+  a.orden.forEach(m => {
+    doc.recuadro(m.titulo, [RECOMENDACIONES[m.id][nivel(a.porModulo[m.id])]],
+      m.id === a.foco.id ? '#c96a1f' : '#2f7bb8', m.id === a.foco.id ? '#fdf1e4' : '#f3f8fc');
+  });
+
+  doc.titulo3('Prácticas del módulo de foco: ' + a.foco.titulo);
+  a.foco.practicas.forEach(p => doc.viñeta(p));
+  doc.espacio(6);
+
+  doc.titulo3('Tus respuestas');
+  PREGUNTAS.forEach((p, i) => {
+    doc.etiquetaValor((i+1) + '.', p.texto);
+    doc.parrafo('› ' + ESCALA[a.respuestas[i]-1], {sangria:18, tam:9, fuente:'italic', color:'#1d4d7c', espacioDespues:7});
+  });
+}
+
+function pdfBloqueCompromiso(doc){
+  doc.titulo3('Compromiso para las próximas cuatro semanas');
+  doc.renglon('Práctica elegida:');
+  doc.renglon('Cómo sabré que la sostuve:');
+  doc.renglon('Con quién la comparto:');
+  doc.renglon('Fecha de revisión:');
+}
+
+function pdfBloqueNotas(doc){
+  const conNotas = MODULOS.filter(m => (notasSesion[m.id] || '').trim());
+  if(!conNotas.length) return false;
+  doc.titulo2('Tus notas de reflexión');
+  conNotas.forEach(m => {
+    doc.titulo3(m.titulo);
+    doc.parrafo(m.reflexion, {tam:9, fuente:'italic', color:'#6b7885', espacioDespues:5});
+    doc.recuadro('', [notasSesion[m.id].trim()], '#2f7bb8', '#f3f8fc');
+  });
+  return true;
+}
+
+/* --- Informes individuales -------------------------------------------- */
+
+function pdfDiagnostico(){
+  const d = ESTADO.diagnostico;
+  const doc = MiniPDF.crear({
+    titulo:'Diagnóstico de forma de trabajo',
+    subtitulo:'Módulo 0 · ' + fechaLarga()
+  });
+  pdfBloqueDiagnostico(doc, d);
+  doc.espacio(6);
+  pdfBloqueCompromiso(doc);
+  descargarPDF(doc, 'modulo-0-diagnostico.pdf');
+}
+
+function pdfAutoevaluacion(){
+  const a = ESTADO.autoevaluacion;
+  const doc = MiniPDF.crear({
+    titulo:'Mi plan de acción',
+    subtitulo:'Autoevaluación de colaboración · ' + fechaLarga()
+  });
+  pdfBloqueAutoevaluacion(doc, a);
+  doc.espacio(6);
+  pdfBloqueCompromiso(doc);
+  descargarPDF(doc, 'mi-plan-de-accion.pdf');
+}
+
+function pdfGuiaRapida(){
+  const doc = MiniPDF.crear({titulo:'Guía rápida de bolsillo', subtitulo:'Las cinco habilidades de colaboración'});
+  MODULOS.forEach((m, i) => {
+    doc.titulo2((i+1) + '. ' + m.titulo);
+    doc.parrafo(m.definicion);
+    doc.titulo3('Una situación reconocible');
+    doc.parrafo(m.ejemplo, {tam:9.5, color:'#3e4c59'});
+    doc.titulo3('Para probar esta semana');
+    m.practicas.forEach(p => doc.viñeta(p));
+    doc.espacio(4);
+    doc.recuadro('Para pensar', [m.reflexion], '#c96a1f', '#fdf1e4');
+  });
+  descargarPDF(doc, 'guia-rapida-colaboracion.pdf');
+}
+
+function pdfCuadernillo(){
+  const doc = MiniPDF.crear({titulo:'Cuadernillo de dinámicas', subtitulo:DINAMICAS.length + ' actividades para facilitar en equipo'});
+  DINAMICAS.forEach((d, i) => {
+    doc.titulo2((i+1) + '. ' + d.titulo);
+    doc.etiquetaValor('Modalidad:', d.modalidad + '  ·  ' + d.tiempo + '  ·  ' + d.grupo);
+    doc.etiquetaValor('Habilidad:', d.habilidad);
+    doc.etiquetaValor('Objetivo:', d.objetivo);
+    doc.titulo3('Cómo se hace');
+    d.pasos.forEach((p, j) => doc.parrafo((j+1) + ') ' + p, {sangria:16, espacioDespues:3}));
+    doc.espacio(4);
+    doc.recuadro('Pregunta de cierre', [d.cierre], '#1d6f52', '#e6f4ee');
+  });
+  descargarPDF(doc, 'cuadernillo-dinamicas.pdf');
+}
+
+function pdfAcuerdos(){
+  const doc = MiniPDF.crear({titulo:'Acuerdos de equipo', subtitulo:'Plantilla para completar en 20 minutos y revisar a los 30 días'});
+  doc.parrafo('Completen esta plantilla con el equipo presente. No busca cubrir todos los casos, sino hacer ' +
+    'explícito lo que hoy funciona por supuesto. Definan una fecha de revisión antes de cerrarla.');
+  const puntos = [
+    ['1. Qué esperamos de cada rol', 'Una línea por persona, con el aporte principal que el equipo espera.'],
+    ['2. Qué avisamos y cuándo', 'Qué situaciones se comunican de inmediato y por qué canal.'],
+    ['3. En cuánto respondemos', 'Tiempo de respuesta esperado según el canal: mensajería, correo, documento compartido.'],
+    ['4. Dónde vive la información', 'Repositorio único para acuerdos y documentos de trabajo.'],
+    ['5. Cómo revisamos lo que no salió bien', 'Revisión de proceso, sin buscar responsables individuales.']
+  ];
+  puntos.forEach(([t, ayuda]) => {
+    doc.titulo3(t);
+    doc.parrafo(ayuda, {tam:9, fuente:'italic', color:'#6b7885', espacioDespues:6});
+    doc.renglon(' ');
+    doc.renglon(' ');
+    doc.espacio(4);
+  });
+  doc.espacio(6);
+  doc.renglon('Fecha de revisión:');
+  doc.renglon('Responsable de convocarla:');
+  descargarPDF(doc, 'acuerdos-de-equipo.pdf');
+}
+
+/* --- Informe completo -------------------------------------------------- */
+
+function hayResultados(){
+  return !!(ESTADO.diagnostico || ESTADO.autoevaluacion ||
+            MODULOS.some(m => (notasSesion[m.id] || '').trim()));
+}
+
+function pdfInformeCompleto(){
+  const doc = MiniPDF.crear({
+    titulo:'Mis resultados',
+    subtitulo:'Habilidades de colaboración · ' + fechaLarga()
+  });
+
+  const incluye = [];
+  if(ESTADO.diagnostico)    incluye.push('Diagnóstico de forma de trabajo (Módulo 0)');
+  if(ESTADO.autoevaluacion) incluye.push('Autoevaluación de colaboración');
+  if(MODULOS.some(m => (notasSesion[m.id] || '').trim())) incluye.push('Notas de reflexión de los módulos');
+
+  doc.parrafo('Este informe reúne lo que completaste en la guía interactiva. Describe hábitos de trabajo ' +
+    'actuales, no capacidades fijas: su valor está en elegir una práctica y sostenerla.');
+  doc.recuadro('Contenido de este informe', incluye.map((t, i) => (i+1) + '. ' + t), '#2f7bb8', '#f3f8fc');
+
+  if(ESTADO.diagnostico)    pdfBloqueDiagnostico(doc, ESTADO.diagnostico);
+  if(ESTADO.autoevaluacion) pdfBloqueAutoevaluacion(doc, ESTADO.autoevaluacion);
+  pdfBloqueNotas(doc);
+
+  doc.titulo2('Compromiso');
+  pdfBloqueCompromiso(doc);
+
+  descargarPDF(doc, 'mis-resultados-colaboracion.pdf');
+}
+
+/* --- Centro de descargas (botón de la barra de menú) ------------------- */
+
+function abrirCentroDescargas(){
+  const dx = !!ESTADO.diagnostico;
+  const ae = !!ESTADO.autoevaluacion;
+  const notas = MODULOS.some(m => (notasSesion[m.id] || '').trim());
+
+  const fila = (titulo, detalle, disponible, accion, destacado) => `
+    <div class="descarga-fila${disponible ? '' : ' descarga-fila--inactiva'}">
+      <div>
+        <h4>${titulo}</h4>
+        <p>${detalle}</p>
+      </div>
+      <button class="btn ${destacado ? 'btn--acento' : 'btn--secundario'}" data-pdf="${accion}" ${disponible ? '' : 'disabled'}>Descargar</button>
+    </div>`;
+
+  const html = `
+    <p class="descarga-intro">Todos los archivos se generan en tu navegador, sin conexión ni servicios
+      externos, y conservan el diseño institucional.</p>
+    <h3 class="descarga-titulo">Tus resultados</h3>
+    ${fila('Informe completo', hayResultados()
+        ? 'Reúne todo lo que completaste hasta ahora en un solo documento.'
+        : 'Disponible cuando completes el diagnóstico o la autoevaluación.',
+        hayResultados(), 'completo', true)}
+    ${fila('Diagnóstico del Módulo 0', dx
+        ? 'Perfil de tu forma de trabajo, itinerario de módulos e ítems a desarrollar.'
+        : 'Completá el cuestionario del Módulo 0 para habilitarlo.', dx, 'diagnostico')}
+    ${fila('Autoevaluación', ae
+        ? 'Puntaje por habilidad, recomendaciones y plan de acción.'
+        : 'Completá la autoevaluación para habilitarla.', ae, 'autoevaluacion')}
+    ${fila('Notas de reflexión', notas
+        ? 'Lo que escribiste en las preguntas para pensar de cada módulo.'
+        : 'Escribí al menos una nota en los módulos para habilitarlas.', notas, 'notas')}
+    <h3 class="descarga-titulo">Herramientas</h3>
+    ${fila('Guía rápida de bolsillo', 'Las cinco habilidades con definición, ejemplo y prácticas.', true, 'guia')}
+    ${fila('Cuadernillo de dinámicas', DINAMICAS.length + ' actividades con objetivo, pasos y cierre.', true, 'cuadernillo')}
+    ${fila('Plantilla de acuerdos de equipo', 'Para completar con el equipo y revisar a los 30 días.', true, 'acuerdos')}`;
+
+  abrirModal('Descargar en PDF', html);
+}
+
+const ACCIONES_PDF = {
+  completo: pdfInformeCompleto,
+  diagnostico: pdfDiagnostico,
+  autoevaluacion: pdfAutoevaluacion,
+  guia: pdfGuiaRapida,
+  cuadernillo: pdfCuadernillo,
+  acuerdos: pdfAcuerdos,
+  notas: function(){
+    const doc = MiniPDF.crear({titulo:'Mis notas de reflexión', subtitulo:fechaLarga()});
+    pdfBloqueNotas(doc);
+    descargarPDF(doc, 'mis-notas-de-reflexion.pdf');
+  }
+};
+
+document.addEventListener('click', e => {
+  const btn = e.target.closest('[data-pdf]');
+  if(!btn || btn.disabled) return;
+  const accion = ACCIONES_PDF[btn.dataset.pdf];
+  if(accion) accion();
+});
+
+document.getElementById('btn-descargas').addEventListener('click', abrirCentroDescargas);
+</script>
+</body>
+</html>
