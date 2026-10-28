@@ -1,0 +1,1429 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Máster Autónomo: Pensamiento Crítico y Resolución de Problemas</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://unpkg.com/lucide@latest"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<style>
+  :root{
+    --ink:#0f172a;
+    --slate:#334155;
+    --indigo:#4f46e5;
+    --indigo-deep:#3730a3;
+    --green:#059669;
+    --amber:#d97706;
+    --paper:#eaf7df;
+    --cpic-green:#00704a;
+    --cpic-green-dark:#005c3d;
+    --cpic-gray:#c6c1bb;
+  }
+  html{scroll-behavior:smooth;}
+  body{background:var(--paper); font-family:'Segoe UI',ui-sans-serif,system-ui,sans-serif; color:var(--ink);}
+  .font-display{font-family:'Georgia','Times New Roman',serif;}
+  @media (prefers-reduced-motion: reduce){
+    *{animation-duration:0.001ms !important; transition-duration:0.001ms !important;}
+  }
+  .fade-in{animation:fadeIn .35s ease both;}
+  @keyframes fadeIn{from{opacity:0; transform:translateY(6px);} to{opacity:1; transform:translateY(0);}}
+  .progress-fill{transition:width .6s cubic-bezier(.4,0,.2,1);}
+  .accordion-body{max-height:0; overflow:hidden; transition:max-height .35s ease;}
+  .accordion-body.open{max-height:800px;}
+  .accordion-chevron{transition:transform .3s ease;}
+  .accordion-chevron.open{transform:rotate(180deg);}
+  .tab-btn{position:relative;}
+  .tab-btn.active-cpic{background:var(--cpic-green); color:#fff;}
+  .tab-btn.locked{opacity:.6; cursor:not-allowed;}
+  .quiz-option{transition:all .15s ease;}
+  .quiz-option:hover:not(.disabled){border-color:var(--indigo); background:#eef2ff;}
+  .quiz-option.correct{background:#ecfdf5; border-color:var(--green); color:#065f46;}
+  .quiz-option.incorrect{background:#fef2f2; border-color:#dc2626; color:#991b1b;}
+  .badge-pop{animation:pop .5s cubic-bezier(.34,1.56,.64,1) both;}
+  @keyframes pop{0%{transform:scale(0.3); opacity:0;} 70%{transform:scale(1.1);} 100%{transform:scale(1); opacity:1;}}
+  ::-webkit-scrollbar{width:8px; height:8px;}
+  ::-webkit-scrollbar-thumb{background:#cbd5e1; border-radius:4px;}
+  .focus-ring:focus-visible{outline:3px solid var(--indigo); outline-offset:2px;}
+  .diag-bar{height:10px; border-radius:9999px; background:#e2e8f0; overflow:hidden;}
+  .diag-bar-fill{height:100%; border-radius:9999px;}
+  .print-only{display:none;}
+  @media print{
+    .no-print{display:none !important;}
+    .print-only{display:block !important;}
+    body{background:#fff;}
+  }
+</style>
+</head>
+<body class="min-h-screen">
+
+<!-- ===================== HEADER / DASHBOARD ===================== -->
+<header class="no-print sticky top-0 z-40 bg-slate-900 text-white shadow-lg">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 py-4">
+    <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+      <div class="flex items-center gap-3">
+        <div class="bg-white rounded-xl p-1.5 shrink-0 shadow-sm">
+          <img id="header-logo" alt="Logo Consejo Profesional de Ingeniería Civil" class="h-9 w-auto object-contain">
+        </div>
+        <div>
+          <h1 class="font-display text-lg sm:text-xl font-bold leading-tight">Máster Autónomo: Pensamiento Crítico y Resolución de Problemas</h1>
+          <p class="text-xs text-slate-400">Capacitación interactiva de autoaprendizaje</p>
+        </div>
+      </div>
+      <div class="flex items-center gap-4">
+        <div class="flex items-center gap-2 bg-slate-800/70 px-3 py-1.5 rounded-full">
+          <i data-lucide="award" class="w-4 h-4 text-amber-400"></i>
+          <span id="points-display" class="text-sm font-semibold">0 pts</span>
+          <span class="text-slate-500">|</span>
+          <span id="badges-display" class="text-sm">0 insignias</span>
+        </div>
+        <button onclick="resetProgress()" class="no-print flex items-center gap-1.5 text-xs sm:text-sm bg-slate-800 hover:bg-red-600 transition-colors px-3 py-2 rounded-lg focus-ring" aria-label="Reiniciar progreso">
+          <i data-lucide="rotate-ccw" class="w-4 h-4"></i> Reiniciar
+        </button>
+      </div>
+    </div>
+    <div class="mt-4">
+      <div class="flex justify-between text-xs text-slate-400 mb-1">
+        <span>Progreso general del máster</span>
+        <span id="progress-pct">0%</span>
+      </div>
+      <div class="w-full h-2.5 bg-slate-800 rounded-full overflow-hidden">
+        <div id="progress-bar" class="progress-fill h-full rounded-full bg-gradient-to-r from-indigo-500 to-emerald-400" style="width:0%"></div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- ===================== MAIN LAYOUT ===================== -->
+<div class="max-w-7xl mx-auto px-4 sm:px-6 py-6 flex flex-col lg:flex-row gap-6">
+
+  <!-- SIDEBAR NAV -->
+  <nav class="no-print lg:w-72 shrink-0" aria-label="Navegación de módulos">
+    <div class="rounded-2xl shadow-sm p-3 sticky top-32 space-y-1.5" style="background:var(--cpic-gray);" id="sidebar-nav"></div>
+  </nav>
+
+  <!-- CONTENT -->
+  <main id="app-content" class="flex-1 min-w-0 fade-in"></main>
+</div>
+
+<footer class="no-print text-center text-xs text-slate-400 py-8">
+  Máster Autónomo &middot; Pensamiento Crítico y Resolución de Problemas
+</footer>
+
+<script>
+/* =========================================================================
+   LOGO INSTITUCIONAL (embebido en base64 para mantener un único archivo)
+========================================================================= */
+const LOGO_DATA_URI = "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEAYABgAAD/4RDyRXhpZgAATU0AKgAAAAgABAE7AAIAAAANAAAISodpAAQAAAABAAAIWJydAAEAAAAaAAAQ0OocAAcAAAgMAAAAPgAAAAAc6gAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEFsYmVydG8gU2FlegAAAAWQAwACAAAAFAAAEKaQBAACAAAAFAAAELqSkQACAAAAAzY1AACSkgACAAAAAzY1AADqHAAHAAAIDAAACJoAAAAAHOoAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAyMDE4OjA5OjEzIDE2OjI0OjUzADIwMTg6MDk6MTMgMTY6MjQ6NTMAAABBAGwAYgBlAHIAdABvACAAUwBhAGUAegAAAP/hCx9odHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvADw/eHBhY2tldCBiZWdpbj0n77u/JyBpZD0nVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkJz8+DQo8eDp4bXBtZXRhIHhtbG5zOng9ImFkb2JlOm5zOm1ldGEvIj48cmRmOlJERiB4bWxuczpyZGY9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkvMDIvMjItcmRmLXN5bnRheC1ucyMiPjxyZGY6RGVzY3JpcHRpb24gcmRmOmFib3V0PSJ1dWlkOmZhZjViZGQ1LWJhM2QtMTFkYS1hZDMxLWQzM2Q3NTE4MmYxYiIgeG1sbnM6ZGM9Imh0dHA6Ly9wdXJsLm9yZy9kYy9lbGVtZW50cy8xLjEvIi8+PHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9InV1aWQ6ZmFmNWJkZDUtYmEzZC0xMWRhLWFkMzEtZDMzZDc1MTgyZjFiIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iPjx4bXA6Q3JlYXRlRGF0ZT4yMDE4LTA5LTEzVDE2OjI0OjUzLjY1MzwveG1wOkNyZWF0ZURhdGU+PC9yZGY6RGVzY3JpcHRpb24+PHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9InV1aWQ6ZmFmNWJkZDUtYmEzZC0xMWRhLWFkMzEtZDMzZDc1MTgyZjFiIiB4bWxuczpkYz0iaHR0cDovL3B1cmwub3JnL2RjL2VsZW1lbnRzLzEuMS8iPjxkYzpjcmVhdG9yPjxyZGY6U2VxIHhtbG5zOnJkZj0iaHR0cDovL3d3dy53My5vcmcvMTk5OS8wMi8yMi1yZGYtc3ludGF4LW5zIyI+PHJkZjpsaT5BbGJlcnRvIFNhZXo8L3JkZjpsaT48L3JkZjpTZXE+DQoJCQk8L2RjOmNyZWF0b3I+PC9yZGY6RGVzY3JpcHRpb24+PC9yZGY6UkRGPjwveDp4bXBtZXRhPg0KICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICA8P3hwYWNrZXQg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eKO9u4bS4cvLaxsuwknLAZGQDzkA9626KAKkWmwQ6kb2PcHMCwbR90KDkcfjUUmj28mlT6ezSeVOzMxBGcs24/rWhRQBiX3hiG9vrm4F7d263aqtzDC4VZcDAzxkcccEVp6fZR6dp1vZQFjHbxiNCxycAY5qxRQBh3XhaC5+1Ri9u4rW7cvNbRuoRmI57ZGccjOKnudBhma2lguJ7W4tovKjnhYbinHysCCCOAelatFAENpA9tbiOW4kuWBJMkuNx/IAVmT+HEl1O7vYNRvbWS72easDqAdq7R1Ukce9bNFAGS3hyzGm21pbNLb/AGWXzopUbLh+csSc5zuOc0yz8M2drcXk8sk11JfReVcGdgfMHPYAdjj0xWzRQBl2Gitp5RE1K8kt41KpBKUKgYwBnbnjtzUh0a3OjRaaWk8mIIFORu+Ugj+VaFFAGXdaGs19Ld2t7c2Us6hZvIK4kx0JDA4PuKBonk2cFtp99c2UUKlQItp35OSTuU85zz71qUUAU9L0yDSLL7NbF2Bdnd5GyzsxyWJ9TTrCwi063aKEsweRpWZzyzMck/rVqigDJPh20Nw8oaVd96t6UBGBIox6dD3q9BYxW5uduWFzIZHDcjJAGPpxViigDJsdC/s10S01C7W1jJ2WrFWRR6AkbsfjTW8Pia6t5b3Uby7S3l82OKQoFDjOCdqgnGa2KKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooA//2Q==";
+
+/* =========================================================================
+   ESTADO Y PERSISTENCIA
+========================================================================= */
+const STORAGE_KEY = 'ccApp_state_v1';
+
+function defaultState(){
+  return {
+    currentTab: 'diag',
+    userName: '',
+    diagnostic: { completed:false, answers:[null,null,null,null,null,null], style:null },
+    modules: {
+      m1: { unlocked:false, completed:false, bestScore:0, attempts:0 },
+      m2: { unlocked:false, completed:false, bestScore:0, attempts:0 },
+      m3: { unlocked:false, completed:false, bestScore:0, attempts:0 },
+      m4: { unlocked:false, completed:false, bestScore:0, attempts:0 }
+    },
+    points: 0,
+    badges: []
+  };
+}
+
+let state = loadState();
+
+function loadState(){
+  try{
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if(!raw) return defaultState();
+    const parsed = JSON.parse(raw);
+    return Object.assign(defaultState(), parsed, {
+      modules: Object.assign(defaultState().modules, parsed.modules || {})
+    });
+  }catch(e){
+    return defaultState();
+  }
+}
+
+function saveState(){
+  try{
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+  }catch(e){
+    // Si el navegador bloquea localStorage (ej. Firefox con el archivo abierto vía file://,
+    // modo privado, o cuotas de almacenamiento), no debe romperse el resto de la app:
+    // seguimos funcionando en memoria para esta sesión y solo avisamos una vez en consola.
+    if(!saveState._warned){
+      console.warn('No se pudo guardar el progreso en este navegador (localStorage no disponible). La app seguirá funcionando, pero el progreso no persistirá al recargar la página.', e);
+      saveState._warned = true;
+    }
+  }
+}
+
+function resetProgress(){
+  if(!confirm('¿Seguro que querés reiniciar todo tu progreso? Esta acción no se puede deshacer.')) return;
+  try{ localStorage.removeItem(STORAGE_KEY); }catch(e){ /* ver nota en saveState() */ }
+  state = defaultState();
+  Object.keys(quizState).forEach(k => delete quizState[k]); // limpia también el estado en memoria de los quizzes
+  render();
+}
+
+/* =========================================================================
+   DATA: MÓDULO 0 - DIAGNÓSTICO
+========================================================================= */
+const diagQuestions = [
+  {
+    q: "1. Ante una decisión bajo presión y sin datos suficientes, vos...",
+    opts: [
+      { t:"Decidís rápido guiándote por el instinto, sin analizar demasiado.", style:"R" },
+      { t:"Te frenás buscando cada vez más información antes de decidir.", style:"A" },
+      { t:"Postergás la decisión esperando que la situación se resuelva sola.", style:"E" },
+      { t:"Definís qué datos mínimos necesitás y decidís con lo disponible, ajustando después.", style:"I" }
+    ]
+  },
+  {
+    q: "2. Cuando surge un conflicto con un colega o compañero de equipo...",
+    opts: [
+      { t:"Reaccionás de inmediato defendiendo tu posición.", style:"R" },
+      { t:"Analizás el problema exhaustivamente antes de hablar, y la conversación se demora mucho.", style:"A" },
+      { t:"Evitás el tema esperando que se resuelva por sí solo.", style:"E" },
+      { t:"Buscás entender su perspectiva y proponés una solución conjunta.", style:"I" }
+    ]
+  },
+  {
+    q: "3. Frente a un problema complejo con múltiples causas posibles...",
+    opts: [
+      { t:"Atacás el síntoma más visible, sin explorar mucho más.", style:"R" },
+      { t:"Te perdés analizando todas las variables posibles y no llegás a actuar.", style:"A" },
+      { t:"Delegás o ignorás el problema hasta que se vuelve urgente.", style:"E" },
+      { t:"Usás herramientas de análisis (5 porqués, Ishikawa) para encontrar la causa raíz.", style:"I" }
+    ]
+  },
+  {
+    q: "4. Al recibir una crítica sobre tu trabajo...",
+    opts: [
+      { t:"Respondés a la defensiva de inmediato.", style:"R" },
+      { t:"Le das vueltas mentalmente sin poder procesarla ni actuar.", style:"A" },
+      { t:"La minimizás o la ignorás para no confrontar.", style:"E" },
+      { t:"La analizás objetivamente y ajustás tu enfoque.", style:"I" }
+    ]
+  },
+  {
+    q: "5. En una negociación donde ambas partes quieren cosas distintas...",
+    opts: [
+      { t:"Imponés tu postura para cerrar rápido.", style:"R" },
+      { t:"Seguís juntando información sin proponer ninguna solución concreta.", style:"A" },
+      { t:"Cedés o te retirás para evitar el conflicto.", style:"E" },
+      { t:"Buscás puntos en común para llegar a un acuerdo ganar-ganar.", style:"I" }
+    ]
+  },
+  {
+    q: "6. Cuando un plan falla a último momento...",
+    opts: [
+      { t:"Reaccionás con estrés y tomás la primera alternativa que aparece.", style:"R" },
+      { t:"Te quedás evaluando opciones sin decidir mientras el tiempo corre.", style:"A" },
+      { t:"Esperás que otra persona resuelva la situación.", style:"E" },
+      { t:"Evaluás alternativas con rapidez usando criterios clave y elegís con confianza.", style:"I" }
+    ]
+  }
+];
+
+const styleProfiles = {
+  R: {
+    name: "Estilo Reactivo",
+    icon: "zap",
+    color: "amber",
+    strengths: [
+      "Capacidad de actuar rápido y con energía ante la urgencia.",
+      "Buena tolerancia a la presión y disposición a moverse sin demoras."
+    ],
+    improvements: [
+      "Tendencia a decidir por impulso, sin evaluar consecuencias ni alternativas.",
+      "Dificultad para identificar sesgos cognitivos que distorsionan tu primer instinto.",
+      "Poca pausa para separar hechos de supuestos antes de actuar."
+    ],
+    recommend: ["m1", "m2"]
+  },
+  A: {
+    name: "Estilo Analítico Paralizado",
+    icon: "search",
+    color: "indigo",
+    strengths: [
+      "Rigor y atención al detalle en el análisis de la información.",
+      "Bajo riesgo de decisiones apresuradas o mal fundamentadas."
+    ],
+    improvements: [
+      "Parálisis por análisis: cuesta cerrar una decisión aunque falte certeza total.",
+      "Dificultad para operar con información incompleta.",
+      "Riesgo de perder oportunidades por sobre-analizar en vez de decidir a tiempo."
+    ],
+    recommend: ["m3", "m2"]
+  },
+  E: {
+    name: "Estilo Evitativo",
+    icon: "shield-off",
+    color: "slate",
+    strengths: [
+      "Prudencia y calma; evitás reacciones impulsivas o agresivas.",
+      "Buena capacidad de no escalar conflictos innecesariamente."
+    ],
+    improvements: [
+      "Postergación de decisiones y conversaciones difíciles necesarias.",
+      "Evitación de conflictos que, sin abordarse, se agravan con el tiempo.",
+      "Poca práctica en sostener una postura propia en una negociación."
+    ],
+    recommend: ["m4", "m1"]
+  },
+  I: {
+    name: "Estilo Integrador",
+    icon: "sparkles",
+    color: "green",
+    strengths: [
+      "Buen equilibrio entre análisis y acción.",
+      "Pensamiento crítico ya desarrollado: contrastás datos, perspectivas y consecuencias.",
+      "Enfoque colaborativo ante los conflictos."
+    ],
+    improvements: [
+      "Afinar técnicas avanzadas de análisis de causa raíz y matrices de decisión.",
+      "Mantener la consistencia de este estilo bajo presión extrema o con información ambigua."
+    ],
+    recommend: ["m4", "m3"]
+  }
+};
+
+const moduleNames = {
+  m1: "Módulo 1: Sesgos Cognitivos e Identificación de Premisas",
+  m2: "Módulo 2: Causa Raíz y Análisis de Evidencia",
+  m3: "Módulo 3: Generación y Evaluación de Alternativas",
+  m4: "Módulo 4: Aplicación Práctica y Gestión de Conflictos"
+};
+
+/* =========================================================================
+   DATA: QUIZZES
+========================================================================= */
+const quizzes = {
+  m1: [
+    {
+      q: "Un gerente solo lee noticias y datos que confirman que su estrategia va a funcionar, ignorando las señales de alerta. ¿Qué sesgo cognitivo está mostrando?",
+      opts: [
+        "Sesgo de confirmación",
+        "Efecto halo",
+        "Sesgo de disponibilidad",
+        "Anclaje"
+      ],
+      correct: 0,
+      explain: "El sesgo de confirmación lleva a buscar y valorar solo la información que respalda una creencia previa, descartando la evidencia contraria."
+    },
+    {
+      q: "Durante una negociación, el primer número que se menciona (por ejemplo, un precio inicial) termina influyendo fuertemente en todo el resto de la conversación, aunque no tenga una base objetiva sólida. Esto es un ejemplo de:",
+      opts: [
+        "Sesgo de disponibilidad",
+        "Efecto anclaje",
+        "Sesgo retrospectivo",
+        "Premisa oculta"
+      ],
+      correct: 1,
+      explain: "El efecto anclaje ocurre cuando la primera cifra o dato recibido condiciona desproporcionadamente los juicios posteriores, aunque sea arbitrario."
+    },
+    {
+      q: "¿Qué es una 'premisa oculta' en un razonamiento?",
+      opts: [
+        "Una conclusión que se presenta antes que los argumentos",
+        "Un dato estadístico que no se puede verificar",
+        "Un supuesto no expresado que el argumento da por cierto sin demostrarlo",
+        "La opinión personal de quien presenta el argumento"
+      ],
+      correct: 2,
+      explain: "Las premisas ocultas son supuestos que sostienen un argumento pero que nunca se explicitan ni se someten a verificación, por lo que pueden introducir errores invisibles."
+    }
+  ],
+  m2: [
+    {
+      q: "La técnica de los '5 Porqués' se utiliza principalmente para...",
+      opts: [
+        "Generar la mayor cantidad posible de alternativas de solución",
+        "Profundizar de manera iterativa hasta identificar la causa raíz de un problema",
+        "Evaluar el impacto económico de una decisión",
+        "Negociar acuerdos ganar-ganar"
+      ],
+      correct: 1,
+      explain: "Preguntar '¿por qué?' repetidamente (típicamente cinco veces) ayuda a ir más allá de los síntomas superficiales hasta llegar a la causa estructural del problema."
+    },
+    {
+      q: "En un Diagrama de Ishikawa (espina de pescado), las categorías típicas (Método, Mano de obra, Maquinaria, Material, Medición, Medio ambiente) sirven para...",
+      opts: [
+        "Calcular una puntuación ponderada final",
+        "Organizar y agrupar las posibles causas de un efecto o problema",
+        "Listar exclusivamente los errores humanos",
+        "Reemplazar la necesidad de recolectar evidencia"
+      ],
+      correct: 1,
+      explain: "El diagrama de Ishikawa estructura visualmente las causas potenciales de un problema en categorías, facilitando un análisis más completo que evita quedarse en una sola hipótesis."
+    },
+    {
+      q: "¿Por qué es importante distinguir entre 'correlación' y 'causalidad' al analizar evidencia?",
+      opts: [
+        "Porque son sinónimos y da igual cuál se use",
+        "Porque dos variables pueden moverse juntas sin que una sea la causa real de la otra, lo que puede llevar a soluciones erradas",
+        "Porque la correlación siempre implica causalidad directa",
+        "Porque solo aplica a estudios médicos"
+      ],
+      correct: 1,
+      explain: "Confundir correlación con causalidad es un error común: dos eventos pueden estar relacionados estadísticamente sin que exista una relación de causa-efecto real entre ellos."
+    }
+  ],
+  m3: [
+    {
+      q: "En una matriz de decisión ponderada, ¿qué representa el 'peso' o 'ponderación' asignado a cada criterio?",
+      opts: [
+        "El orden alfabético de los criterios",
+        "La importancia relativa de ese criterio frente a los demás para la decisión final",
+        "La cantidad de alternativas disponibles",
+        "El costo económico exacto de cada opción"
+      ],
+      correct: 1,
+      explain: "El peso refleja cuánto importa un criterio en relación con los demás; a mayor peso, mayor influencia tendrá ese criterio en el puntaje final de cada alternativa."
+    },
+    {
+      q: "¿Cuál es un riesgo frecuente al generar alternativas de solución sin un proceso estructurado?",
+      opts: [
+        "Se generan demasiadas alternativas de excelente calidad",
+        "Quedarse con la primera opción que aparece (satisficing prematuro) sin comparar otras posibles",
+        "Se eliminan automáticamente los sesgos cognitivos",
+        "El proceso se vuelve más objetivo"
+      ],
+      correct: 1,
+      explain: "Sin un proceso estructurado, es común conformarse con la primera solución razonable ('satisficing') en lugar de comparar sistemáticamente varias alternativas viables."
+    },
+    {
+      q: "Si la Alternativa A obtiene un puntaje ponderado de 78 y la Alternativa B obtiene 85, y ambas fueron evaluadas con los mismos criterios y pesos, ¿qué se puede concluir?",
+      opts: [
+        "La alternativa A es automáticamente mejor por ser la primera",
+        "Según el modelo de decisión utilizado, la Alternativa B responde mejor al conjunto de criterios definidos",
+        "Los puntajes no aportan ninguna información útil",
+        "Hay que descartar ambas alternativas"
+      ],
+      correct: 1,
+      explain: "Un puntaje ponderado más alto indica que, dado el conjunto de criterios y pesos definidos, esa alternativa satisface mejor las prioridades establecidas — aunque siempre conviene revisar la sensibilidad de los pesos."
+    }
+  ],
+  m4: [
+    {
+      q: "El método de negociación 'ganar-ganar' (o negociación por principios) busca principalmente...",
+      opts: [
+        "Que una de las partes ceda completamente para evitar el conflicto",
+        "Separar a las personas del problema y enfocarse en intereses compartidos, no en posiciones rígidas",
+        "Imponer la posición de quien tiene más poder",
+        "Evitar cualquier tipo de conversación difícil"
+      ],
+      correct: 1,
+      explain: "La negociación basada en principios (Harvard) se centra en identificar los intereses subyacentes de ambas partes y construir opciones de beneficio mutuo, en lugar de pelear por posiciones fijas."
+    },
+    {
+      q: "¿Cuál es la diferencia clave entre 'posición' e 'interés' en una negociación?",
+      opts: [
+        "Son exactamente lo mismo",
+        "La posición es lo que alguien dice que quiere; el interés es el motivo real o necesidad detrás de esa demanda",
+        "El interés es siempre económico y la posición es siempre emocional",
+        "La posición solo existe en negociaciones laborales"
+      ],
+      correct: 1,
+      explain: "La posición es la demanda explícita ('quiero un aumento del 20%'); el interés es la necesidad de fondo ('sentirme valorado y cubrir mis gastos'). Negociar sobre intereses abre más opciones de acuerdo."
+    },
+    {
+      q: "En un conflicto de equipo con información contradictoria, ¿cuál es el primer paso recomendado de un pensador crítico antes de tomar partido?",
+      opts: [
+        "Elegir el bando de la persona con más jerarquía",
+        "Verificar los hechos, identificar las premisas de cada versión y separar datos de interpretaciones",
+        "Ignorar el conflicto hasta que se resuelva solo",
+        "Tomar una decisión inmediata sin consultar a las partes"
+      ],
+      correct: 1,
+      explain: "Antes de emitir un juicio, un pensador crítico contrasta los hechos verificables, identifica los supuestos de cada relato y distingue entre datos objetivos e interpretaciones subjetivas."
+    },
+    {
+      q: "¿Qué caracteriza a un 'entorno complejo' en la resolución de problemas organizacionales?",
+      opts: [
+        "Tiene una única causa clara y una única solución correcta",
+        "Involucra múltiples variables interrelacionadas, incertidumbre y resultados no siempre predecibles",
+        "Se resuelve siempre con la misma fórmula matemática",
+        "No requiere ningún tipo de análisis previo"
+      ],
+      correct: 1,
+      explain: "Los entornos complejos se caracterizan por la interdependencia de variables y la incertidumbre, lo que exige experimentar, observar resultados y ajustar el enfoque de forma iterativa."
+    },
+    {
+      q: "Un colaborador te dice: 'Siempre me asignan las peores tareas'. Como pensador crítico, ¿cuál es la mejor primera respuesta?",
+      opts: [
+        "Responder 'no es cierto' de inmediato y cerrar la conversación",
+        "Pedir ejemplos concretos y datos que sustenten la afirmación, para separar la percepción de los hechos",
+        "Aceptar la afirmación sin cuestionarla porque generó una queja",
+        "Cambiarle las tareas sin analizar la situación, solo para evitar el conflicto"
+      ],
+      correct: 1,
+      explain: "Pedir evidencia concreta permite distinguir entre una percepción subjetiva y un patrón real, y es la base para abordar el conflicto con datos en lugar de suposiciones."
+    }
+  ]
+};
+
+/* =========================================================================
+   DATA: LECCIONES / CONTENIDO TEÓRICO
+========================================================================= */
+const lessonsM1 = [
+  { t:"Sesgo de confirmación", body:"Es la tendencia a buscar, interpretar y recordar información de forma que confirme nuestras creencias previas, ignorando o minimizando la evidencia contraria. Se combate buscando activamente evidencia que contradiga la propia hipótesis." },
+  { t:"Efecto anclaje", body:"Ocurre cuando la primera información recibida (un número, una opinión) condiciona desproporcionadamente los juicios posteriores, aunque ese primer dato sea arbitrario o irrelevante. Se combate generando estimaciones propias antes de conocer la cifra ajena." },
+  { t:"Efecto halo", body:"Es la tendencia a que una impresión positiva (o negativa) en un aspecto de una persona o idea contamine la evaluación de sus otros aspectos, sin evidencia real que lo sustente. Por ejemplo, asumir que alguien simpático también es competente." },
+  { t:"Sesgo de disponibilidad", body:"Consiste en sobrestimar la probabilidad de eventos que vienen fácilmente a la mente (por ser recientes o llamativos), en lugar de basarse en datos estadísticos reales." },
+  { t:"Premisas ocultas", body:"Son supuestos no explicitados que sostienen un argumento. Identificarlas es clave: muchos errores de razonamiento no están en la lógica visible, sino en un supuesto de base que nunca fue cuestionado." }
+];
+
+const negotiationContent = [
+  { t:"Separar a las personas del problema", body:"Trabajá el conflicto sin atacar a quien lo plantea. Distinguí entre la relación con la persona y el asunto objetivo a resolver." },
+  { t:"Enfocarse en intereses, no en posiciones", body:"Detrás de cada posición ('quiero X') hay un interés real ('necesito Y'). Negociar sobre intereses abre más opciones de acuerdo que pelear por posiciones fijas." },
+  { t:"Generar opciones de beneficio mutuo", body:"Antes de decidir, generá varias alternativas posibles en conjunto con la otra parte, sin comprometerte de inmediato con ninguna." },
+  { t:"Usar criterios objetivos", body:"Basá el acuerdo en estándares justos y verificables (precios de mercado, normativa, precedentes) en lugar de en quién tiene más poder de presión." },
+  { t:"Conocer tu MAAN (Mejor Alternativa a un Acuerdo Negociado)", body:"Saber cuál es tu mejor opción si la negociación fracasa te da claridad y evita aceptar acuerdos peores que esa alternativa." }
+];
+
+/* =========================================================================
+   PROGRESO GENERAL
+========================================================================= */
+function computeOverallProgress(){
+  const totalSteps = 5; // diagnóstico + 4 módulos
+  let done = 0;
+  if(state.diagnostic.completed) done++;
+  ['m1','m2','m3','m4'].forEach(m => { if(state.modules[m].completed) done++; });
+  return Math.round((done/totalSteps)*100);
+}
+
+function updateHeader(){
+  const pct = computeOverallProgress();
+  document.getElementById('progress-bar').style.width = pct + '%';
+  document.getElementById('progress-pct').textContent = pct + '%';
+  document.getElementById('points-display').textContent = state.points + ' pts';
+  document.getElementById('badges-display').textContent = state.badges.length + ' insignia' + (state.badges.length===1?'':'s');
+}
+
+/* =========================================================================
+   SIDEBAR
+========================================================================= */
+const navItems = [
+  { id:'diag', label:'Módulo 0 · Autodiagnóstico', icon:'compass' },
+  { id:'m1', label:'Módulo 1 · Sesgos y Premisas', icon:'eye' },
+  { id:'m2', label:'Módulo 2 · Causa Raíz', icon:'git-branch' },
+  { id:'m3', label:'Módulo 3 · Alternativas', icon:'scale' },
+  { id:'m4', label:'Módulo 4 · Conflictos', icon:'handshake' },
+  { id:'cert', label:'Certificado Final', icon:'graduation-cap' }
+];
+
+function isUnlocked(id){
+  if(id === 'diag') return true;
+  if(id === 'cert') return state.modules.m4.completed;
+  return state.modules[id] ? state.modules[id].unlocked : false;
+}
+function isCompleted(id){
+  if(id === 'diag') return state.diagnostic.completed;
+  if(id === 'cert') return state.modules.m4.completed;
+  return state.modules[id] ? state.modules[id].completed : false;
+}
+
+function renderSidebar(){
+  const nav = document.getElementById('sidebar-nav');
+  nav.innerHTML = navItems.map(item => {
+    const unlocked = isUnlocked(item.id);
+    const completed = isCompleted(item.id);
+    const active = state.currentTab === item.id;
+    return `
+      <button
+        onclick="goTo('${item.id}')"
+        class="tab-btn w-full flex items-center gap-3 text-left px-3 py-2.5 rounded-xl text-sm font-medium border border-transparent
+          ${active ? 'active-cpic shadow-md' : unlocked ? 'text-slate-700 hover:bg-black/5' : 'text-slate-400 locked'}"
+        ${unlocked ? '' : 'aria-disabled="true"'}
+      >
+        <i data-lucide="${unlocked ? item.icon : 'lock'}" class="w-4 h-4 shrink-0"></i>
+        <span class="flex-1">${item.label}</span>
+        ${completed ? `<i data-lucide="badge-check" class="w-4 h-4 shrink-0 ${active ? 'text-white' : 'text-emerald-700'}"></i>` : ''}
+      </button>`;
+  }).join('') + `
+    <div class="pt-2 mt-1.5 border-t border-black/10">
+      <button id="download-pdf-btn" onclick="generateResultsPDF()" class="focus-ring w-full flex items-center justify-center gap-2 text-sm font-semibold text-white hover:brightness-110 px-3 py-2.5 rounded-xl transition-all" style="background:var(--cpic-green);">
+        <i data-lucide="file-down" class="w-4 h-4"></i> Descargar resultados (PDF)
+      </button>
+    </div>`;
+  lucide.createIcons();
+}
+
+function goTo(id){
+  if(!isUnlocked(id)){
+    flashLockedMessage(id);
+    return;
+  }
+  state.currentTab = id;
+  saveState();
+  render();
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+
+function flashLockedMessage(id){
+  const el = document.getElementById('locked-toast');
+  if(el) el.remove();
+  const toast = document.createElement('div');
+  toast.id = 'locked-toast';
+  toast.className = 'fixed bottom-6 left-1/2 -translate-x-1/2 bg-slate-900 text-white px-4 py-2.5 rounded-lg shadow-xl text-sm z-50 fade-in';
+  toast.textContent = 'Completá el paso anterior para desbloquear esta sección.';
+  document.body.appendChild(toast);
+  setTimeout(()=>toast.remove(), 2200);
+}
+
+/* =========================================================================
+   RENDER PRINCIPAL
+========================================================================= */
+function render(){
+  updateHeader();
+  renderSidebar();
+  const c = document.getElementById('app-content');
+  c.classList.remove('fade-in'); void c.offsetWidth; c.classList.add('fade-in');
+
+  switch(state.currentTab){
+    case 'diag': c.innerHTML = renderDiagTab(); break;
+    case 'm1': c.innerHTML = renderModuleShell('m1'); break;
+    case 'm2': c.innerHTML = renderModuleShell('m2'); break;
+    case 'm3': c.innerHTML = renderModuleShell('m3'); break;
+    case 'm4': c.innerHTML = renderModuleShell('m4'); break;
+    case 'cert': c.innerHTML = renderCertificate(); break;
+    default: c.innerHTML = renderDiagTab();
+  }
+  lucide.createIcons();
+  postRenderHooks();
+}
+
+/* =========================================================================
+   MÓDULO 0: DIAGNÓSTICO
+========================================================================= */
+function renderDiagTab(){
+  if(state.diagnostic.completed){
+    return renderDiagReport();
+  }
+  return `
+  <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 sm:p-8">
+    <div class="flex items-center gap-3 mb-2">
+      <div class="w-10 h-10 rounded-full bg-indigo-100 flex items-center justify-center"><i data-lucide="compass" class="w-5 h-5 text-indigo-600"></i></div>
+      <h2 class="font-display text-2xl font-bold">Módulo 0 · Autodiagnóstico de estilo de afrontamiento</h2>
+    </div>
+    <p class="text-slate-600 mb-6">Respondé las 6 situaciones con la opción que más se parezca a tu reacción habitual. No hay respuestas "correctas": esto define tu punto de partida.</p>
+    <form id="diag-form" class="space-y-6" onsubmit="return false;">
+      ${diagQuestions.map((dq, qi) => `
+        <fieldset class="border border-slate-200 rounded-xl p-4">
+          <legend class="font-semibold text-slate-800 px-1">${dq.q}</legend>
+          <div class="mt-2 space-y-2">
+            ${dq.opts.map((op, oi) => `
+              <label class="flex items-start gap-3 p-2.5 rounded-lg hover:bg-slate-50 cursor-pointer border border-transparent has-[:checked]:border-indigo-400 has-[:checked]:bg-indigo-50">
+                <input type="radio" name="diag-q${qi}" value="${op.style}" class="mt-1 accent-indigo-600 focus-ring" onchange="setDiagAnswer(${qi}, this.value)" ${state.diagnostic.answers[qi]===op.style?'checked':''}>
+                <span class="text-sm text-slate-700">${op.t}</span>
+              </label>
+            `).join('')}
+          </div>
+        </fieldset>
+      `).join('')}
+      <button onclick="submitDiagnostic()" id="diag-submit-btn" class="focus-ring inline-flex items-center gap-2 bg-indigo-600 hover:bg-indigo-700 disabled:bg-slate-300 disabled:cursor-not-allowed text-white font-semibold px-5 py-3 rounded-xl transition-colors" ${state.diagnostic.answers.includes(null)?'disabled':''}>
+        <i data-lucide="check-circle" class="w-5 h-5"></i> Ver mi diagnóstico
+      </button>
+    </form>
+  </div>`;
+}
+
+function setDiagAnswer(qi, val){
+  state.diagnostic.answers[qi] = val;
+  saveState();
+  const btn = document.getElementById('diag-submit-btn');
+  if(btn) btn.disabled = state.diagnostic.answers.includes(null);
+}
+
+function submitDiagnostic(){
+  if(state.diagnostic.answers.includes(null)) return;
+  const tally = {R:0, A:0, E:0, I:0};
+  state.diagnostic.answers.forEach(s => tally[s]++);
+  let best = 'I', bestCount = -1;
+  ['I','A','R','E'].forEach(k => { if(tally[k] > bestCount){ bestCount = tally[k]; best = k; } });
+  state.diagnostic.style = best;
+  state.diagnostic.tally = tally;
+  state.diagnostic.completed = true;
+  awardBadge('Autodiagnóstico completado', 20);
+  state.modules.m1.unlocked = true;
+  saveState();
+  render();
+}
+
+function renderDiagReport(){
+  const style = state.diagnostic.style;
+  const profile = styleProfiles[style];
+  const tally = state.diagnostic.tally || {R:0,A:0,E:0,I:0};
+  const total = 6;
+  const colorMap = { amber:'#d97706', indigo:'#4f46e5', slate:'#475569', green:'#059669' };
+  return `
+  <div class="space-y-6">
+    <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 sm:p-8">
+      <div class="flex flex-col sm:flex-row sm:items-center gap-4 mb-6">
+        <div class="w-16 h-16 rounded-2xl flex items-center justify-center shrink-0" style="background:${colorMap[profile.color]}1a;">
+          <i data-lucide="${profile.icon}" class="w-8 h-8" style="color:${colorMap[profile.color]}"></i>
+        </div>
+        <div>
+          <p class="text-xs uppercase tracking-wide text-slate-500 font-semibold">Tu resultado</p>
+          <h2 class="font-display text-2xl sm:text-3xl font-bold" style="color:${colorMap[profile.color]}">${profile.name}</h2>
+        </div>
+      </div>
+
+      <div class="grid sm:grid-cols-4 gap-3 mb-8">
+        ${Object.entries({R:'Reactivo',A:'Analítico',E:'Evitativo',I:'Integrador'}).map(([k,label]) => `
+          <div class="p-3 rounded-xl border ${k===style?'border-indigo-400 bg-indigo-50':'border-slate-200'}">
+            <p class="text-xs text-slate-500 mb-1">${label}</p>
+            <div class="diag-bar"><div class="diag-bar-fill" style="width:${(tally[k]/total)*100}%; background:${colorMap[styleProfiles[k].color]}"></div></div>
+            <p class="text-xs text-slate-400 mt-1">${tally[k]}/${total}</p>
+          </div>
+        `).join('')}
+      </div>
+
+      <div class="grid md:grid-cols-2 gap-6">
+        <div class="bg-emerald-50 border border-emerald-200 rounded-xl p-5">
+          <h3 class="font-semibold text-emerald-800 flex items-center gap-2 mb-3"><i data-lucide="thumbs-up" class="w-4 h-4"></i> Tus fortalezas actuales</h3>
+          <ul class="space-y-2 text-sm text-emerald-900">
+            ${profile.strengths.map(s => `<li class="flex gap-2"><i data-lucide="check" class="w-4 h-4 shrink-0 mt-0.5"></i>${s}</li>`).join('')}
+          </ul>
+        </div>
+        <div class="bg-amber-50 border border-amber-200 rounded-xl p-5">
+          <h3 class="font-semibold text-amber-800 flex items-center gap-2 mb-3"><i data-lucide="target" class="w-4 h-4"></i> Puntos a mejorar</h3>
+          <ul class="space-y-2 text-sm text-amber-900">
+            ${profile.improvements.map(s => `<li class="flex gap-2"><i data-lucide="alert-circle" class="w-4 h-4 shrink-0 mt-0.5"></i>${s}</li>`).join('')}
+          </ul>
+        </div>
+      </div>
+
+      <div class="mt-6 bg-indigo-50 border border-indigo-200 rounded-xl p-5">
+        <h3 class="font-semibold text-indigo-800 flex items-center gap-2 mb-3"><i data-lucide="lightbulb" class="w-4 h-4"></i> Recomendación personalizada</h3>
+        <p class="text-sm text-indigo-900 mb-2">Según tu perfil, te conviene prestar especial atención a:</p>
+        <div class="flex flex-wrap gap-2">
+          ${profile.recommend.map(m => `<span class="text-xs font-semibold bg-white border border-indigo-300 text-indigo-700 px-3 py-1.5 rounded-full">${moduleNames[m]}</span>`).join('')}
+        </div>
+      </div>
+
+      <button onclick="goTo('m1')" class="focus-ring mt-6 inline-flex items-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold px-5 py-3 rounded-xl transition-colors">
+        Comenzar Módulo 1 <i data-lucide="arrow-right" class="w-4 h-4"></i>
+      </button>
+    </div>
+  </div>`;
+}
+
+/* =========================================================================
+   GAMIFICACIÓN
+========================================================================= */
+function awardBadge(name, pts){
+  if(!state.badges.includes(name)){
+    state.badges.push(name);
+  }
+  state.points += pts;
+}
+
+/* =========================================================================
+   SHELL DE MÓDULOS 1-4
+========================================================================= */
+function renderModuleShell(id){
+  const mod = state.modules[id];
+  const header = `
+    <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 sm:p-8 mb-6">
+      <div class="flex items-center justify-between flex-wrap gap-3">
+        <h2 class="font-display text-2xl font-bold">${moduleNames[id]}</h2>
+        ${mod.completed ? `<span class="inline-flex items-center gap-1.5 text-emerald-700 bg-emerald-100 px-3 py-1.5 rounded-full text-xs font-bold"><i data-lucide="badge-check" class="w-4 h-4"></i> Completado · Mejor puntaje ${mod.bestScore}%</span>` : ''}
+      </div>
+    </div>`;
+
+  let body = '';
+  if(id === 'm1') body = renderM1Body();
+  if(id === 'm2') body = renderM2Body();
+  if(id === 'm3') body = renderM3Body();
+  if(id === 'm4') body = renderM4Body();
+
+  return header + body;
+}
+
+/* ---------- MÓDULO 1 ---------- */
+function renderM1Body(){
+  return `
+  <div class="space-y-6">
+    <section class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 sm:p-8">
+      <h3 class="font-semibold text-lg mb-4 flex items-center gap-2"><i data-lucide="book-open" class="w-5 h-5 text-indigo-600"></i>Lección: sesgos cognitivos y premisas</h3>
+      <div class="space-y-2" id="accordion-m1">
+        ${lessonsM1.map((l, i) => `
+          <div class="border border-slate-200 rounded-xl overflow-hidden">
+            <button onclick="toggleAccordion('m1-${i}')" class="w-full flex items-center justify-between text-left px-4 py-3 bg-slate-50 hover:bg-slate-100 font-medium text-sm focus-ring">
+              ${l.t}
+              <i data-lucide="chevron-down" class="accordion-chevron w-4 h-4" id="chev-m1-${i}"></i>
+            </button>
+            <div class="accordion-body" id="acc-m1-${i}">
+              <p class="px-4 py-3 text-sm text-slate-600">${l.body}</p>
+            </div>
+          </div>
+        `).join('')}
+      </div>
+    </section>
+
+    <section class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 sm:p-8">
+      <h3 class="font-semibold text-lg mb-3 flex items-center gap-2"><i data-lucide="briefcase" class="w-5 h-5 text-indigo-600"></i>Caso práctico</h3>
+      <p class="text-sm text-slate-600 mb-4">Un director de proyecto insiste en que su cronograma va a cumplirse "porque siempre funcionó así antes", pese a tres alertas recientes de retraso que sus propios reportes muestran. Solo comparte esos reportes con quienes están de acuerdo con él.</p>
+      <p class="text-sm font-medium mb-2">¿Qué sesgo cognitivo predomina en esta situación?</p>
+      <div class="grid sm:grid-cols-2 gap-2" id="case-m1-options">
+        ${['Efecto anclaje','Sesgo de confirmación','Sesgo de disponibilidad','Efecto halo'].map((opt,i)=>`
+          <button class="quiz-option text-left text-sm border border-slate-200 rounded-lg px-4 py-3" onclick="answerCase('m1', ${i}, 1)">${opt}</button>
+        `).join('')}
+      </div>
+      <p id="case-m1-feedback" class="text-sm mt-3 hidden"></p>
+    </section>
+
+    <section class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 sm:p-8">
+      <h3 class="font-semibold text-lg mb-4 flex items-center gap-2"><i data-lucide="pencil-line" class="w-5 h-5 text-indigo-600"></i>Quiz final del Módulo 1</h3>
+      <div id="quiz-m1"></div>
+    </section>
+  </div>`;
+}
+
+/* ---------- MÓDULO 2 ---------- */
+function renderM2Body(){
+  return `
+  <div class="space-y-6">
+    <section class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 sm:p-8">
+      <h3 class="font-semibold text-lg mb-3 flex items-center gap-2"><i data-lucide="help-circle" class="w-5 h-5 text-indigo-600"></i>Técnica de los 5 Porqués</h3>
+      <p class="text-sm text-slate-600 mb-4">Escribí el problema y luego preguntate "¿por qué?" cinco veces seguidas, profundizando cada vez más hasta llegar a la causa raíz.</p>
+      <div class="space-y-3">
+        <div>
+          <label class="text-xs font-semibold text-slate-500">Problema inicial</label>
+          <input id="why-0" oninput="saveFiveWhys()" placeholder="Ej: El proyecto se entregó tarde" class="focus-ring w-full mt-1 border border-slate-300 rounded-lg px-3 py-2 text-sm">
+        </div>
+        ${[1,2,3,4,5].map(n => `
+          <div class="flex items-start gap-2">
+            <i data-lucide="corner-down-right" class="w-4 h-4 text-indigo-400 mt-3 shrink-0"></i>
+            <div class="flex-1">
+              <label class="text-xs font-semibold text-slate-500">¿Por qué? (${n})</label>
+              <input id="why-${n}" oninput="saveFiveWhys()" placeholder="Escribí la razón..." class="focus-ring w-full mt-1 border border-slate-300 rounded-lg px-3 py-2 text-sm">
+            </div>
+          </div>
+        `).join('')}
+      </div>
+    </section>
+
+    <section class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 sm:p-8">
+      <h3 class="font-semibold text-lg mb-3 flex items-center gap-2"><i data-lucide="git-branch" class="w-5 h-5 text-indigo-600"></i>Diagrama de Ishikawa interactivo</h3>
+      <p class="text-sm text-slate-600 mb-4">Agregá causas posibles dentro de cada categoría para el problema que estás analizando.</p>
+      <div class="grid sm:grid-cols-2 gap-4" id="ishikawa-grid"></div>
+    </section>
+
+    <section class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 sm:p-8">
+      <h3 class="font-semibold text-lg mb-4 flex items-center gap-2"><i data-lucide="pencil-line" class="w-5 h-5 text-indigo-600"></i>Quiz final del Módulo 2</h3>
+      <div id="quiz-m2"></div>
+    </section>
+  </div>`;
+}
+
+const ishikawaCategories = ["Método","Mano de obra","Maquinaria","Material","Medición","Medio ambiente"];
+function getIshikawaData(){
+  if(!state.ishikawa) state.ishikawa = ishikawaCategories.reduce((acc,c)=>{acc[c]=[];return acc;},{});
+  return state.ishikawa;
+}
+function renderIshikawaGrid(){
+  const data = getIshikawaData();
+  const grid = document.getElementById('ishikawa-grid');
+  if(!grid) return;
+  grid.innerHTML = ishikawaCategories.map(cat => `
+    <div class="border border-slate-200 rounded-xl p-3">
+      <p class="text-sm font-semibold text-slate-700 mb-2">${cat}</p>
+      <ul class="space-y-1 mb-2 text-sm text-slate-600 list-disc list-inside">
+        ${data[cat].map((c,i)=>`<li class="flex items-center justify-between group">${c} <button onclick="removeIshikawa('${cat}',${i})" class="text-slate-300 hover:text-red-500"><i data-lucide="x" class="w-3 h-3"></i></button></li>`).join('')}
+      </ul>
+      <div class="flex gap-1">
+        <input id="ishikawa-input-${cat}" placeholder="Agregar causa..." class="focus-ring flex-1 border border-slate-300 rounded-lg px-2 py-1.5 text-xs" onkeydown="if(event.key==='Enter'){addIshikawa('${cat}')}">
+        <button onclick="addIshikawa('${cat}')" class="bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg px-2 focus-ring"><i data-lucide="plus" class="w-3.5 h-3.5"></i></button>
+      </div>
+    </div>
+  `).join('');
+  lucide.createIcons();
+}
+function addIshikawa(cat){
+  const input = document.getElementById('ishikawa-input-'+cat);
+  const val = input.value.trim();
+  if(!val) return;
+  const data = getIshikawaData();
+  data[cat].push(val);
+  saveState();
+  renderIshikawaGrid();
+}
+function removeIshikawa(cat, idx){
+  const data = getIshikawaData();
+  data[cat].splice(idx,1);
+  saveState();
+  renderIshikawaGrid();
+}
+function saveFiveWhys(){
+  state.fiveWhys = [0,1,2,3,4,5].map(n => document.getElementById('why-'+n)?.value || '');
+  saveState();
+}
+function restoreFiveWhys(){
+  if(!state.fiveWhys) return;
+  state.fiveWhys.forEach((v,n)=>{ const el = document.getElementById('why-'+n); if(el) el.value = v; });
+}
+
+/* ---------- MÓDULO 3 ---------- */
+function getMatrixData(){
+  if(!state.matrix){
+    state.matrix = {
+      criteria: [ {name:'Costo', weight:30}, {name:'Tiempo', weight:25}, {name:'Impacto', weight:25}, {name:'Viabilidad', weight:20} ],
+      alternatives: [
+        {name:'Alternativa A', scores:[3,3,3,3]},
+        {name:'Alternativa B', scores:[3,3,3,3]},
+        {name:'Alternativa C', scores:[3,3,3,3]}
+      ]
+    };
+  }
+  return state.matrix;
+}
+
+function renderM3Body(){
+  return `
+  <div class="space-y-6">
+    <section class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 sm:p-8">
+      <h3 class="font-semibold text-lg mb-3 flex items-center gap-2"><i data-lucide="scale" class="w-5 h-5 text-indigo-600"></i>Simulador: Matriz de decisión ponderada</h3>
+      <p class="text-sm text-slate-600 mb-4">Ajustá el peso de cada criterio (deben sumar 100) y calificá cada alternativa de 1 a 5. La app calcula el puntaje ponderado y resalta la mejor opción.</p>
+      <div id="matrix-container" class="overflow-x-auto"></div>
+    </section>
+
+    <section class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 sm:p-8">
+      <h3 class="font-semibold text-lg mb-4 flex items-center gap-2"><i data-lucide="pencil-line" class="w-5 h-5 text-indigo-600"></i>Quiz final del Módulo 3</h3>
+      <div id="quiz-m3"></div>
+    </section>
+  </div>`;
+}
+
+function renderMatrix(){
+  const container = document.getElementById('matrix-container');
+  if(!container) return;
+  const data = getMatrixData();
+  const weightSum = data.criteria.reduce((a,c)=>a+Number(c.weight),0);
+
+  const results = data.alternatives.map(alt => {
+    const total = alt.scores.reduce((sum, s, i) => sum + (Number(s) * Number(data.criteria[i].weight)/100), 0);
+    return { name: alt.name, total: Math.round(total*10)/10 };
+  });
+  const maxTotal = Math.max(...results.map(r=>r.total));
+
+  container.innerHTML = `
+    <table class="w-full text-sm border-collapse min-w-[560px]">
+      <thead>
+        <tr>
+          <th class="text-left p-2 border-b border-slate-200">Alternativa</th>
+          ${data.criteria.map((c,ci) => `
+            <th class="text-left p-2 border-b border-slate-200">
+              <input value="${c.name}" onchange="updateCriterionName(${ci}, this.value)" class="focus-ring w-24 font-semibold text-xs border-b border-dashed border-slate-300 bg-transparent">
+              <div class="flex items-center gap-1 mt-1">
+                <input type="number" min="0" max="100" value="${c.weight}" onchange="updateCriterionWeight(${ci}, this.value)" class="focus-ring w-14 border border-slate-300 rounded px-1 py-0.5 text-xs">
+                <span class="text-slate-400 text-xs">%</span>
+              </div>
+            </th>`).join('')}
+          <th class="text-left p-2 border-b border-slate-200">Puntaje</th>
+        </tr>
+      </thead>
+      <tbody>
+        ${data.alternatives.map((alt, ai) => `
+          <tr class="${results[ai].total === maxTotal ? 'bg-emerald-50' : ''}">
+            <td class="p-2 border-b border-slate-100">
+              <input value="${alt.name}" onchange="updateAltName(${ai}, this.value)" class="focus-ring border-b border-dashed border-slate-300 bg-transparent text-sm">
+            </td>
+            ${alt.scores.map((s,ci) => `
+              <td class="p-2 border-b border-slate-100">
+                <input type="number" min="1" max="5" value="${s}" onchange="updateAltScore(${ai},${ci},this.value)" class="focus-ring w-14 border border-slate-300 rounded px-1 py-1 text-xs text-center">
+              </td>`).join('')}
+            <td class="p-2 border-b border-slate-100 font-bold ${results[ai].total===maxTotal?'text-emerald-700':'text-slate-700'}">
+              ${results[ai].total} ${results[ai].total===maxTotal?'<i data-lucide="crown" class="inline w-4 h-4 text-amber-500"></i>':''}
+            </td>
+          </tr>`).join('')}
+      </tbody>
+    </table>
+    <p class="text-xs mt-3 ${weightSum===100?'text-emerald-600':'text-amber-600'}">
+      Suma de pesos: ${weightSum}% ${weightSum===100 ? '(correcto)' : '(debería sumar 100% para un resultado preciso)'}
+    </p>
+  `;
+  lucide.createIcons();
+}
+function updateCriterionName(i,val){ getMatrixData().criteria[i].name = val; saveState(); }
+function updateCriterionWeight(i,val){ getMatrixData().criteria[i].weight = Number(val)||0; saveState(); renderMatrix(); }
+function updateAltName(i,val){ getMatrixData().alternatives[i].name = val; saveState(); }
+function updateAltScore(ai,ci,val){ getMatrixData().alternatives[ai].scores[ci] = Number(val)||1; saveState(); renderMatrix(); }
+
+/* ---------- MÓDULO 4 ---------- */
+function renderM4Body(){
+  return `
+  <div class="space-y-6">
+    <section class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 sm:p-8">
+      <h3 class="font-semibold text-lg mb-4 flex items-center gap-2"><i data-lucide="handshake" class="w-5 h-5 text-indigo-600"></i>Negociación ganar-ganar y entornos complejos</h3>
+      <div class="space-y-2" id="accordion-m4">
+        ${negotiationContent.map((l,i) => `
+          <div class="border border-slate-200 rounded-xl overflow-hidden">
+            <button onclick="toggleAccordion('m4-${i}')" class="w-full flex items-center justify-between text-left px-4 py-3 bg-slate-50 hover:bg-slate-100 font-medium text-sm focus-ring">
+              ${l.t}
+              <i data-lucide="chevron-down" class="accordion-chevron w-4 h-4" id="chev-m4-${i}"></i>
+            </button>
+            <div class="accordion-body" id="acc-m4-${i}">
+              <p class="px-4 py-3 text-sm text-slate-600">${l.body}</p>
+            </div>
+          </div>
+        `).join('')}
+      </div>
+    </section>
+
+    <section class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 sm:p-8">
+      <h3 class="font-semibold text-lg mb-4 flex items-center gap-2"><i data-lucide="pencil-line" class="w-5 h-5 text-indigo-600"></i>Evaluación final integradora</h3>
+      <p class="text-sm text-slate-600 mb-4">Esta evaluación combina los cuatro módulos. Necesitás 70% o más para completar el máster.</p>
+      <div id="quiz-m4"></div>
+    </section>
+  </div>`;
+}
+
+/* =========================================================================
+   ACORDEONES
+========================================================================= */
+function toggleAccordion(id){
+  const body = document.getElementById('acc-'+id);
+  const chev = document.getElementById('chev-'+id);
+  body.classList.toggle('open');
+  chev.classList.toggle('open');
+}
+
+/* =========================================================================
+   CASO PRÁCTICO (formativo, no puntúa evaluación)
+========================================================================= */
+function answerCase(mod, idx, correctIdx){
+  const options = document.querySelectorAll(`#case-${mod}-options .quiz-option`);
+  options.forEach((btn,i) => {
+    btn.classList.add('disabled');
+    btn.style.pointerEvents = 'none';
+    if(i === correctIdx) btn.classList.add('correct');
+    else if(i === idx) btn.classList.add('incorrect');
+  });
+  state['case_' + mod] = { idx, correctIdx, isCorrect: idx === correctIdx };
+  saveState();
+  const fb = document.getElementById(`case-${mod}-feedback`);
+  fb.classList.remove('hidden');
+  if(idx === correctIdx){
+    fb.innerHTML = '<span class="text-emerald-700 font-medium">¡Correcto!</span> El director solo valora la información que confirma su plan e ignora las señales contrarias: un caso clásico de sesgo de confirmación.';
+  } else {
+    fb.innerHTML = '<span class="text-red-700 font-medium">No es el sesgo principal aquí.</span> Se trata de sesgo de confirmación: se busca y prioriza la información que respalda una creencia previa.';
+  }
+}
+
+/* =========================================================================
+   QUIZZES (evaluados, 70% para aprobar)
+========================================================================= */
+const quizState = {}; // { m1: { answers:[...], submitted:false } }
+
+function initQuizState(id){
+  if(!quizState[id]){
+    quizState[id] = { answers: new Array(quizzes[id].length).fill(null), submitted:false };
+  }
+}
+
+function renderQuiz(id){
+  initQuizState(id);
+  const container = document.getElementById('quiz-'+id);
+  if(!container) return;
+  const qs = quizzes[id];
+  const qState = quizState[id];
+
+  container.innerHTML = qs.map((q, qi) => `
+    <div class="mb-6 pb-6 ${qi < qs.length-1 ? 'border-b border-slate-100' : ''}">
+      <p class="font-medium text-sm mb-3">${qi+1}. ${q.q}</p>
+      <div class="space-y-2">
+        ${q.opts.map((opt, oi) => {
+          let cls = 'quiz-option';
+          if(qState.submitted){
+            cls += ' disabled';
+            if(oi === q.correct) cls += ' correct';
+            else if(oi === qState.answers[qi]) cls += ' incorrect';
+          } else if(qState.answers[qi] === oi){
+            cls += ' border-indigo-500 bg-indigo-50';
+          }
+          return `<button ${qState.submitted?'style="pointer-events:none"':''} onclick="selectQuizAnswer('${id}',${qi},${oi})" class="${cls} w-full text-left text-sm border border-slate-200 rounded-lg px-4 py-3">${opt}</button>`;
+        }).join('')}
+      </div>
+      ${qState.submitted ? `<p class="text-xs mt-2 p-3 rounded-lg ${qState.answers[qi]===q.correct?'bg-emerald-50 text-emerald-800':'bg-amber-50 text-amber-800'}"><i data-lucide="info" class="inline w-3.5 h-3.5 mr-1"></i>${q.explain}</p>` : ''}
+    </div>
+  `).join('') + renderQuizFooter(id);
+
+  lucide.createIcons();
+}
+
+function renderQuizFooter(id){
+  const qState = quizState[id];
+  const allAnswered = qState.answers.every(a => a !== null);
+  if(!qState.submitted){
+    return `<button onclick="submitQuiz('${id}')" class="focus-ring inline-flex items-center gap-2 bg-indigo-600 hover:bg-indigo-700 disabled:bg-slate-300 text-white font-semibold px-5 py-3 rounded-xl" ${allAnswered?'':'disabled'}>
+      <i data-lucide="send" class="w-4 h-4"></i> Corregir evaluación
+    </button>`;
+  }
+  const correctCount = quizzes[id].filter((q,i) => qState.answers[i]===q.correct).length;
+  const pct = Math.round((correctCount/quizzes[id].length)*100);
+  const passed = pct >= 70;
+  return `
+    <div class="mt-2 p-5 rounded-xl border ${passed?'bg-emerald-50 border-emerald-300':'bg-red-50 border-red-300'}">
+      <div class="flex items-center gap-3">
+        <i data-lucide="${passed?'trophy':'refresh-cw'}" class="w-8 h-8 ${passed?'text-emerald-600':'text-red-500'}"></i>
+        <div>
+          <p class="font-bold text-lg ${passed?'text-emerald-800':'text-red-700'}">${pct}% de aciertos</p>
+          <p class="text-sm ${passed?'text-emerald-700':'text-red-600'}">${passed ? '¡Aprobaste! Módulo completado.' : 'Necesitás al menos 70% para aprobar. Podés reintentar.'}</p>
+        </div>
+      </div>
+      <div class="flex gap-2 mt-4">
+        <button onclick="retryQuiz('${id}')" class="focus-ring inline-flex items-center gap-2 bg-white border border-slate-300 hover:bg-slate-50 text-slate-700 font-semibold px-4 py-2.5 rounded-xl text-sm">
+          <i data-lucide="rotate-ccw" class="w-4 h-4"></i> Reintentar
+        </button>
+        ${passed && nextModuleId(id) ? `<button onclick="goTo('${nextModuleId(id)}')" class="focus-ring inline-flex items-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold px-4 py-2.5 rounded-xl text-sm">Continuar <i data-lucide="arrow-right" class="w-4 h-4"></i></button>` : ''}
+        ${passed && !nextModuleId(id) ? `<button onclick="goTo('cert')" class="focus-ring inline-flex items-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white font-semibold px-4 py-2.5 rounded-xl text-sm">Ver certificado <i data-lucide="graduation-cap" class="w-4 h-4"></i></button>` : ''}
+      </div>
+    </div>`;
+}
+
+function nextModuleId(id){
+  const order = ['m1','m2','m3','m4'];
+  const idx = order.indexOf(id);
+  return idx >= 0 && idx < order.length-1 ? order[idx+1] : null;
+}
+
+function selectQuizAnswer(id, qi, oi){
+  const qState = quizState[id];
+  if(qState.submitted) return;
+  qState.answers[qi] = oi;
+  renderQuiz(id);
+}
+
+function submitQuiz(id){
+  const qState = quizState[id];
+  if(qState.answers.includes(null)) return;
+  qState.submitted = true;
+  const correctCount = quizzes[id].filter((q,i) => qState.answers[i]===q.correct).length;
+  const pct = Math.round((correctCount/quizzes[id].length)*100);
+  const mod = state.modules[id];
+  mod.attempts += 1;
+  mod.bestScore = Math.max(mod.bestScore, pct);
+  if(pct >= 70 && !mod.completed){
+    mod.completed = true;
+    awardBadge(moduleNames[id], 30);
+    const next = nextModuleId(id);
+    if(next) state.modules[next].unlocked = true;
+  } else if(pct >= 70){
+    mod.completed = true;
+  }
+  saveState();
+  updateHeader();
+  renderSidebar();
+  renderQuiz(id);
+}
+
+function retryQuiz(id){
+  quizState[id] = { answers: new Array(quizzes[id].length).fill(null), submitted:false };
+  renderQuiz(id);
+}
+
+/* =========================================================================
+   CERTIFICADO
+========================================================================= */
+function renderCertificate(){
+  if(!state.modules.m4.completed){
+    return `<div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-8 text-center text-slate-500">
+      <i data-lucide="lock" class="w-10 h-10 mx-auto mb-3"></i>
+      Completá los 4 módulos para desbloquear tu certificado.
+    </div>`;
+  }
+  const avg = Math.round((['m1','m2','m3','m4'].reduce((s,m)=>s+state.modules[m].bestScore,0))/4);
+  const today = new Date().toLocaleDateString('es-AR', { year:'numeric', month:'long', day:'numeric' });
+  return `
+  <div class="space-y-6">
+    <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 sm:p-8 no-print">
+      <label class="text-sm font-semibold text-slate-600">Nombre para el certificado</label>
+      <input id="cert-name-input" value="${state.userName || ''}" oninput="updateCertName(this.value)" placeholder="Escribí tu nombre completo" class="focus-ring mt-1 w-full border border-slate-300 rounded-lg px-3 py-2 text-sm max-w-md">
+      <button onclick="window.print()" class="focus-ring mt-4 inline-flex items-center gap-2 bg-slate-900 hover:bg-slate-800 text-white font-semibold px-4 py-2.5 rounded-xl text-sm">
+        <i data-lucide="printer" class="w-4 h-4"></i> Imprimir / Guardar como PDF
+      </button>
+    </div>
+
+    <div id="certificate-card" class="bg-white rounded-2xl shadow-lg border-4 border-double border-indigo-200 p-10 text-center relative overflow-hidden">
+      <div class="absolute inset-0 opacity-[0.03] pointer-events-none" style="background-image:radial-gradient(circle,#4f46e5 1px,transparent 1px); background-size:16px 16px;"></div>
+      <img src="${LOGO_DATA_URI}" alt="Logo Consejo Profesional de Ingeniería Civil" class="h-16 w-auto object-contain mx-auto mb-4 relative">
+      <p class="text-xs uppercase tracking-[0.3em] text-slate-400 relative">Certificado de finalización</p>
+      <h2 class="font-display text-3xl font-bold mt-2 relative">Máster Autónomo: Pensamiento Crítico y Resolución de Problemas</h2>
+      <p class="mt-6 text-slate-500 relative">Se certifica que</p>
+      <p class="font-display text-2xl font-bold text-indigo-700 mt-1 relative">${state.userName ? state.userName : '________________________'}</p>
+      <p class="mt-4 text-slate-600 max-w-xl mx-auto relative">completó satisfactoriamente los cuatro módulos del programa, incluyendo el autodiagnóstico inicial, casos prácticos y evaluaciones finales, con un promedio de <strong>${avg}%</strong>.</p>
+
+      <div class="grid sm:grid-cols-4 gap-3 mt-8 relative">
+        ${['m1','m2','m3','m4'].map(m => `
+          <div class="border border-slate-200 rounded-xl p-3">
+            <i data-lucide="badge-check" class="w-5 h-5 text-emerald-500 mx-auto mb-1"></i>
+            <p class="text-xs font-semibold">${moduleNames[m].split(':')[0]}</p>
+            <p class="text-xs text-slate-500">${state.modules[m].bestScore}%</p>
+          </div>
+        `).join('')}
+      </div>
+
+      <p class="mt-8 text-xs text-slate-400 relative">Perfil inicial de afrontamiento: ${styleProfiles[state.diagnostic.style]?.name || '—'} &middot; Emitido el ${today}</p>
+      <p class="mt-1 text-xs text-slate-400 relative">${state.points} puntos totales &middot; ${state.badges.length} insignias obtenidas</p>
+    </div>
+  </div>`;
+}
+function updateCertName(val){ state.userName = val; saveState(); }
+
+/* =========================================================================
+   EXPORTACIÓN DE RESULTADOS A PDF (diagnóstico + herramientas + quizzes)
+========================================================================= */
+function reportDiagnosticHTML(){
+  if(!state.diagnostic.completed){
+    return '<p style="font-size:12px;color:#94a3b8;margin:0;">Autodiagnóstico aún no completado.</p>';
+  }
+  const style = state.diagnostic.style;
+  const profile = styleProfiles[style];
+  const tally = state.diagnostic.tally || {R:0,A:0,E:0,I:0};
+  return `
+    <p style="font-size:13px;margin:0 0 6px;"><strong>Perfil resultante:</strong> ${profile.name}</p>
+    <p style="font-size:11px;color:#475569;margin:0 0 10px;">Reactivo ${tally.R}/6 &nbsp;·&nbsp; Analítico ${tally.A}/6 &nbsp;·&nbsp; Evitativo ${tally.E}/6 &nbsp;·&nbsp; Integrador ${tally.I}/6</p>
+    <p style="font-size:12px;font-weight:700;color:#059669;margin:8px 0 2px;">Fortalezas</p>
+    <ul style="margin:0 0 8px 16px;padding:0;font-size:11px;color:#334155;">${profile.strengths.map(s=>`<li style="margin-bottom:2px;">${s}</li>`).join('')}</ul>
+    <p style="font-size:12px;font-weight:700;color:#d97706;margin:8px 0 2px;">Puntos a mejorar</p>
+    <ul style="margin:0 0 8px 16px;padding:0;font-size:11px;color:#334155;">${profile.improvements.map(s=>`<li style="margin-bottom:2px;">${s}</li>`).join('')}</ul>
+    <p style="font-size:12px;font-weight:700;color:#4f46e5;margin:8px 0 2px;">Módulos recomendados</p>
+    <p style="font-size:11px;color:#334155;margin:0;">${profile.recommend.map(m=>moduleNames[m]).join(' · ')}</p>
+  `;
+}
+
+function reportModule1Tool(){
+  const c = state.case_m1;
+  const options = ['Efecto anclaje','Sesgo de confirmación','Sesgo de disponibilidad','Efecto halo'];
+  if(!c){
+    return '<p style="font-size:11px;color:#94a3b8;margin:0 0 10px;">Caso práctico no respondido.</p>';
+  }
+  return `<p style="font-size:12px;margin:0 0 10px;"><strong>Tu respuesta:</strong> ${options[c.idx]} ${c.isCorrect
+    ? '<span style="color:#059669;font-weight:600;">(Correcta)</span>'
+    : `<span style="color:#dc2626;font-weight:600;">(Incorrecta — la respuesta correcta era: ${options[c.correctIdx]})</span>`}</p>`;
+}
+
+function reportModule2Tools(){
+  const whys = state.fiveWhys || [];
+  const ishikawa = state.ishikawa || {};
+  let html = '<h4 style="margin:0 0 6px;font-size:13px;font-weight:700;color:#4f46e5;">Técnica de los 5 Porqués</h4>';
+  if(whys.length && whys.some(w => w && w.trim())){
+    html += `<p style="margin:0 0 4px;font-size:12px;"><strong>Problema inicial:</strong> ${whys[0] || '—'}</p>`;
+    html += '<ol style="margin:0 0 12px 18px;padding:0;font-size:11px;color:#334155;">';
+    for(let i=1;i<=5;i++){
+      html += `<li style="margin-bottom:2px;">${whys[i] && whys[i].trim() ? whys[i] : '<span style="color:#cbd5e1;">(sin completar)</span>'}</li>`;
+    }
+    html += '</ol>';
+  } else {
+    html += '<p style="font-size:11px;color:#94a3b8;margin:0 0 12px;">Herramienta no completada.</p>';
+  }
+
+  html += '<h4 style="margin:0 0 6px;font-size:13px;font-weight:700;color:#4f46e5;">Diagrama de Ishikawa</h4>';
+  const anyCauses = ishikawaCategories.some(cat => (ishikawa[cat]||[]).length);
+  if(anyCauses){
+    html += '<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:4px;">';
+    ishikawaCategories.forEach(cat => {
+      const causes = ishikawa[cat] || [];
+      html += `<div style="border:1px solid #e2e8f0;border-radius:8px;padding:6px 8px;">
+        <p style="margin:0 0 2px;font-size:11px;font-weight:700;color:#334155;">${cat}</p>
+        ${causes.length
+          ? `<ul style="margin:0;padding-left:14px;font-size:10.5px;color:#475569;">${causes.map(c=>`<li>${c}</li>`).join('')}</ul>`
+          : '<p style="margin:0;font-size:10px;color:#cbd5e1;">Sin causas registradas</p>'}
+      </div>`;
+    });
+    html += '</div>';
+  } else {
+    html += '<p style="font-size:11px;color:#94a3b8;margin:0;">Herramienta no completada.</p>';
+  }
+  return html;
+}
+
+function reportModule3Tool(){
+  const m = state.matrix;
+  if(!m){
+    return '<p style="font-size:11px;color:#94a3b8;margin:0 0 10px;">Herramienta no completada.</p>';
+  }
+  const results = m.alternatives.map(alt => {
+    const total = alt.scores.reduce((sum, s, i) => sum + (Number(s) * Number(m.criteria[i].weight)/100), 0);
+    return { name: alt.name, total: Math.round(total*10)/10 };
+  });
+  const maxTotal = Math.max(...results.map(r=>r.total));
+  let html = `<table style="width:100%;border-collapse:collapse;font-size:11px;margin:0 0 10px;">
+    <thead><tr>
+      <th style="text-align:left;padding:4px;border-bottom:1px solid #cbd5e1;">Alternativa</th>
+      ${m.criteria.map(c=>`<th style="text-align:left;padding:4px;border-bottom:1px solid #cbd5e1;">${c.name} (${c.weight}%)</th>`).join('')}
+      <th style="text-align:left;padding:4px;border-bottom:1px solid #cbd5e1;">Puntaje</th>
+    </tr></thead><tbody>`;
+  m.alternatives.forEach((alt, ai) => {
+    const isBest = results[ai].total === maxTotal;
+    html += `<tr style="${isBest ? 'background:#ecfdf5;' : ''}">
+      <td style="padding:4px;border-bottom:1px solid #f1f5f9;">${alt.name}</td>
+      ${alt.scores.map(s=>`<td style="padding:4px;border-bottom:1px solid #f1f5f9;">${s}</td>`).join('')}
+      <td style="padding:4px;border-bottom:1px solid #f1f5f9;font-weight:700;${isBest?'color:#059669;':''}">${results[ai].total}${isBest?' &#9733;':''}</td>
+    </tr>`;
+  });
+  html += '</tbody></table>';
+  return html;
+}
+
+function reportQuizDetail(id){
+  const mod = state.modules[id];
+  const qS = quizState[id];
+  let html = `<p style="margin:0 0 8px;font-size:11.5px;color:#475569;">Estado: <strong style="color:${mod.completed?'#059669':'#dc2626'};">${mod.completed?'Completado':'No completado'}</strong> &nbsp;|&nbsp; Mejor puntaje: <strong>${mod.bestScore}%</strong> &nbsp;|&nbsp; Intentos: ${mod.attempts}</p>`;
+
+  if(qS && qS.submitted){
+    html += quizzes[id].map((q,i) => {
+      const userIdx = qS.answers[i];
+      const isCorrect = userIdx === q.correct;
+      return `
+        <div style="margin:0 0 8px;padding:8px 10px;border:1px solid #e2e8f0;border-radius:8px;">
+          <p style="margin:0 0 4px;font-size:11.5px;font-weight:600;color:#0f172a;">${i+1}. ${q.q}</p>
+          <p style="margin:0 0 2px;font-size:11px;color:${isCorrect?'#059669':'#dc2626'};">Tu respuesta: ${userIdx!==null?q.opts[userIdx]:'—'} ${isCorrect?'(Correcta)':'(Incorrecta)'}</p>
+          ${!isCorrect ? `<p style="margin:0 0 2px;font-size:11px;color:#059669;">Respuesta correcta: ${q.opts[q.correct]}</p>` : ''}
+          <p style="margin:0;font-size:10.5px;color:#64748b;">${q.explain}</p>
+        </div>`;
+    }).join('');
+  } else if(mod.completed){
+    html += '<p style="font-size:11px;color:#94a3b8;margin:0;">El detalle pregunta por pregunta solo está disponible durante la sesión en la que se rindió el examen. Se muestra el mejor puntaje registrado.</p>';
+  } else {
+    html += '<p style="font-size:11px;color:#94a3b8;margin:0;">Evaluación aún no rendida.</p>';
+  }
+  return html;
+}
+
+function buildReportElement(){
+  const container = document.createElement('div');
+  container.id = 'pdf-report-root';
+  container.style.cssText = 'position:fixed; left:-9999px; top:0; width:760px; background:#ffffff; padding:32px; font-family:Segoe UI, Arial, sans-serif; color:#0f172a;';
+  const today = new Date().toLocaleDateString('es-AR', { year:'numeric', month:'long', day:'numeric' });
+  const pct = computeOverallProgress();
+
+  const moduleBlocks = ['m1','m2','m3','m4'].map(id => `
+    <div style="border:1px solid #e2e8f0;border-radius:10px;padding:14px 16px;margin-bottom:16px;">
+      <h2 style="margin:0 0 10px;font-size:14px;font-weight:800;color:#3730a3;">${moduleNames[id]}</h2>
+      ${id==='m1' ? `<h4 style="margin:0 0 6px;font-size:13px;font-weight:700;color:#4f46e5;">Caso práctico</h4>${reportModule1Tool()}` : ''}
+      ${id==='m2' ? reportModule2Tools() : ''}
+      ${id==='m3' ? `<h4 style="margin:0 0 6px;font-size:13px;font-weight:700;color:#4f46e5;">Matriz de decisión</h4>${reportModule3Tool()}` : ''}
+      <h4 style="margin:10px 0 6px;font-size:13px;font-weight:700;color:#4f46e5;">Evaluación / Quiz</h4>
+      ${reportQuizDetail(id)}
+    </div>
+  `).join('');
+
+  const certBlock = state.modules.m4.completed ? `
+    <div style="border:2px dashed #4f46e5;border-radius:10px;padding:16px;text-align:center;margin-bottom:10px;">
+      <h2 style="margin:0 0 6px;font-size:15px;font-weight:800;color:#3730a3;">Certificado de finalización</h2>
+      <p style="font-size:12px;color:#475569;margin:0;">Promedio general: <strong>${Math.round((['m1','m2','m3','m4'].reduce((s,m)=>s+state.modules[m].bestScore,0))/4)}%</strong></p>
+    </div>` : '';
+
+  container.innerHTML = `
+    <div style="display:flex;align-items:center;gap:12px;border-bottom:3px solid #4f46e5;padding-bottom:12px;margin-bottom:16px;">
+      <img src="${LOGO_DATA_URI}" style="height:48px;width:auto;" />
+      <div>
+        <p style="margin:0;font-size:10px;letter-spacing:1px;text-transform:uppercase;color:#64748b;">Informe de resultados</p>
+        <h1 style="margin:2px 0 0;font-size:17px;font-weight:800;color:#0f172a;">Máster Autónomo: Pensamiento Crítico y Resolución de Problemas</h1>
+      </div>
+    </div>
+    <p style="font-size:12px;color:#475569;margin:0 0 4px;"><strong>Participante:</strong> ${state.userName || 'No especificado'}</p>
+    <p style="font-size:12px;color:#475569;margin:0 0 16px;"><strong>Fecha de generación:</strong> ${today} &nbsp;|&nbsp; <strong>Progreso general:</strong> ${pct}% &nbsp;|&nbsp; <strong>Puntos:</strong> ${state.points} &nbsp;|&nbsp; <strong>Insignias:</strong> ${state.badges.length}</p>
+
+    <div style="border:1px solid #e2e8f0;border-radius:10px;padding:14px 16px;margin-bottom:16px;">
+      <h2 style="margin:0 0 8px;font-size:14px;font-weight:800;color:#3730a3;">Módulo 0 · Autodiagnóstico</h2>
+      ${reportDiagnosticHTML()}
+    </div>
+
+    ${moduleBlocks}
+    ${certBlock}
+
+    <p style="margin-top:16px;font-size:9px;color:#94a3b8;text-align:center;">Consejo Profesional de Ingeniería Civil &middot; Informe generado automáticamente desde el Máster Autónomo de Pensamiento Crítico.</p>
+  `;
+  return container;
+}
+
+async function generateResultsPDF(){
+  const btn = document.getElementById('download-pdf-btn');
+  if(!btn || btn.disabled) return;
+  const originalHTML = btn.innerHTML;
+  btn.disabled = true;
+  btn.classList.add('opacity-70','cursor-wait');
+  btn.innerHTML = '<i data-lucide="loader-2" class="w-4 h-4 animate-spin"></i> Generando PDF...';
+  lucide.createIcons();
+
+  let reportEl = null;
+  try{
+    if(typeof html2canvas === 'undefined' || !window.jspdf){
+      throw new Error('Las librerías de generación de PDF no se cargaron (revisá tu conexión a internet).');
+    }
+    reportEl = buildReportElement();
+    document.body.appendChild(reportEl);
+
+    const canvas = await html2canvas(reportEl, { scale: 2, useCORS: true, backgroundColor: '#ffffff' });
+
+    const { jsPDF } = window.jspdf;
+    const pdf = new jsPDF('p', 'mm', 'a4');
+    const pageWidth = pdf.internal.pageSize.getWidth();
+    const pageHeight = pdf.internal.pageSize.getHeight();
+    const imgWidth = pageWidth;
+    const imgHeight = (canvas.height * imgWidth) / canvas.width;
+    const imgData = canvas.toDataURL('image/jpeg', 0.95);
+
+    let heightLeft = imgHeight;
+    let position = 0;
+    pdf.addImage(imgData, 'JPEG', 0, position, imgWidth, imgHeight);
+    heightLeft -= pageHeight;
+
+    while(heightLeft > 0){
+      position = heightLeft - imgHeight;
+      pdf.addPage();
+      pdf.addImage(imgData, 'JPEG', 0, position, imgWidth, imgHeight);
+      heightLeft -= pageHeight;
+    }
+
+    const safeName = (state.userName || 'resultados').trim().replace(/[^a-zA-Z0-9 _-]/g,'').replace(/\s+/g,'_') || 'resultados';
+    const dateStr = new Date().toISOString().slice(0,10);
+    pdf.save(`Resultados_${safeName}_${dateStr}.pdf`);
+  }catch(err){
+    console.error(err);
+    alert('Ocurrió un error al generar el PDF. Probá nuevamente. Detalle: ' + err.message);
+  }finally{
+    if(reportEl && reportEl.parentNode) reportEl.parentNode.removeChild(reportEl);
+    btn.disabled = false;
+    btn.classList.remove('opacity-70','cursor-wait');
+    btn.innerHTML = originalHTML;
+    lucide.createIcons();
+  }
+}
+
+/* =========================================================================
+   HOOKS POST-RENDER (para módulos con widgets dinámicos)
+========================================================================= */
+function postRenderHooks(){
+  if(state.currentTab === 'm1') renderQuiz('m1');
+  if(state.currentTab === 'm2'){ renderIshikawaGrid(); restoreFiveWhys(); renderQuiz('m2'); }
+  if(state.currentTab === 'm3'){ renderMatrix(); renderQuiz('m3'); }
+  if(state.currentTab === 'm4'){ renderQuiz('m4'); }
+}
+
+/* =========================================================================
+   INIT
+========================================================================= */
+document.addEventListener('DOMContentLoaded', () => {
+  const headerLogo = document.getElementById('header-logo');
+  if(headerLogo) headerLogo.src = LOGO_DATA_URI;
+  render();
+});
+</script>
+</body>
+</html>
