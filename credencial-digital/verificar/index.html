@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Verificar credencial · CPIC</title>
+<meta name="theme-color" content="#05785b">
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" href="../credencial/icono-192.png">
+<link rel="stylesheet" href="../credencial/lib/fuentes.css">
+<script src="../credencial/config.js"></script>
+<style>
+  :root{ --verde:#01795c; --verde-osc:#0b4f3c; --rojo:#b3261e; --ambar:#9a6400;
+         --fondo:#e7ebe8; --texto:#1d2420; --sub:#5b6660; --panel:#fff; --linea:rgba(0,0,0,.08) }
+  @media (prefers-color-scheme: dark){
+    :root{ --fondo:#121614; --texto:#e8ece9; --sub:#9aa59f; --panel:#1c2220; --linea:rgba(255,255,255,.1) }
+  }
+  *{box-sizing:border-box}
+  body{margin:0; background:var(--fondo); color:var(--texto); font-family:"Figtree",system-ui,sans-serif;
+       min-height:100vh; display:flex; justify-content:center; padding:16px 16px 40px}
+  .wrap{width:100%; max-width:480px}
+  header{display:flex; align-items:center; gap:12px; margin:4px 0 18px}
+  header img{width:44px; height:44px; border-radius:10px}
+  header .t1{font-weight:800; font-size:17px; line-height:1.15}
+  header .t2{font-size:13px; color:var(--sub)}
+  .card{background:var(--panel); border-radius:18px; overflow:hidden; box-shadow:0 8px 26px rgba(0,0,0,.12)}
+  .res{padding:22px 20px; color:#fff; display:flex; gap:14px; align-items:center}
+  .res .ic{flex:none; width:48px; height:48px; border-radius:50%; background:rgba(255,255,255,.18);
+           display:grid; place-items:center; font-size:26px; font-weight:800}
+  .res h1{margin:0; font-size:20px; line-height:1.2}
+  .res p{margin:4px 0 0; font-size:14px; opacity:.92}
+  .ok{background:var(--verde)} .adh{background:#1f5f8b} .fall{background:#2d3431} .no{background:var(--rojo)} .warn{background:var(--ambar)}
+  dl{margin:0; padding:6px 20px 14px}
+  dl div{display:flex; justify-content:space-between; gap:16px; padding:11px 0; border-bottom:1px solid var(--linea)}
+  dl div:last-child{border-bottom:0}
+  dt{color:var(--sub); font-size:14px} dd{margin:0; font-weight:700; text-align:right; font-size:15px}
+  .pie{padding:12px 20px 16px; font-size:13px; color:var(--sub); border-top:1px solid var(--linea); line-height:1.45}
+  .pie strong{color:var(--texto); font-variant-numeric:tabular-nums}
+  form{margin-top:18px; background:var(--panel); border-radius:14px; padding:16px}
+  label{font-weight:700; font-size:14px; display:block; margin-bottom:8px}
+  .fila{display:flex; gap:8px}
+  input{flex:1; min-width:0; font:600 16px "Figtree",sans-serif; padding:11px 12px; border-radius:10px;
+        border:1px solid var(--linea); background:var(--fondo); color:var(--texto); text-transform:uppercase; letter-spacing:.05em}
+  button{font:700 15px "Figtree",sans-serif; padding:11px 16px; border-radius:10px; border:0; background:var(--verde-osc); color:#fff; cursor:pointer}
+  .nota{font-size:12.5px; color:var(--sub); margin-top:16px; line-height:1.5; text-align:center}
+  .demo{background:#fff3cd; color:#5c4400; border-radius:10px; padding:8px 12px; font-size:13px; margin-bottom:12px; text-align:center}
+  [hidden]{display:none!important}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div id="demo" class="demo" hidden>Modo demostración — datos ficticios</div>
+  <header>
+    <img src="../credencial/icono-192.png" alt="">
+    <div><div class="t1">Consejo Profesional de Ingeniería Civil</div>
+         <div class="t2">Verificación de credencial de matriculado</div></div>
+  </header>
+
+  <div class="card" id="resultado" hidden>
+    <div class="res" id="banda">
+      <div class="ic" id="icono"></div>
+      <div><h1 id="titulo"></h1><p id="subtitulo"></p></div>
+    </div>
+    <dl id="datos"></dl>
+    <div class="pie" id="pie"></div>
+  </div>
+
+  <form id="form">
+    <label for="cod">Verificar otra credencial</label>
+    <div class="fila">
+      <input id="cod" placeholder="Ej.: ABCD-2345" autocomplete="off" autocapitalize="characters">
+      <button type="submit">Verificar</button>
+    </div>
+  </form>
+
+  <p class="nota">Esta consulta muestra en línea el estado de la matrícula registrado en el CPIC.
+    Si los datos no coinciden con la credencial que le mostraron, la credencial no es válida.</p>
+</div>
+
+<script>
+(function(){
+  const CFG = window.CPIC_CONFIG || {};
+  const $ = id => document.getElementById(id);
+  const modoDemo = !CFG.API_URL;
+  if (modoDemo) $("demo").hidden = false;
+
+  const DEMO = {
+    "DEMO": { ok:true, encontrado:true, apellido:"GONZÁLEZ", nombre:"María Laura", matricula:"12345",
+              registro:"Universitario", titulo:"Ingeniera Civil", estadoCredencial:"Activo", estadoDetalle:"Activo" },
+    "DEMO-ADH": { ok:true, encontrado:true, apellido:"MARTÍNEZ", nombre:"Sergio", matricula:"4321",
+              registro:"Universitario", titulo:"Ingeniero Civil", estadoCredencial:"Adherente", estadoDetalle:"Adherentes" },
+    "DEMO-VIT": { ok:true, encontrado:true, apellido:"ROMERO", nombre:"Elena", matricula:"2222",
+              registro:"Universitario", titulo:"Ingeniera Civil", estadoCredencial:"Vitalicio", estadoDetalle:"Vitalicio" },
+    "DEMO-FALL": { ok:true, encontrado:true, apellido:"LÓPEZ", nombre:"Ricardo", matricula:"1111",
+              registro:"Universitario", titulo:"Ingeniero Civil", estadoCredencial:"Fallecido", estadoDetalle:"Fallecido" },
+    "DEMO-BAJA": { ok:true, encontrado:true, apellido:"PÉREZ", nombre:"Juan Carlos", matricula:"6789",
+              registro:"Técnico", titulo:"Maestro Mayor de Obras", estadoCredencial:"No Activo", estadoDetalle:"No Activo - Suspendido" }
+  };
+
+  async function consultar(v){
+    if (modoDemo){ await new Promise(r => setTimeout(r, 300)); return DEMO[v] || { ok:true, encontrado:false }; }
+    const r = await fetch(CFG.API_URL + "?accion=verificar&v=" + encodeURIComponent(v), { redirect:"follow" });
+    if (!r.ok) throw new Error("http " + r.status);
+    return r.json();
+  }
+
+  function fila(dt, dd){
+    const d = document.createElement("div"), a = document.createElement("dt"), b = document.createElement("dd");
+    a.textContent = dt; b.textContent = dd || "—"; d.append(a, b); return d;
+  }
+
+  function mostrar(tipo, icono, titulo, sub, datos, codigo){
+    $("banda").className = "res " + tipo;
+    $("icono").textContent = icono; $("titulo").textContent = titulo; $("subtitulo").textContent = sub;
+    const dl = $("datos"); dl.innerHTML = ""; dl.hidden = !datos;
+    if (datos){
+      dl.append(fila("Apellido y nombre", (datos.apellido || "").toUpperCase() + ", " + (datos.nombre || "")),
+                fila("Matrícula Nº", datos.matricula + (datos.registro ? " (" + datos.registro + ")" : "")),
+                fila("Título", datos.titulo),
+                fila("Estado", datos.estadoDetalle || datos.estadoCredencial));
+    }
+    const ahora = new Date().toLocaleString("es-AR", { dateStyle:"short", timeStyle:"medium" });
+    $("pie").innerHTML = "";
+    $("pie").append("Código verificado: ", Object.assign(document.createElement("strong"), { textContent: codigo }),
+                    " · Consulta: ", Object.assign(document.createElement("strong"), { textContent: ahora }));
+    $("resultado").hidden = false;
+  }
+
+  async function verificar(v){
+    v = (v || "").trim().toUpperCase();
+    if (!v) return;
+    $("cod").value = "";
+    mostrar("warn", "…", "Consultando…", "Buscando la credencial en el registro del CPIC", null, v);
+    try{
+      const d = await consultar(v);
+      if (!d.ok) throw new Error("respuesta");
+      if (!d.encontrado){
+        mostrar("no", "✕", "Credencial no válida", "El código no existe o la credencial fue anulada.", null, v);
+      } else {
+        const est = (d.estadoCredencial || "").toLowerCase();
+        if (est === "activo")
+          mostrar("ok", "✓", "Credencial válida", "Matrícula ACTIVA en el CPIC", d, v);
+        else if (est === "vitalicio")
+          mostrar("ok", "✓", "Credencial válida · Vitalicio", "Matrícula VITALICIA en el CPIC", d, v);
+        else if (est === "adherente")
+          mostrar("adh", "✓", "Credencial válida · Adherente", "Registrado como ADHERENTE en el CPIC", d, v);
+        else if (est === "fallecido")
+          mostrar("fall", "†", "Matriculado fallecido", "La credencial no tiene validez: la persona figura como fallecida en el registro del CPIC.", d, v);
+        else
+          mostrar("no", "!", "Matrícula no activa", "La credencial es auténtica, pero la matrícula no está activa.", d, v);
+      }
+      history.replaceState(null, "", "?v=" + encodeURIComponent(v));
+    }catch(e){
+      mostrar("warn", "?", "No se pudo verificar", "Revisá la conexión a internet y volvé a intentar.", null, v);
+    }
+  }
+
+  $("form").addEventListener("submit", e => { e.preventDefault(); verificar($("cod").value); });
+  const inicial = new URLSearchParams(location.search).get("v");
+  if (inicial) verificar(inicial);
+})();
+</script>
+</body>
+</html>
