@@ -9,7 +9,7 @@
  * ficticios (links de prueba: ?c=DEMO  y  ?c=DEMO-BAJA).
  */
 window.CPIC_CONFIG = {
-  API_URL: "",
+  API_URL: "https://script.google.com/macros/s/AKfycby1OapiEJnGSu8zyOcxEqNxR4ePtoRCrTw5U-iGNGuNK_igwPE73WFIr4XKATnBd2BU2A/exec",
 
   // Dónde está publicada la página de verificación (la que abre el QR).
   // Si usás un dominio propio (ej. https://credencial.cpic.org.ar/verificar/), cambialo acá.
