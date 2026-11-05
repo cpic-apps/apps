@@ -70,7 +70,6 @@
     font-size:calc(var(--u)*27); padding:calc(var(--u)*9) 0; box-shadow:0 4px 18px rgba(0,0,0,.3)
   }
   .anulada .banda{display:block}
-  .fallecido .banda{background:rgba(45,52,49,.94); letter-spacing:.14em}
 
   /* ---------- Franja en vivo ---------- */
   .vivo{ display:flex; align-items:center; gap:14px; padding:14px 16px; background:var(--panel); border-top:1px solid rgba(0,0,0,.06); }
@@ -226,9 +225,7 @@
     "DEMO-VIT": Object.assign({}, base, { ok:true, matricula:"2222", apellido:"ROMERO", nombre:"Elena", dni:"5.432.198",
       titulo:"Ingeniera Civil", institucion:"Universidad de Buenos Aires", fechaTitulo:"15/12/1972",
       fechaInscripcion:"10/04/1973", estadoCredencial:"Vitalicio", estadoDetalle:"Vitalicio", codigoVerificacion:"DEMO-VIT" }),
-    "DEMO-FALL": Object.assign({}, base, { ok:true, matricula:"1111", apellido:"LÓPEZ", nombre:"Ricardo", dni:"8.123.456",
-      titulo:"Ingeniero Civil", institucion:"Universidad de Buenos Aires", fechaTitulo:"12/12/1970",
-      fechaInscripcion:"01/03/1971", estadoCredencial:"Fallecido", estadoDetalle:"Fallecido", codigoVerificacion:"DEMO-FALL" }),
+    "DEMO-FALL": { ok:false, error:"no_disponible" },
     "DEMO-BAJA": Object.assign({}, base, { ok:true, matricula:"6789", apellido:"PÉREZ", nombre:"Juan Carlos", dni:"17.234.567",
       registro:"Técnico", titulo:"Maestro Mayor de Obras", institucion:"ENET Nº 13 - CABA", fechaTitulo:"20/07/1990",
       fechaInscripcion:"11/09/1990", estadoCredencial:"No Activo", estadoDetalle:"No Activo - Suspendido", codigoVerificacion:"DEMO-BAJA" })
@@ -289,7 +286,7 @@
       } else if (x.error === "bloqueado"){
         mostrarIngreso("Demasiados intentos con esa matrícula. Probá de nuevo en " + (x.minutos || 30) + " minutos.");
       } else if (x.error === "no_disponible"){
-        mostrarIngreso("No es posible mostrar esta credencial. " + (CFG.CONTACTO || ""));
+        mostrarIngreso("Esta credencial ya no está disponible. Para consultas, comunicate con Atención al matriculado.");
       } else {
         mostrarIngreso("Los datos no coinciden con el registro del CPIC. Revisá la matrícula, el registro, el DNI y el código de acceso." +
           (x.restantes !== undefined && x.restantes <= 2 ? " Te quedan " + x.restantes + " intentos." : ""));
@@ -362,13 +359,12 @@
     mostrarFoto(d.foto);
 
     const est = (d.estadoCredencial || "").toLowerCase();
-    const activo = est === "activo", adherente = est === "adherente", fallecido = est === "fallecido";
+    const activo = est === "activo", adherente = est === "adherente";
     const vitalicio = est === "vitalicio";
     const chip = $("chip"); chip.className = "chip";
     const caja = document.querySelector(".tarjeta-box");
     caja.classList.toggle("anulada", enLinea && !activo && !adherente && !vitalicio);
-    caja.classList.toggle("fallecido", enLinea && fallecido);
-    $("banda").textContent = fallecido ? "FALLECIDO" : "MATRÍCULA NO ACTIVA";
+    $("banda").textContent = "MATRÍCULA NO ACTIVA";
     if (!enLinea){
       chip.classList.add("gris"); $("chipTxt").textContent = "SIN CONEXIÓN";
       $("consulta").textContent = "Datos guardados el " + cuando + ". Conectate para verificar el estado.";
@@ -381,9 +377,6 @@
     } else if (adherente){
       chip.classList.add("adh"); $("chipTxt").textContent = "ADHERENTE";
       $("consulta").textContent = "Estado consultado en línea al CPIC";
-    } else if (fallecido){
-      chip.classList.add("fall"); $("chipTxt").textContent = "FALLECIDO";
-      $("consulta").textContent = "Credencial sin validez. Consultado en línea al CPIC";
     } else {
       chip.classList.add("mal"); $("chipTxt").textContent = "NO ACTIVA";
       $("consulta").textContent = (d.estadoDetalle ? d.estadoDetalle + ". " : "") + "Consultado en línea al CPIC";
@@ -417,6 +410,12 @@
   if ("serviceWorker" in navigator && location.protocol === "https:") navigator.serviceWorker.register("sw.js").catch(() => {});
 
   function cargar(reintento){ obtener().then(d => {
+    // Credencial que dejó de estar disponible: se descarta y se avisa
+    if (d && !d.ok && d.error === "no_disponible"){
+      try{ localStorage.removeItem(LS_COD); localStorage.removeItem(LS_DATOS); }catch(e){}
+      mostrarIngreso("Esta credencial ya no está disponible. Para consultas, comunicate con Atención al matriculado.");
+      return;
+    }
     // Un error del servidor no invalida la credencial guardada: se trata como "sin conexión"
     if (d && !d.ok && d.error !== "no_encontrado" && !modoDemo) throw new Error(d.error || "servidor");
     if (!d || !d.ok){

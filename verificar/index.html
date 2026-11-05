@@ -90,7 +90,7 @@
     "DEMO-VIT": { ok:true, encontrado:true, apellido:"ROMERO", nombre:"Elena", matricula:"2222",
               registro:"Universitario", titulo:"Ingeniera Civil", estadoCredencial:"Vitalicio", estadoDetalle:"Vitalicio" },
     "DEMO-FALL": { ok:true, encontrado:true, apellido:"LÓPEZ", nombre:"Ricardo", matricula:"1111",
-              registro:"Universitario", titulo:"Ingeniero Civil", estadoCredencial:"Fallecido", estadoDetalle:"Fallecido" },
+              registro:"Universitario", titulo:"Ingeniero Civil", estadoCredencial:"Sin vigencia", estadoDetalle:"Sin vigencia" },
     "DEMO-BAJA": { ok:true, encontrado:true, apellido:"PÉREZ", nombre:"Juan Carlos", matricula:"6789",
               registro:"Técnico", titulo:"Maestro Mayor de Obras", estadoCredencial:"No Activo", estadoDetalle:"No Activo - Suspendido" }
   };
@@ -125,7 +125,7 @@
     if (est === "activo")    return ["ok",  "✓", porMat ? "Matrícula activa" : "Credencial válida", "Matrícula ACTIVA en el CPIC"];
     if (est === "vitalicio") return ["ok",  "✓", porMat ? "Matrícula vitalicia" : "Credencial válida · Vitalicio", "Matrícula VITALICIA en el CPIC"];
     if (est === "adherente") return ["adh", "✓", porMat ? "Adherente" : "Credencial válida · Adherente", "Registrado como ADHERENTE en el CPIC"];
-    if (est === "fallecido") return ["fall","†", "Matriculado fallecido", "Figura como fallecido en el registro del CPIC. Su credencial no tiene validez."];
+    if (est === "sin vigencia") return ["fall","–", "Credencial sin vigencia", "La credencial no se encuentra vigente."];
     return ["no", "!", "Matrícula no activa", porMat ? "La matrícula no está activa en el CPIC." : "La credencial es auténtica, pero la matrícula no está activa."];
   }
 
