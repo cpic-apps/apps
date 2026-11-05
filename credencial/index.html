@@ -118,6 +118,8 @@
   .seg input:checked + span{color:#fff}
   .seg label:has(input:checked){background:var(--verde); border-color:var(--verde); color:#fff}
   .seg input:focus-visible + span{outline:2px solid var(--verde); outline-offset:4px}
+  .ingreso input.cod{text-transform:uppercase; letter-spacing:.12em}
+  .ayuda-cod{margin:6px 0 0; font-size:12.5px; color:var(--sub); line-height:1.4}
   .ingreso .btn{width:100%; margin-top:20px; font-size:16px; padding:14px}
   .msg{margin-top:14px; font-size:14px; line-height:1.45; border-radius:10px; padding:10px 12px; background:#fdecea; color:#8a1c14}
   .ayuda-ing{margin-top:16px; font-size:13px; color:var(--sub); line-height:1.5}
@@ -147,6 +149,11 @@
     </div>
     <label for="iDni">DNI</label>
     <input id="iDni" inputmode="numeric" autocomplete="off" placeholder="Ej.: 28456789" required>
+    <label for="iCod">Código de acceso</label>
+    <input id="iCod" class="cod" autocomplete="off" autocapitalize="characters" spellcheck="false" maxlength="9"
+      placeholder="Ej.: K7P-29X" required aria-describedby="iCodAyuda">
+    <p class="ayuda-cod" id="iCodAyuda">Es el código personal de 6 caracteres que te envió el CPIC.
+      Si no lo tenés, pedilo a Atención al matriculado.</p>
     <button class="btn prim" type="submit" id="iBtn">Ver mi credencial</button>
     <div class="msg" id="iMsg" hidden></div>
     <p class="ayuda-ing">Los datos deben coincidir con los registrados en el CPIC. Una vez que ingreses,
@@ -228,7 +235,7 @@
   };
 
   // Acceso de prueba: (matrícula, registro, DNI) → código
-  const DEMO_ACCESO = { "12345|U|28456789":"DEMO", "4321|U|20111333":"DEMO-ADH", "6789|T|17234567":"DEMO-BAJA" };
+  const DEMO_ACCESO = { "12345|U|28456789|K7P29X":"DEMO", "4321|U|20111333|ADH234":"DEMO-ADH", "6789|T|17234567|BAJ567":"DEMO-BAJA" };
 
   const params = new URLSearchParams(location.search);
   let codigo = (params.get("c") || "").trim().toUpperCase();
@@ -253,10 +260,11 @@
     $("iMsg").hidden = !mensaje; $("iMsg").textContent = mensaje || "";
   }
 
-  async function acceder(m, r, d){
+  async function acceder(m, r, d, k){
     if (modoDemo){ await new Promise(x => setTimeout(x, 300));
-      const c = DEMO_ACCESO[m + "|" + r + "|" + d]; return c ? { ok:true, c } : { ok:false, error:"no_coincide", restantes:4 }; }
-    const u = CFG.API_URL + "?accion=acceso&m=" + encodeURIComponent(m) + "&r=" + r + "&d=" + encodeURIComponent(d);
+      const c = DEMO_ACCESO[m + "|" + r + "|" + d + "|" + k]; return c ? { ok:true, c } : { ok:false, error:"no_coincide", restantes:4 }; }
+    const u = CFG.API_URL + "?accion=acceso&m=" + encodeURIComponent(m) + "&r=" + r + "&d=" + encodeURIComponent(d) +
+              "&k=" + encodeURIComponent(k);
     const res = await fetch(u, { redirect:"follow" });
     if (!res.ok) throw new Error("http " + res.status);
     return res.json();
@@ -267,10 +275,12 @@
     const m = $("iMat").value.replace(/\D/g, "").replace(/^0+/, "");
     const d = $("iDni").value.replace(/\D/g, "").replace(/^0+/, "");
     const r = (document.querySelector('input[name="iReg"]:checked') || {}).value || "U";
+    const k = $("iCod").value.toUpperCase().replace(/[^A-Z0-9]/g, "");
     if (!m || d.length < 6){ mostrarIngreso("Completá el número de matrícula y el DNI."); return; }
+    if (k.length !== 6){ mostrarIngreso("Completá el código de acceso: son 6 caracteres, por ejemplo K7P-29X."); return; }
     $("iBtn").disabled = true; $("iBtn").textContent = "Verificando…"; $("iMsg").hidden = true;
     try{
-      const x = await acceder(m, r, d);
+      const x = await acceder(m, r, d, k);
       if (x.ok && x.c){
         codigo = x.c; ls.set(LS_COD, codigo);
         history.replaceState(null, "", location.pathname);
@@ -281,7 +291,7 @@
       } else if (x.error === "no_disponible"){
         mostrarIngreso("No es posible mostrar esta credencial. " + (CFG.CONTACTO || ""));
       } else {
-        mostrarIngreso("Los datos no coinciden con el registro del CPIC. Revisá la matrícula, el registro y el DNI." +
+        mostrarIngreso("Los datos no coinciden con el registro del CPIC. Revisá la matrícula, el registro, el DNI y el código de acceso." +
           (x.restantes !== undefined && x.restantes <= 2 ? " Te quedan " + x.restantes + " intentos." : ""));
       }
     }catch(err){
@@ -294,7 +304,7 @@
   $("btnSalir").addEventListener("click", () => {
     try{ localStorage.removeItem(LS_COD); localStorage.removeItem(LS_DATOS); }catch(e){}
     codigo = ""; history.replaceState(null, "", location.pathname);
-    $("iMat").value = ""; $("iDni").value = "";
+    $("iMat").value = ""; $("iDni").value = ""; $("iCod").value = "";
     mostrarIngreso("");
   });
 
