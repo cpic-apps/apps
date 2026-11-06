@@ -1,0 +1,350 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Matriculados activos · CPIC</title>
+<meta name="description" content="Buscador de matriculados activos del Consejo Profesional de Ingeniería Civil: universitarios y técnicos.">
+<meta name="theme-color" content="#01795c">
+<link rel="icon" href="icono.png">
+<link rel="stylesheet" href="lib/fuentes.css">
+<script src="config.js"></script>
+<style>
+  :root{
+    --verde:#01795c; --verde-osc:#0b4f3c; --verde-claro:#e6f2ee; --naranja:#e8902a; --gris-logo:#a7a9ac;
+    --fondo:#f2f4f3; --panel:#fff; --texto:#1d2420; --sub:#5b6660; --linea:#dfe4e1; --mark:#fde7c8;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0}
+  body{background:var(--fondo); color:var(--texto); font:16px/1.45 "Figtree",system-ui,-apple-system,"Segoe UI",sans-serif;
+       min-height:100vh; display:flex; flex-direction:column}
+  a{color:var(--verde)}
+  .contenedor{width:100%; max-width:1040px; margin:0 auto; padding:0 20px}
+
+  /* Encabezado institucional */
+  .cabecera{background:var(--panel); border-bottom:1px solid var(--linea)}
+  .cabecera .contenedor{display:flex; align-items:center; justify-content:space-between; gap:20px; padding-top:18px; padding-bottom:18px}
+  .cabecera img{height:84px; width:auto; display:block}
+  .cabecera .rotulo{text-align:right; color:var(--sub); font-size:12px; letter-spacing:.22em; text-transform:uppercase; font-weight:600}
+  .cinta{height:6px; background:linear-gradient(90deg,var(--verde) 0 84%, var(--naranja) 84% 100%)}
+
+  /* Título de la página */
+  .portada{padding:34px 0 8px}
+  .portada .antetitulo{color:#b86a12; font-weight:700; letter-spacing:.2em; text-transform:uppercase; font-size:13px}
+  .portada h1{margin:6px 0 8px; font-size:clamp(28px,4.4vw,40px); line-height:1.1; font-weight:800; color:var(--verde-osc)}
+  .portada p{margin:0; color:var(--sub); max-width:680px}
+
+  /* Panel de búsqueda */
+  .buscador{background:var(--panel); border:1px solid var(--linea); border-radius:16px; padding:20px; margin:22px 0 14px;
+            box-shadow:0 1px 2px rgba(0,0,0,.04), 0 8px 24px rgba(11,79,60,.06)}
+  .campo{position:relative}
+  .campo svg{position:absolute; left:16px; top:50%; transform:translateY(-50%); width:22px; height:22px; color:var(--verde); pointer-events:none}
+  #q{width:100%; font:500 18px "Figtree",sans-serif; padding:15px 46px 15px 50px; border:2px solid var(--linea); border-radius:12px;
+     background:#fbfcfb; color:var(--texto); outline:none; transition:border-color .15s, box-shadow .15s}
+  #q:focus{border-color:var(--verde); box-shadow:0 0 0 4px rgba(1,121,92,.14); background:#fff}
+  #q::-webkit-search-cancel-button{-webkit-appearance:none; display:none}
+  #limpiar{position:absolute; right:10px; top:50%; transform:translateY(-50%); border:0; background:transparent; color:var(--sub);
+           font-size:22px; line-height:1; width:34px; height:34px; border-radius:8px; cursor:pointer}
+  #limpiar:hover{background:var(--fondo)}
+  .filtros{display:flex; flex-wrap:wrap; gap:12px; margin-top:14px; align-items:center}
+  .segmentos{display:inline-flex; background:var(--fondo); border-radius:12px; padding:4px; gap:2px}
+  .segmentos button{border:0; background:transparent; font:600 15px "Figtree",sans-serif; color:var(--sub); padding:9px 16px; border-radius:9px; cursor:pointer}
+  .segmentos button[aria-pressed="true"]{background:var(--panel); color:var(--verde-osc); box-shadow:0 1px 3px rgba(0,0,0,.12)}
+  .segmentos .n{font-weight:500; color:var(--sub); font-size:13px; margin-left:4px}
+  select{flex:1 1 260px; min-width:0; font:500 15px "Figtree",sans-serif; padding:11px 36px 11px 14px; border:1px solid var(--linea); border-radius:12px;
+         background:#fbfcfb url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' fill='none' stroke='%2301795c' stroke-width='2'/%3E%3C/svg%3E") no-repeat right 14px center;
+         appearance:none; color:var(--texto); cursor:pointer}
+  select:focus{outline:none; border-color:var(--verde); box-shadow:0 0 0 4px rgba(1,121,92,.14)}
+  .ayuda{margin:12px 2px 0; font-size:13px; color:var(--sub)}
+
+  /* Estado y resultados */
+  .estado{display:flex; justify-content:space-between; align-items:baseline; gap:12px; flex-wrap:wrap; margin:6px 2px 10px; font-size:14px; color:var(--sub)}
+  .estado strong{color:var(--texto)}
+  .tabla{background:var(--panel); border:1px solid var(--linea); border-radius:16px; overflow:hidden}
+  table{width:100%; border-collapse:collapse}
+  thead th{background:var(--verde-osc); color:#fff; text-align:left; font-size:12px; letter-spacing:.14em; text-transform:uppercase; font-weight:700; padding:12px 16px}
+  tbody td{padding:13px 16px; border-top:1px solid var(--linea); vertical-align:top}
+  tbody tr:nth-child(even) td{background:#fafbfa}
+  tbody tr:hover td{background:var(--verde-claro)}
+  td.ape{font-weight:700}
+  td.mat{font-variant-numeric:tabular-nums; font-weight:700; color:var(--verde-osc); white-space:nowrap}
+  .tipo{display:inline-block; font-size:12px; font-weight:700; padding:3px 9px; border-radius:999px; white-space:nowrap}
+  .tipo.U{background:var(--verde-claro); color:var(--verde-osc)}
+  .tipo.T{background:#fdf0df; color:#8a4d06}
+  mark{background:var(--mark); color:inherit; border-radius:3px; padding:0 1px}
+  .mas{display:block; margin:14px auto 0; border:1px solid var(--verde); background:var(--panel); color:var(--verde); font:700 15px "Figtree",sans-serif;
+       padding:11px 22px; border-radius:12px; cursor:pointer}
+  .mas:hover{background:var(--verde); color:#fff}
+
+  .vacio{background:var(--panel); border:1px dashed #c9d2cd; border-radius:16px; padding:34px 22px; text-align:center; color:var(--sub)}
+  .vacio .icono{width:54px; height:54px; margin:0 auto 10px; border-radius:50%; background:var(--verde-claro); display:grid; place-items:center; color:var(--verde)}
+  .vacio h2{margin:0 0 6px; font-size:19px; color:var(--texto)}
+  .vacio p{margin:0 auto; max-width:520px}
+  .resumen{display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin-top:20px; text-align:left}
+  .resumen div{background:var(--fondo); border-radius:12px; padding:12px 14px}
+  .resumen b{display:block; font-size:24px; color:var(--verde-osc); font-variant-numeric:tabular-nums}
+  .resumen span{font-size:13px}
+  .aviso{background:#fff7e8; color:#6b4300; border:1px solid #f3d9a8; border-radius:12px; padding:10px 14px; font-size:14px; margin:0 0 12px}
+  .cargando{display:inline-block; width:18px; height:18px; border:3px solid var(--verde-claro); border-top-color:var(--verde); border-radius:50%; animation:gira .8s linear infinite; vertical-align:-4px; margin-right:8px}
+  @keyframes gira{to{transform:rotate(360deg)}}
+  .nota{font-size:13px; color:var(--sub); margin:18px 2px 34px; line-height:1.5}
+
+  /* Pie institucional */
+  footer{margin-top:auto; background:linear-gradient(100deg,var(--verde) 0 62%, #0d6b52 62% 82%, var(--verde-osc) 82%); color:#fff; position:relative}
+  footer::after{content:""; position:absolute; right:0; bottom:0; width:16%; height:5px; background:var(--naranja)}
+  footer .contenedor{display:flex; justify-content:space-between; align-items:center; gap:16px; flex-wrap:wrap; padding-top:22px; padding-bottom:24px}
+  footer .dir{font-size:15px; line-height:1.5}
+  footer a{color:#fff; font-weight:800; font-size:18px; text-decoration:none}
+  [hidden]{display:none!important}
+
+  @media (max-width:720px){
+    .cabecera img{height:62px}
+    .cabecera .rotulo{display:none}
+    .buscador{padding:16px}
+    .segmentos{width:100%} .segmentos button{flex:1; padding:9px 6px}
+    .segmentos .n{display:none}
+    thead{display:none}
+    table, tbody, tr, td{display:block; width:100%}
+    tbody tr{border-top:1px solid var(--linea); padding:12px 16px; display:grid; grid-template-columns:1fr auto; gap:2px 12px}
+    tbody tr:first-child{border-top:0}
+    tbody td{border:0; padding:0; background:transparent!important}
+    td.ape{grid-column:1} td.mat{grid-column:2; grid-row:1 / span 2; text-align:right; font-size:18px}
+    td.mat::before{content:"Mat. "; font-size:12px; font-weight:600; color:var(--sub)}
+    td.nom{grid-column:1} td.tit{grid-column:1 / -1; color:var(--sub); font-size:14px; margin-top:4px}
+    td.gr{grid-column:1 / -1; margin-top:6px}
+    .resumen{grid-template-columns:1fr}
+  }
+  @media print{
+    .buscador .filtros, #limpiar, .mas, footer::after{display:none}
+    body{background:#fff}
+  }
+</style>
+</head>
+<body>
+
+<header class="cabecera">
+  <div class="contenedor">
+    <a href="https://www.cpic.org.ar" target="_blank" rel="noopener"><img src="logo-cpic.png" alt="Consejo Profesional de Ingeniería Civil — Jurisdicción Nacional, Ciudad Autónoma de Buenos Aires"></a>
+    <div class="rotulo">Registro de<br>matriculados</div>
+  </div>
+</header>
+<div class="cinta"></div>
+
+<main class="contenedor">
+  <section class="portada">
+    <div class="antetitulo">Consulta pública</div>
+    <h1>Matriculados activos</h1>
+    <p>Buscá a un profesional por apellido, nombre, número de matrícula o título para verificar que su matrícula en el CPIC está activa.</p>
+  </section>
+
+  <section class="buscador" role="search">
+    <div class="campo">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.6-3.6"/></svg>
+      <input id="q" type="search" aria-label="Buscar por apellido, nombre, número de matrícula o título" autocomplete="off" spellcheck="false" placeholder="Apellido, nombre, matrícula o título" aria-describedby="ayuda" disabled>
+      <button id="limpiar" type="button" aria-label="Borrar búsqueda" hidden>×</button>
+    </div>
+    <div class="filtros">
+      <div class="segmentos" role="group" aria-label="Tipo de graduación">
+        <button type="button" data-g="" aria-pressed="true">Todos<span class="n" id="nTodos"></span></button>
+        <button type="button" data-g="U" aria-pressed="false">Universitarios<span class="n" id="nU"></span></button>
+        <button type="button" data-g="T" aria-pressed="false">Técnicos<span class="n" id="nT"></span></button>
+      </div>
+      <select id="titulo" aria-label="Filtrar por título" disabled><option value="">Todos los títulos</option></select>
+    </div>
+    <p class="ayuda" id="ayuda">Podés escribir sólo una parte y combinar datos: por ejemplo <em>garcía</em>, <em>17585</em>, <em>maestro mayor</em> o <em>perez ingeniero civil</em>. No hace falta usar tildes ni mayúsculas.</p>
+  </section>
+
+  <div id="aviso" class="aviso" hidden></div>
+  <div class="estado" aria-live="polite"><span id="contador"><span class="cargando"></span>Cargando el listado…</span><span id="fecha"></span></div>
+  <div id="resultados"></div>
+
+  <p class="nota">El listado incluye a los profesionales con matrícula activa en el Consejo Profesional de Ingeniería Civil a la fecha de actualización indicada. Un mismo profesional puede figurar más de una vez si tiene matrícula por más de un título. Por consultas, escribí a Atención al Matriculado.</p>
+</main>
+
+<footer>
+  <div class="contenedor">
+    <div class="dir">Alsina 424 1° Piso · C1087AAF<br>Ciudad Autónoma de Buenos Aires, Argentina</div>
+    <a href="https://www.cpic.org.ar" target="_blank" rel="noopener">www.cpic.org.ar</a>
+  </div>
+</footer>
+
+<script>
+(() => {
+  const CFG = window.CPIC_BUSCADOR || {};
+  const POR_PAGINA = 50;
+  const $ = id => document.getElementById(id);
+  const fmt = n => n.toLocaleString("es-AR");
+  const norm = s => String(s || "").normalize("NFD").replace(/[̀-ͯ]/g, "")
+                    .toUpperCase().replace(/['’´`]/g, "").replace(/[^A-Z0-9Ñ]+/g, " ").trim();
+  // Abreviaturas de los títulos en SAP: se indexan también con la palabra completa.
+  const ABREV = { ING:"INGENIERO", INGENIERA:"INGENIERO", CIV:"CIVIL", LIC:"LICENCIADO", LICIENCIADO:"LICENCIADO", TEC:"TECNICO", TECN:"TECNICO",
+    T:"TECNICO", TS:"TECNICO SUPERIOR", S:"SUPERIOR", SUP:"SUPERIOR", HIG:"HIGIENE", SEG:"SEGURIDAD", TRAB:"TRABAJO", CONST:"CONSTRUCCIONES",
+    CONSTR:"CONSTRUCCION", CONSTRUC:"CONSTRUCCIONES", PROYECT:"PROYECTO", ORIENT:"ORIENTACION", EST:"ESTRUCTURAS", MTRO:"MAESTRO",
+    ESP:"ESPECIALISTA", CATEG:"CATEGORIA", INST:"INSTALADOR", AMB:"AMBIENTAL", C:"CONTROL", UNIV:"UNIVERSITARIO", IND:"INDUSTRIA", MIL:"MILITAR" };
+  const indiceTitulo = t => { const w = norm(t).split(" ").filter(Boolean);
+    return " " + w.join(" ") + " " + w.map(x => ABREV[x] || "").filter(Boolean).join(" ") + " "; };
+  const esc = s => String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+
+  let datos = [];            // {a, n, m, t, g, txt: palabras normalizadas}
+  let filtrados = [], mostrados = 0;
+  const estado = { q: "", g: "", t: "" };
+
+  /* ---------- Carga de datos ---------- */
+  async function traer(url, ms) {
+    const ctrl = new AbortController(); const to = setTimeout(() => ctrl.abort(), ms);
+    try {
+      const r = await fetch(url, { signal: ctrl.signal, cache: "no-store" });
+      if (!r.ok) throw new Error("HTTP " + r.status);
+      const j = await r.json();
+      if (!j || !Array.isArray(j.registros) || !j.registros.length) throw new Error(j && j.error || "Respuesta sin datos");
+      return j;
+    } finally { clearTimeout(to); }
+  }
+
+  async function cargar() {
+    let j = null, deRespaldo = false;
+    if (CFG.API_URL) {
+      try { j = await traer(CFG.API_URL, 20000); }
+      catch (e) { console.warn("No se pudo consultar el listado en línea:", e); deRespaldo = true; }
+    }
+    if (!j) {
+      try { j = await traer("datos.json", 20000); }
+      catch (e) {
+        $("contador").textContent = "";
+        $("resultados").innerHTML = `<div class="vacio"><h2>No se pudo cargar el listado</h2><p>Probá de nuevo en unos minutos. ${esc(CFG.CONTACTO || "")}</p></div>`;
+        return;
+      }
+    }
+    if (deRespaldo) {
+      $("aviso").textContent = "No pudimos conectarnos con el listado en línea. Se muestra la última copia disponible: revisá la fecha de actualización.";
+      $("aviso").hidden = false;
+    }
+    datos = j.registros.map(r => {
+      const [a, n, m, t, g] = r.map(v => v == null ? "" : String(v));
+      return { a, n, m, t, g: g === "T" ? "T" : "U", txt: " " + norm(a + " " + n) + " " + norm(a).replace(/ /g, "") + " ", tt: indiceTitulo(t) };
+    });
+    const nU = datos.filter(d => d.g === "U").length;
+    $("nTodos").textContent = fmt(datos.length); $("nU").textContent = fmt(nU); $("nT").textContent = fmt(datos.length - nU);
+    if (j.actualizado) {
+      const f = new Date(j.actualizado);
+      if (!isNaN(f)) $("fecha").textContent = "Actualizado al " + f.toLocaleDateString("es-AR", { day: "numeric", month: "long", year: "numeric", timeZone: "America/Argentina/Buenos_Aires" });
+    }
+    leerURL();
+    $("q").disabled = false; $("titulo").disabled = false;
+    if (!matchMedia("(pointer:coarse)").matches) $("q").focus();
+    llenarTitulos(); buscar();
+  }
+
+  /* ---------- Filtros ---------- */
+  function llenarTitulos() {
+    const sel = $("titulo"), cuenta = new Map();
+    datos.forEach(d => { if (!estado.g || d.g === estado.g) cuenta.set(d.t, (cuenta.get(d.t) || 0) + 1); });
+    const lista = [...cuenta].sort((x, y) => y[1] - x[1] || x[0].localeCompare(y[0], "es"));
+    if (estado.t && !cuenta.has(estado.t)) estado.t = "";
+    sel.innerHTML = `<option value="">Todos los títulos</option>` +
+      lista.map(([t, n]) => `<option value="${esc(t)}"${t === estado.t ? " selected" : ""}>${esc(t)} (${fmt(n)})</option>`).join("");
+  }
+
+  function buscar() {
+    const q = norm(estado.q), toks = q ? q.split(" ") : [];
+    const nums = toks.filter(t => /^\d+$/.test(t)), pals = toks.filter(t => !/^\d+$/.test(t));
+    $("limpiar").hidden = !estado.q;
+    const hayCriterio = q.length >= 2 || nums.length || estado.t;
+    if (!hayCriterio) { filtrados = []; pintarInicio(); return; }
+    filtrados = datos.filter(d =>
+      (!estado.g || d.g === estado.g) && (!estado.t || d.t === estado.t) &&
+      nums.every(n => d.m.startsWith(n)) &&
+      pals.every(p => d.txt.includes(" " + p) || d.tt.includes(" " + p)));
+    if (nums.length) filtrados.sort((x, y) => (nums.includes(y.m) ? 1 : 0) - (nums.includes(x.m) ? 1 : 0));
+    mostrados = 0; $("resultados").innerHTML = "";
+    if (!filtrados.length) { pintarSinResultados(); return; }
+    $("resultados").innerHTML = `<div class="tabla"><table><thead><tr><th>Apellido</th><th>Nombre</th><th>Matrícula</th><th>Título</th><th>Graduación</th></tr></thead><tbody id="cuerpo"></tbody></table></div><button class="mas" id="mas" type="button" hidden></button>`;
+    $("mas").onclick = pintarMas;
+    pintarMas();
+  }
+
+  function resaltar(texto, pals) {
+    if (!pals.length) return esc(texto);
+    // Marca los comienzos de palabra que coinciden, sin importar tildes.
+    const palabras = texto.split(/(\s+)/);
+    return palabras.map(w => {
+      const nw = norm(w);
+      if (nw.includes(" ")) return esc(w);   // palabras abreviadas pegadas ("Ing.Civ."): no se marcan
+      const p = pals.find(p => nw.startsWith(p));
+      if (!p || !w.trim()) return esc(w);
+      let cortar = 0, acum = "";
+      for (const ch of w) { cortar += ch.length; acum = norm(w.slice(0, cortar)); if (acum.length >= p.length) break; }
+      return `<mark>${esc(w.slice(0, cortar))}</mark>${esc(w.slice(cortar))}`;
+    }).join("");
+  }
+
+  function pintarMas() {
+    const q = norm(estado.q), toks = q ? q.split(" ") : [];
+    const nums = toks.filter(t => /^\d+$/.test(t)), pals = toks.filter(t => !/^\d+$/.test(t));
+    const desde = mostrados, hasta = Math.min(filtrados.length, mostrados + POR_PAGINA);
+    let html = "";
+    for (let i = desde; i < hasta; i++) {
+      const d = filtrados[i];
+      const mat = nums.some(n => d.m.startsWith(n)) ? `<mark>${esc(d.m)}</mark>` : esc(d.m);
+      html += `<tr><td class="ape">${resaltar(d.a, pals)}</td><td class="nom">${resaltar(d.n, pals)}</td><td class="mat">${mat}</td><td class="tit">${resaltar(d.t, pals)}</td><td class="gr"><span class="tipo ${d.g}">${d.g === "U" ? "Universitario" : "Técnico"}</span></td></tr>`;
+    }
+    $("cuerpo").insertAdjacentHTML("beforeend", html);
+    mostrados = hasta;
+    const resta = filtrados.length - mostrados;
+    $("mas").hidden = resta <= 0;
+    $("mas").textContent = `Mostrar ${fmt(Math.min(resta, POR_PAGINA))} más (quedan ${fmt(resta)})`;
+    $("contador").innerHTML = filtrados.length === 1 ? "<strong>1</strong> resultado"
+      : `<strong>${fmt(filtrados.length)}</strong> resultados` + (filtrados.length > mostrados ? ` · mostrando ${fmt(mostrados)}` : "");
+  }
+
+  function pintarInicio() {
+    const sub = datos.filter(d => !estado.g || d.g === estado.g);
+    const nU = sub.filter(d => d.g === "U").length;
+    $("contador").innerHTML = `<strong>${fmt(sub.length)}</strong> matrículas activas en el listado`;
+    $("resultados").innerHTML = `<div class="vacio">
+      <div class="icono"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.6-3.6"/></svg></div>
+      <h2>Empezá escribiendo un apellido, una matrícula o un título</h2>
+      <p>También podés elegir un título de la lista para ver a todos los profesionales activos con ese título.</p>
+      <div class="resumen">
+        <div><b>${fmt(sub.length)}</b><span>matrículas activas</span></div>
+        <div><b>${fmt(nU)}</b><span>universitarias</span></div>
+        <div><b>${fmt(sub.length - nU)}</b><span>técnicas</span></div>
+      </div></div>`;
+  }
+
+  function pintarSinResultados() {
+    const filtro = estado.g || estado.t ? " con los filtros elegidos" : "";
+    $("contador").innerHTML = "<strong>0</strong> resultados";
+    $("resultados").innerHTML = `<div class="vacio"><h2>No encontramos matriculados activos${filtro}</h2>
+      <p>Revisá cómo está escrito o probá con menos palabras${filtro ? ", o quitá los filtros" : ""}. ${esc(CFG.CONTACTO || "")}</p></div>`;
+  }
+
+  /* ---------- Enlace compartible (?q=...&g=U&t=...) ---------- */
+  function leerURL() {
+    const p = new URLSearchParams(location.search);
+    estado.q = p.get("q") || ""; estado.g = ["U","T"].includes(p.get("g")) ? p.get("g") : ""; estado.t = p.get("t") || "";
+    $("q").value = estado.q; marcarSegmento();
+  }
+  function escribirURL() {
+    const p = new URLSearchParams();
+    if (estado.q) p.set("q", estado.q); if (estado.g) p.set("g", estado.g); if (estado.t) p.set("t", estado.t);
+    history.replaceState(null, "", location.pathname + (p.toString() ? "?" + p : ""));
+  }
+  function marcarSegmento() {
+    document.querySelectorAll(".segmentos button").forEach(b => b.setAttribute("aria-pressed", String(b.dataset.g === estado.g)));
+  }
+
+  /* ---------- Eventos ---------- */
+  let espera;
+  $("q").addEventListener("input", e => { estado.q = e.target.value; clearTimeout(espera); espera = setTimeout(() => { buscar(); escribirURL(); }, 120); });
+  $("limpiar").addEventListener("click", () => { estado.q = ""; $("q").value = ""; buscar(); escribirURL(); $("q").focus(); });
+  $("titulo").addEventListener("change", e => { estado.t = e.target.value; buscar(); escribirURL(); });
+  document.querySelectorAll(".segmentos button").forEach(b => b.addEventListener("click", () => {
+    estado.g = b.dataset.g; marcarSegmento(); llenarTitulos(); buscar(); escribirURL();
+  }));
+
+  cargar();
+})();
+</script>
+</body>
+</html>
