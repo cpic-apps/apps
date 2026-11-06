@@ -239,7 +239,7 @@
   function llenarTitulos() {
     const sel = $("titulo"), cuenta = new Map();
     datos.forEach(d => { if (!estado.g || d.g === estado.g) cuenta.set(d.t, (cuenta.get(d.t) || 0) + 1); });
-    const lista = [...cuenta].sort((x, y) => y[1] - x[1] || x[0].localeCompare(y[0], "es"));
+    const lista = [...cuenta].sort((x, y) => x[0].localeCompare(y[0], "es", { sensitivity: "base", ignorePunctuation: true }));
     if (estado.t && !cuenta.has(estado.t)) estado.t = "";
     sel.innerHTML = `<option value="">Todos los títulos</option>` +
       lista.map(([t, n]) => `<option value="${esc(t)}"${t === estado.t ? " selected" : ""}>${esc(t)} (${fmt(n)})</option>`).join("");
